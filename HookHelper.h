@@ -29,6 +29,10 @@ extern std::vector<std::tuple<PVOID*, PVOID>> hooks;
     using t##name = returnType(__fastcall*)(__VA_ARGS__); \
     inline t##name name = reinterpret_cast<t##name>(GET_ADDRESS(addr));
 
+#define CREATE_FUNC_THISCALL(name, addr, returnType, ...) \
+    using t##name = returnType(__cdecl*)(__VA_ARGS__); \
+    inline t##name name = reinterpret_cast<t##name>(GET_ADDRESS(addr));
+
 using VTable = void(*)();
 
 /// <summary>

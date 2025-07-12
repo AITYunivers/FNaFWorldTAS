@@ -1,36 +1,110 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Hook Headers">
+      <UniqueIdentifier>{f2145d6c-ef8d-4c33-b9ee-964fc26539f4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files">
+    <Filter Include="Detours">
+      <UniqueIdentifier>{70fdff27-f817-44c1-8b3d-6fccd6342bf3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hook Sources">
+      <UniqueIdentifier>{9cece839-9575-4844-b528-5dfd4c6a2145}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Edif">
+      <UniqueIdentifier>{d17a79a0-4fcf-44df-b125-d611493c9c76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Hook Headers\Expressions">
+      <UniqueIdentifier>{655408f1-f173-415c-bea6-01882937e668}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hook Sources\Expressions">
+      <UniqueIdentifier>{23c12df2-6dfb-46d4-97b5-6dbd3ff2d8f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hook Headers\Conditions">
+      <UniqueIdentifier>{98b0b9cb-65c6-4967-95c2-226adb69e9a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hook Sources\Conditions">
+      <UniqueIdentifier>{0de02fdc-0eb5-4673-b443-7c7bd82dc8d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hook Sources\Conditions\Immediate">
+      <UniqueIdentifier>{b8bf3761-770b-4fa6-9a49-e561f19b70f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hook Headers\Conditions\Immediate">
+      <UniqueIdentifier>{a80962c3-ded3-434b-a867-7809266c9306}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="MMFGlobals.h">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Detours\src\modules.cpp">
+      <Filter>Detours</Filter>
+    </ClCompile>
+    <ClCompile Include="Detours\src\disasm.cpp">
+      <Filter>Detours</Filter>
+    </ClCompile>
     <ClCompile Include="Detours\src\detours.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Detours</Filter>
     </ClCompile>
-    <ClCompile Include="CRunApp.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Entry.cpp" />
+    <ClCompile Include="CEventProgramHook.cpp">
+      <Filter>Hook Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Entry.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="EXP_RANDOMHook.cpp">
+      <Filter>Hook Sources\Expressions</Filter>
+    </ClCompile>
+    <ClCompile Include="CND_KEYDEPRESSEDHook.cpp">
+      <Filter>Hook Sources\Conditions</Filter>
+    </ClCompile>
+    <ClCompile Include="CNDL_MCLICKHook.cpp">
+      <Filter>Hook Sources\Conditions\Immediate</Filter>
+    </ClCompile>
+    <ClCompile Include="CNDL_MCLICKONOBJECTHook.h">
+      <Filter>Hook Headers\Conditions\Immediate</Filter>
+    </ClCompile>
+    <ClCompile Include="CNDL_MCLICKONOBJECTHook.cpp">
+      <Filter>Hook Sources\Conditions\Immediate</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HookHelper.h">
-      <Filter>Header Files</Filter>
+      <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="CRunApp.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="YuniUtil.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="CRunHook.h">
+      <Filter>Hook Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Edif\AllPlatformDefines.hpp">
+      <Filter>Edif</Filter>
+    </ClInclude>
+    <ClInclude Include="Edif\MMFWindowsMasterHeader.hpp">
+      <Filter>Edif</Filter>
+    </ClInclude>
+    <ClInclude Include="Edif\ObjectInfo.hpp">
+      <Filter>Edif</Filter>
+    </ClInclude>
+    <ClInclude Include="Edif\Strings.hpp">
+      <Filter>Edif</Filter>
+    </ClInclude>
+    <ClInclude Include="Edif\WindowsDefines.hpp">
+      <Filter>Edif</Filter>
+    </ClInclude>
+    <ClInclude Include="CEventProgramHook.h">
+      <Filter>Hook Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="EXP_RANDOMHook.h">
+      <Filter>Hook Headers\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="CND_KEYDEPRESSEDHook.h">
+      <Filter>Hook Headers\Conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="CNDL_MCLICKHook.h">
+      <Filter>Hook Headers\Conditions\Immediate</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

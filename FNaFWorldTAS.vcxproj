@@ -123,8 +123,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CRunApp.h" />
+    <ClInclude Include="CEventProgramHook.h" />
+    <ClInclude Include="CNDL_MCLICKHook.h" />
+    <ClInclude Include="CND_KEYDEPRESSEDHook.h" />
+    <ClInclude Include="CRunHook.h" />
+    <ClInclude Include="Edif\AllPlatformDefines.hpp" />
+    <ClInclude Include="Edif\MMFWindowsMasterHeader.hpp" />
+    <ClInclude Include="Edif\ObjectInfo.hpp" />
+    <ClInclude Include="Edif\Strings.hpp" />
+    <ClInclude Include="Edif\WindowsDefines.hpp" />
+    <ClInclude Include="EXP_RANDOMHook.h" />
     <ClInclude Include="HookHelper.h" />
+    <ClInclude Include="YuniUtil.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
@@ -136,8 +146,16 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CRunApp.cpp" />
+    <ClCompile Include="CEventProgramHook.cpp" />
+    <ClCompile Include="CNDL_MCLICKHook.cpp" />
+    <ClCompile Include="CNDL_MCLICKONOBJECTHook.cpp" />
+    <ClCompile Include="CNDL_MCLICKONOBJECTHook.h" />
+    <ClCompile Include="CND_KEYDEPRESSEDHook.cpp" />
     <ClCompile Include="Detours\src\detours.cpp" />
+    <ClCompile Include="Detours\src\disasm.cpp" />
+    <ClCompile Include="Detours\src\modules.cpp" />
     <ClCompile Include="Entry.cpp" />
+    <ClCompile Include="EXP_RANDOMHook.cpp" />
+    <ClCompile Include="MMFGlobals.h" />
   </ItemGroup>
 </Project>
