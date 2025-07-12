@@ -11,16 +11,21 @@ int CRunHook::f_GameLoop()
         t.detach();
     }
 
-    if (TAS::moveUp > 0)
-        TAS::moveUp--;
-    if (TAS::moveDown > 0)
-        TAS::moveDown--;
-    if (TAS::moveLeft > 0)
-        TAS::moveLeft--;
-    if (TAS::moveRight > 0)
-        TAS::moveRight--;
-    if (TAS::waitTimer > 0)
-        TAS::waitTimer--;
+    RunHeader* runHeader = GetRunHeader();
+    if (TAS::oldLoopCount != runHeader->LoopCount)
+    {
+        if (TAS::moveUp > 0)
+            TAS::moveUp--;
+        if (TAS::moveDown > 0)
+            TAS::moveDown--;
+        if (TAS::moveLeft > 0)
+            TAS::moveLeft--;
+        if (TAS::moveRight > 0)
+            TAS::moveRight--;
+        if (TAS::waitTimer > 0)
+            TAS::waitTimer--;
+        TAS::oldLoopCount = runHeader->LoopCount;
+    }
 
     return CRUN_f_GameLoop();
 }

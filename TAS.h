@@ -5,6 +5,7 @@ class TAS
 {
 public:
 	static bool running;
+	static unsigned int oldLoopCount;
 	static void Run();
 
 	static unsigned int moveLeft;
