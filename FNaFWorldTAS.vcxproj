@@ -152,11 +152,13 @@
     <ClCompile Include="CNDL_MCLICKONOBJECTHook.cpp" />
     <ClCompile Include="CNDL_MCLICKONOBJECTHook.h" />
     <ClCompile Include="CND_KEYDEPRESSEDHook.cpp" />
+    <ClCompile Include="CRunHook.cpp" />
     <ClCompile Include="Detours\src\detours.cpp" />
     <ClCompile Include="Detours\src\disasm.cpp" />
     <ClCompile Include="Detours\src\modules.cpp" />
     <ClCompile Include="Entry.cpp" />
     <ClCompile Include="EXP_RANDOMHook.cpp" />
     <ClCompile Include="MMFGlobals.h" />
+    <ClCompile Include="TAS.cpp" />
   </ItemGroup>
 </Project>

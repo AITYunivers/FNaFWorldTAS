@@ -7,6 +7,7 @@
 #include "CND_KEYDEPRESSEDHook.h"
 #include "CNDL_MCLICKHook.h"
 #include "CNDL_MCLICKONOBJECTHook.h"
+#include "TAS.h"
 
 std::vector<std::tuple<PVOID*, PVOID>> hooks;
 
@@ -21,6 +22,7 @@ BOOL APIENTRY DllMain(HMODULE hModule,
             // Register globals here
             {
                 GlobalRunHeaderPtr = reinterpret_cast<RunHeader**>(GET_ADDRESS(0xAC9B4));
+                GlobalCRunAppPtr = reinterpret_cast<CRunApp**>(GET_ADDRESS(0xAC9AC));
             }
 
             // Register hooks here
@@ -37,6 +39,9 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 
                 // Event Program
                 registerHook(&(PVOID&)CEVENTPROGRAM_handle_GlobalEvents, &CEventProgramHook::handle_GlobalEvents);
+            
+                // CRun
+                registerHook(&(PVOID&)CRUN_f_GameLoop, &CRunHook::f_GameLoop);
             }
             break;
         }
@@ -48,3 +53,5 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 // MMFGlobals.h
 RunHeader** GlobalRunHeaderPtr = nullptr;
 RunHeader* GetRunHeader();
+CRunApp** GlobalCRunAppPtr = nullptr;
+CRunApp* GetCRunApp();

@@ -1,8 +1,4 @@
 #pragma once
-#include <Psapi.h>
-#include <iostream>
-#include <cstdio>
-#include <cstdint>
 #include "HookHelper.h"
 #include "MMFGlobals.h"
 

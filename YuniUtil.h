@@ -2,6 +2,7 @@
 #include <WinUser.h>
 #include "Edif/MMFWindowsMasterHeader.hpp"
 #include "MMFGlobals.h"
+#include "TAS.h"
 
 namespace YuniUtil
 {
@@ -9,11 +10,37 @@ namespace YuniUtil
 	{
 		RunHeader* runHeader = GetRunHeader();
 		HWND pHVar6 = GetActiveWindow();
-		SHORT SVar5 = GetKeyState(keyChar);
-		return (((pHVar6 == runHeader->HTopLevelWnd) ||
-				 (pHVar6 == runHeader->HEditWin))    ||
-			     (pHVar6 == runHeader->HMainWin))    && 
-				 (SVar5 < 0);
+		if (pHVar6 == runHeader->HTopLevelWnd ||
+			pHVar6 == runHeader->HEditWin ||
+			pHVar6 == runHeader->HMainWin)
+		{
+			switch (keyChar)
+			{
+				case 'W':
+				case 'w':
+					if (TAS::moveUp > 0)
+						return true;
+					break;
+				case 'A':
+				case 'a':
+					if (TAS::moveLeft > 0)
+						return true;
+					break;
+				case 'S':
+				case 's':
+					if (TAS::moveDown > 0)
+						return true;
+					break;
+				case 'D':
+				case 'd':
+					if (TAS::moveRight > 0)
+						return true;
+					break;
+			}
+			SHORT keyState = GetKeyState(keyChar);
+			return keyState < 0;
+		}
+		return false;
 	}
 
 	static int GetEventIndex()

@@ -71,6 +71,12 @@
     <ClCompile Include="CNDL_MCLICKONOBJECTHook.cpp">
       <Filter>Hook Sources\Conditions\Immediate</Filter>
     </ClCompile>
+    <ClCompile Include="TAS.cpp">
+      <Filter>TAS</Filter>
+    </ClCompile>
+    <ClCompile Include="CRunHook.cpp">
+      <Filter>Hook Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HookHelper.h">

@@ -1,39 +1,26 @@
 #pragma once
-#include <Windows.h>
-#include <detours.h>
-#include <string.h>
 #include "CRunHook.h"
-#include "YuniUtil.h"
+#include "TAS.h"
 
-#include <thread>
-#include <chrono>
-
-void CRunHook::random()
+int CRunHook::f_GameLoop()
 {
-    RunHeader* runHeader = *GlobalRunHeaderPtr;
-
-    // Advance the expression token
-    YuniUtil::AdvanceExpToken();
-
-    // Custom handling for specific events
-    int eventIndex = YuniUtil::GetEventIndex();
-
-    // Encounter RNG
-    if (eventIndex == 1134)
+    // Create TAS Thread
+    if (!TAS::running)
     {
-        YuniUtil::SetReturnInt(0);
-        if (YuniUtil::IsKeyDown('E'))
-            YuniUtil::SetReturnInt(1);
+        std::thread t(TAS::Run);
+        t.detach();
     }
-    else
-    {
-        // Read the expression as a uint
-        unsigned int max = getExpression()->getInt();
 
-        // Advance the seed
-        runHeader->rh3.Graine = runHeader->rh3.Graine * 0x7ab7 + 1;
+    if (TAS::moveUp > 0)
+        TAS::moveUp--;
+    if (TAS::moveDown > 0)
+        TAS::moveDown--;
+    if (TAS::moveLeft > 0)
+        TAS::moveLeft--;
+    if (TAS::moveRight > 0)
+        TAS::moveRight--;
+    if (TAS::waitTimer > 0)
+        TAS::waitTimer--;
 
-        // Calculate and return the result
-        YuniUtil::SetReturnInt(runHeader->rh3.Graine * (max & 0xffff) >> 0x10);
-    }
+    return CRUN_f_GameLoop();
 }

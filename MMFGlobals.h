@@ -6,3 +6,9 @@ inline RunHeader* GetRunHeader()
 {
     return *GlobalRunHeaderPtr;
 }
+
+extern CRunApp** GlobalCRunAppPtr;
+inline CRunApp* GetCRunApp()
+{
+    return *GlobalCRunAppPtr;
+}

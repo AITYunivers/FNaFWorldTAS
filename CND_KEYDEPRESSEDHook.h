@@ -2,7 +2,7 @@
 #include "HookHelper.h"
 #include "MMFGlobals.h"
 
-CREATE_FUNC(CND_KEYDEPRESSED_evaluate, 0x0a020, bool, event2* ace);
+CREATE_FUNC(CND_KEYDEPRESSED_evaluate, 0x0a0c0, bool, event2* ace);
 
 class CND_KEYDEPRESSEDHook
 {
