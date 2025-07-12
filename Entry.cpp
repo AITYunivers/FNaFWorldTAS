@@ -19,7 +19,9 @@ BOOL APIENTRY DllMain(HMODULE hModule,
         case DLL_PROCESS_ATTACH:
         {
             // Register globals here
-            GlobalRunHeaderPtr = reinterpret_cast<RunHeader**>(GET_ADDRESS(0xAC9B4));
+            {
+                GlobalRunHeaderPtr = reinterpret_cast<RunHeader**>(GET_ADDRESS(0xAC9B4));
+            }
 
             // Register hooks here
             {

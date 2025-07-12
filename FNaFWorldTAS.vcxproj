@@ -134,6 +134,7 @@
     <ClInclude Include="Edif\WindowsDefines.hpp" />
     <ClInclude Include="EXP_RANDOMHook.h" />
     <ClInclude Include="HookHelper.h" />
+    <ClInclude Include="TAS.h" />
     <ClInclude Include="YuniUtil.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

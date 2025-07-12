@@ -35,6 +35,9 @@
     <Filter Include="Hook Headers\Conditions\Immediate">
       <UniqueIdentifier>{a80962c3-ded3-434b-a867-7809266c9306}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TAS">
+      <UniqueIdentifier>{5a8b0770-f563-4b73-85bf-8e9f32c231f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MMFGlobals.h">
@@ -105,6 +108,9 @@
     </ClInclude>
     <ClInclude Include="CNDL_MCLICKHook.h">
       <Filter>Hook Headers\Conditions\Immediate</Filter>
+    </ClInclude>
+    <ClInclude Include="TAS.h">
+      <Filter>TAS</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
