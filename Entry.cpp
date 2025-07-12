@@ -19,13 +19,7 @@ BOOL APIENTRY DllMain(HMODULE hModule,
         case DLL_PROCESS_ATTACH:
         {
             // Register globals here
-            HMODULE hModule = GetModuleHandle(nullptr); // Main EXE base address
-            if (hModule)
-            {
-                uintptr_t base = reinterpret_cast<uintptr_t>(hModule);
-                uintptr_t globalRunHeaderAddr = base + 0xAC9B4;
-                GlobalRunHeaderPtr = reinterpret_cast<RunHeader**>(globalRunHeaderAddr);
-            }
+            GlobalRunHeaderPtr = reinterpret_cast<RunHeader**>(GET_ADDRESS(0xAC9B4));
 
             // Register hooks here
             {
