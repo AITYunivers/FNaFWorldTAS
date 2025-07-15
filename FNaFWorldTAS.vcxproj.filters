@@ -38,6 +38,9 @@
     <Filter Include="TAS">
       <UniqueIdentifier>{5a8b0770-f563-4b73-85bf-8e9f32c231f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TAS\Events">
+      <UniqueIdentifier>{a7dbe688-8a91-4b4c-9624-c429fcd63bb9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MMFGlobals.h">
@@ -76,6 +79,18 @@
     </ClCompile>
     <ClCompile Include="CRunHook.cpp">
       <Filter>Hook Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="CND_KBPRESSKEYHook.cpp">
+      <Filter>Hook Sources\Conditions</Filter>
+    </ClCompile>
+    <ClCompile Include="TASWait.h">
+      <Filter>TAS\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="TASWaitForFrame.h">
+      <Filter>TAS\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="TASRestartGame.h">
+      <Filter>TAS\Events</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -117,6 +132,21 @@
     </ClInclude>
     <ClInclude Include="TAS.h">
       <Filter>TAS</Filter>
+    </ClInclude>
+    <ClInclude Include="MMFS2Hook.h">
+      <Filter>Hook Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="TASKeyPress.h">
+      <Filter>TAS\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="CND_KBPRESSKEYHook.h">
+      <Filter>Hook Headers\Conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="TASEvent.h">
+      <Filter>TAS\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="TASClickAt.h">
+      <Filter>TAS\Events</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

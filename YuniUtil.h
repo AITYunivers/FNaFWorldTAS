@@ -3,6 +3,8 @@
 #include "Edif/MMFWindowsMasterHeader.hpp"
 #include "MMFGlobals.h"
 #include "TAS.h"
+#include "CEventProgramHook.h"
+#include "MMFS2Hook.h"
 
 namespace YuniUtil
 {
@@ -14,29 +16,9 @@ namespace YuniUtil
 			pHVar6 == runHeader->HEditWin ||
 			pHVar6 == runHeader->HMainWin)
 		{
-			switch (keyChar)
-			{
-				case 'W':
-				case 'w':
-					if (TAS::moveUp > 0)
-						return true;
-					break;
-				case 'A':
-				case 'a':
-					if (TAS::moveLeft > 0)
-						return true;
-					break;
-				case 'S':
-				case 's':
-					if (TAS::moveDown > 0)
-						return true;
-					break;
-				case 'D':
-				case 'd':
-					if (TAS::moveRight > 0)
-						return true;
-					break;
-			}
+			if (TAS::IsKeyPressed(keyChar))
+				return true;
+
 			SHORT keyState = GetKeyState(keyChar);
 			return keyState < 0;
 		}

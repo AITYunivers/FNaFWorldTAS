@@ -1,5 +1,8 @@
 #pragma once
 #include "MMFGlobals.h"
+#include <deque>
+#include "CEventProgramHook.h"
+#include "TASEvent.h"
 
 class TAS
 {
@@ -8,34 +11,43 @@ public:
 	static unsigned int oldLoopCount;
 	static void Run();
 
-	static unsigned int moveLeft;
-	static void MoveLeftFor(unsigned int frames)
+	static void TickQueue()
 	{
-		moveLeft = frames;
+		RunHeader* runHeader = GetRunHeader();
+		if (TAS::oldLoopCount == runHeader->LoopCount)
+			return;
+		TAS::oldLoopCount = runHeader->LoopCount;
+
+		if (!Queue.empty() && Queue.front()->Tick())
+			Queue.pop_front();
 	}
 
-	static unsigned int moveRight;
-	static void MoveRightFor(unsigned int frames)
-	{
-		moveRight = frames;
-	}
+#pragma region KeyPress
+	// Deque of keys in a queue
+	static std::deque<TASEvent*> Queue;
 
-	static unsigned int moveUp;
-	static void MoveUpFor(unsigned int frames)
-	{
-		moveUp = frames;
-	}
+	static void KeyPress(int timer, std::vector<char> keyCodes);
+	static bool IsKeyPressed(char keyCode);
+#pragma endregion
 
-	static unsigned int moveDown;
-	static void MoveDownFor(unsigned int frames)
-	{
-		moveDown = frames;
-	}
+#pragma region Mouse
+	static POINT* mousePos;
 
-	static unsigned int waitTimer;
-	static void WaitFor(unsigned int frames)
+	/// <summary>
+	/// Clicks at a set position
+	/// </summary>
+	/// <param name="mousePos">The mouse position in terms of the client (0,0 -> 800,480)</param>
+	/// <param name="mouseBtn">0x201 (LMB) by default, the btnCode is defined in CEventProgram::onMouseButton</param>
+	static void ClickAt(POINT* mousePos, int mouseBtn = 0x201);
+#pragma endregion
+
+	static enum Stage
 	{
-		waitTimer = frames;
-		while (waitTimer > 0) {}
-	}
+		START,
+		FREDBEAR_SKIP
+	} stage;
+
+	static void Wait(int frames);
+	static void WaitForFrame(int frame);
+	static void RestartGame();
 };

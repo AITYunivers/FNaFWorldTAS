@@ -1891,7 +1891,6 @@ struct HeaderObject {
 	friend ExpressionManager_Windows;
 	friend Edif::Runtime;
 	friend RunObject;
-DarkEdifInternalAccessProtected:
 	// 0+ unique instance number, used in identifying it out of the runtime duplicates
 	// @remarks Is non-contiguous and may be out of order, but the linked lists should be in consistent reverse-creation order;
 	//			last created is in ObjInfoList::Object, traverse with HeaderObject::NumNext until negative to get to first created.
@@ -1902,10 +1901,8 @@ DarkEdifInternalAccessProtected:
 	int size;
 	// Run-header address; a CRun class in non-Windows
 	RunHeader* AdRunHeader;
-private:
 	// Pointer to this - might be an anachronism from 16 -> 32-bit Windows memory addresses
 	HeaderObject* Address;
-DarkEdifInternalAccessProtected:
 	// Number of LevObj or HeaderFrameInstance
 	short HFII;
 	// The 0+ index of this object info in rhPtr->OIList?
@@ -1947,9 +1944,8 @@ DarkEdifInternalAccessProtected:
 	int EventNumber;
 
 	// Ignore - padding
-private:
+public:
 	int Free2;
-DarkEdifInternalAccessProtected:
 
 	// Common structure address (OC struct)
 	Objects_Common *	Common;
@@ -2398,7 +2394,6 @@ struct RunObject {
 	//			Variables between will break this function; variables after pExtension in RUNDATA won't.
 	Extension* GetExtension();
 
-	DarkEdifInternalAccessProtected:
 	friend ForbiddenInternals;
 	friend ForbiddenInternals2;
 	friend ConditionOrActionManager_Windows;

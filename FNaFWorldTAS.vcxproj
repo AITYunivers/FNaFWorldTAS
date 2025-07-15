@@ -125,6 +125,7 @@
   <ItemGroup>
     <ClInclude Include="CEventProgramHook.h" />
     <ClInclude Include="CNDL_MCLICKHook.h" />
+    <ClInclude Include="CND_KBPRESSKEYHook.h" />
     <ClInclude Include="CND_KEYDEPRESSEDHook.h" />
     <ClInclude Include="CRunHook.h" />
     <ClInclude Include="Edif\AllPlatformDefines.hpp" />
@@ -134,7 +135,11 @@
     <ClInclude Include="Edif\WindowsDefines.hpp" />
     <ClInclude Include="EXP_RANDOMHook.h" />
     <ClInclude Include="HookHelper.h" />
+    <ClInclude Include="MMFS2Hook.h" />
     <ClInclude Include="TAS.h" />
+    <ClInclude Include="TASClickAt.h" />
+    <ClInclude Include="TASEvent.h" />
+    <ClInclude Include="TASKeyPress.h" />
     <ClInclude Include="YuniUtil.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
@@ -145,12 +150,16 @@
       <AdditionalIncludeDirectories>$(ProjectDir)Detours\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpp20</LanguageStandard>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CEventProgramHook.cpp" />
     <ClCompile Include="CNDL_MCLICKHook.cpp" />
     <ClCompile Include="CNDL_MCLICKONOBJECTHook.cpp" />
     <ClCompile Include="CNDL_MCLICKONOBJECTHook.h" />
+    <ClCompile Include="CND_KBPRESSKEYHook.cpp" />
     <ClCompile Include="CND_KEYDEPRESSEDHook.cpp" />
     <ClCompile Include="CRunHook.cpp" />
     <ClCompile Include="Detours\src\detours.cpp" />
@@ -160,5 +169,8 @@
     <ClCompile Include="EXP_RANDOMHook.cpp" />
     <ClCompile Include="MMFGlobals.h" />
     <ClCompile Include="TAS.cpp" />
+    <ClCompile Include="TASRestartGame.h" />
+    <ClCompile Include="TASWait.h" />
+    <ClCompile Include="TASWaitForFrame.h" />
   </ItemGroup>
 </Project>

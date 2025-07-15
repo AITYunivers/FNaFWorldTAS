@@ -5,6 +5,7 @@
 #include "CEventProgramHook.h"
 #include "EXP_RANDOMHook.h"
 #include "CND_KEYDEPRESSEDHook.h"
+#include "CND_KBPRESSKEYHook.h"
 #include "CNDL_MCLICKHook.h"
 #include "CNDL_MCLICKONOBJECTHook.h"
 #include "TAS.h"
@@ -19,6 +20,12 @@ BOOL APIENTRY DllMain(HMODULE hModule,
     {
         case DLL_PROCESS_ATTACH:
         {
+            AllocConsole();
+            FILE* dummy;
+            freopen_s(&dummy, "CONOUT$", "w", stdout); // Redirects std::cout
+            freopen_s(&dummy, "CONOUT$", "w", stderr); // Redirects std::cerr
+            freopen_s(&dummy, "CONIN$", "r", stdin);   // Redirects std::cin
+
             // Register globals here
             {
                 GlobalRunHeaderPtr = reinterpret_cast<RunHeader**>(GET_ADDRESS(0xAC9B4));
@@ -32,6 +39,7 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 
                 // Conditions
                 registerHook(&(PVOID&)CND_KEYDEPRESSED_evaluate, &CND_KEYDEPRESSEDHook::evaluate);
+                registerHook(&(PVOID&)CND_KBPRESSKEY_evaluate, &CND_KBPRESSKEYHook::evaluate);
 
                 // Immediate Conditions
                 registerHook(&(PVOID&)CNDL_MCLICK_evaluate, &CNDL_MCLICKHook::evaluate);
@@ -42,6 +50,8 @@ BOOL APIENTRY DllMain(HMODULE hModule,
             
                 // CRun
                 registerHook(&(PVOID&)CRUN_f_GameLoop, &CRunHook::f_GameLoop);
+                registerHook(&(PVOID&)CRUN_calcMouseClientPos, &CRunHook::calcMouseClientPos);
+                registerHook(&(PVOID&)CRUN_prepareFrame, &CRunHook::prepareFrame);
             }
             break;
         }
