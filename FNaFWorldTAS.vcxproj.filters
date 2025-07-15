@@ -92,6 +92,9 @@
     <ClCompile Include="TASRestartGame.h">
       <Filter>TAS\Events</Filter>
     </ClCompile>
+    <ClCompile Include="CND_EXTCHOOSEHook.cpp">
+      <Filter>Hook Sources\Conditions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HookHelper.h">
@@ -147,6 +150,9 @@
     </ClInclude>
     <ClInclude Include="TASClickAt.h">
       <Filter>TAS\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="CND_EXTCHOOSEHook.h">
+      <Filter>Hook Headers\Conditions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

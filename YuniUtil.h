@@ -64,4 +64,18 @@ namespace YuniUtil
 		}
 		return ptr + 4;
 	}
+
+	static event2* GetACE(eventGroup* evg, int index)
+	{
+		if (index >= (size_t)(evg->evgNCond + evg->evgNAct))
+			return nullptr;
+
+		uintptr_t ptr = (uintptr_t)evg + sizeof(eventGroup);
+		for (int i = 0; i < index; i++)
+		{
+			short size = *(short*)ptr;
+			ptr += size;
+		}
+		return (event2*)(ptr + 2);
+	}
 }

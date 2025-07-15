@@ -6,6 +6,7 @@
 #include "EXP_RANDOMHook.h"
 #include "CND_KEYDEPRESSEDHook.h"
 #include "CND_KBPRESSKEYHook.h"
+#include "CND_EXTCHOOSEHook.h"
 #include "CNDL_MCLICKHook.h"
 #include "CNDL_MCLICKONOBJECTHook.h"
 #include "TAS.h"
@@ -40,6 +41,7 @@ BOOL APIENTRY DllMain(HMODULE hModule,
                 // Conditions
                 registerHook(&(PVOID&)CND_KEYDEPRESSED_evaluate, &CND_KEYDEPRESSEDHook::evaluate);
                 registerHook(&(PVOID&)CND_KBPRESSKEY_evaluate, &CND_KBPRESSKEYHook::evaluate);
+                registerHook(&(PVOID&)CND_EXTCHOOSE_evaluate, &CND_EXTCHOOSEHook::evaluate);
 
                 // Immediate Conditions
                 registerHook(&(PVOID&)CNDL_MCLICK_evaluate, &CNDL_MCLICKHook::evaluate);

@@ -2,6 +2,7 @@
 #include "EXP_RANDOMHook.h"
 #include "CRunHook.h"
 #include "YuniUtil.h"
+#include <iostream>
 
 void EXP_RANDOMHook::evaluate()
 {
@@ -19,6 +20,23 @@ void EXP_RANDOMHook::evaluate()
         YuniUtil::SetReturnInt(0);
         if (YuniUtil::IsKeyDown('E'))
             YuniUtil::SetReturnInt(1);
+    }
+    else if (runHeader->App->nCurrentFrame == 19 && eventIndex == 2)
+    {
+        event2* ace = YuniUtil::GetACE(runHeader->EventGroup, 1); // Action 0
+        RunObject* obj = CEventProgramHook::get_CurrentObject((unsigned int)ace->evtOiList, (BOOL*)&ace);
+        if (obj->rHo.Oi == 956)
+            switch (obj->rHo.HFII)
+            {
+                case 3:
+                case 22:
+                case 47:
+                    YuniUtil::SetReturnInt(0);
+                    break;
+                default:
+                    YuniUtil::SetReturnInt(9);
+                    break;
+            }
     }
     else
     {

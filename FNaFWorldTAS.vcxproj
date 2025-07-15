@@ -125,6 +125,7 @@
   <ItemGroup>
     <ClInclude Include="CEventProgramHook.h" />
     <ClInclude Include="CNDL_MCLICKHook.h" />
+    <ClInclude Include="CND_EXTCHOOSEHook.h" />
     <ClInclude Include="CND_KBPRESSKEYHook.h" />
     <ClInclude Include="CND_KEYDEPRESSEDHook.h" />
     <ClInclude Include="CRunHook.h" />
@@ -159,6 +160,7 @@
     <ClCompile Include="CNDL_MCLICKHook.cpp" />
     <ClCompile Include="CNDL_MCLICKONOBJECTHook.cpp" />
     <ClCompile Include="CNDL_MCLICKONOBJECTHook.h" />
+    <ClCompile Include="CND_EXTCHOOSEHook.cpp" />
     <ClCompile Include="CND_KBPRESSKEYHook.cpp" />
     <ClCompile Include="CND_KEYDEPRESSEDHook.cpp" />
     <ClCompile Include="CRunHook.cpp" />

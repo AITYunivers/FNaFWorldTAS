@@ -19,6 +19,7 @@ void TAS::Run()
 {
 	CRunApp* app = GetCRunApp();
 	running = true;
+	return;
 
 	WaitForFrame(0);
 	KeyPress(1, { VK_RETURN });

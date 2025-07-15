@@ -9,6 +9,9 @@ CREATE_FUNC(CEVENTPROGRAM_evt_AddCurrentQualifier, 0x59ec0, void, unsigned int p
 CREATE_FUNC(CEVENTPROGRAM_onMouseButton, 0x57a80, void, int mouseBtn);
 CREATE_FUNC(CEVENTPROGRAM_computeEventList, 0x58f80, void, int num, RunObject* rHo);
 CREATE_FUNC(CEVENTPROGRAM_handle_Event, 0x58b40, void, RunObject* rHo, int code);
+CREATE_FUNC(CEVENTPROGRAM_get_CurrentObject, 0x5a4c0, RunObject*, short oiList, BOOL* repeat);
+CREATE_FUNC(CEVENTPROGRAM_count_ObjectsFromOiList, 0x5aeb0, RunObject*, unsigned int oil, int stop, int* count);
+CREATE_FUNC(CEVENTPROGRAM_evt_ForceOneObject, 0x59fd0, void, unsigned int oil, RunObject* rHo);
 
 class CEventProgramHook
 {
@@ -41,5 +44,20 @@ public:
 	static void handle_Event(RunObject* rHo, int code)
 	{
 		CEVENTPROGRAM_handle_Event(rHo, code);
+	};
+
+	static RunObject* get_CurrentObject(short oiList, BOOL* repeat)
+	{
+		return CEVENTPROGRAM_get_CurrentObject(oiList, repeat);
+	};
+
+	static RunObject* __fastcall count_ObjectsFromOiList(unsigned int oil, int stop, int* count)
+	{
+		return CEVENTPROGRAM_count_ObjectsFromOiList(oil, stop, count);
+	};
+
+	static void __fastcall evt_ForceOneObject(unsigned int oil, RunObject* rHo)
+	{
+		CEVENTPROGRAM_evt_ForceOneObject(oil, rHo);
 	};
 };
