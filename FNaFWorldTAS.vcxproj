@@ -70,6 +70,10 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)\Lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -128,7 +132,9 @@
     <ClInclude Include="CND_EXTCHOOSEHook.h" />
     <ClInclude Include="CND_KBPRESSKEYHook.h" />
     <ClInclude Include="CND_KEYDEPRESSEDHook.h" />
+    <ClInclude Include="CRunAppHook.h" />
     <ClInclude Include="CRunHook.h" />
+    <ClInclude Include="D3D9Hook.h" />
     <ClInclude Include="Edif\AllPlatformDefines.hpp" />
     <ClInclude Include="Edif\MMFWindowsMasterHeader.hpp" />
     <ClInclude Include="Edif\ObjectInfo.hpp" />
@@ -148,11 +154,11 @@
   </ImportGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)Detours\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Detours\src;$(ProjectDir)imgui;$(ProjectDir)imgui\backends;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">d3dx9.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -163,12 +169,21 @@
     <ClCompile Include="CND_EXTCHOOSEHook.cpp" />
     <ClCompile Include="CND_KBPRESSKEYHook.cpp" />
     <ClCompile Include="CND_KEYDEPRESSEDHook.cpp" />
+    <ClCompile Include="CRunAppHook.cpp" />
     <ClCompile Include="CRunHook.cpp" />
+    <ClCompile Include="D3D9Hook.cpp" />
     <ClCompile Include="Detours\src\detours.cpp" />
     <ClCompile Include="Detours\src\disasm.cpp" />
     <ClCompile Include="Detours\src\modules.cpp" />
     <ClCompile Include="Entry.cpp" />
     <ClCompile Include="EXP_RANDOMHook.cpp" />
+    <ClCompile Include="imgui\backends\imgui_impl_dx9.cpp" />
+    <ClCompile Include="imgui\backends\imgui_impl_win32.cpp" />
+    <ClCompile Include="imgui\imgui.cpp" />
+    <ClCompile Include="imgui\imgui_demo.cpp" />
+    <ClCompile Include="imgui\imgui_draw.cpp" />
+    <ClCompile Include="imgui\imgui_tables.cpp" />
+    <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="MMFGlobals.h" />
     <ClCompile Include="TAS.cpp" />
     <ClCompile Include="TASIncrementStage.h" />

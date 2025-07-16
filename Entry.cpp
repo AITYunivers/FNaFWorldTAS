@@ -2,6 +2,7 @@
 #include "MMFGlobals.h"
 #include "HookHelper.h"
 #include "CRunHook.h"
+#include "CRunAppHook.h"
 #include "CEventProgramHook.h"
 #include "EXP_RANDOMHook.h"
 #include "CND_KEYDEPRESSEDHook.h"
@@ -55,6 +56,9 @@ BOOL APIENTRY DllMain(HMODULE hModule,
                 registerHook(&(PVOID&)CRUN_calcMouseClientPos, &CRunHook::calcMouseClientPos);
                 registerHook(&(PVOID&)CRUN_prepareFrame, &CRunHook::prepareFrame);
                 registerHook(&(PVOID&)CRUN_joyTest, &CRunHook::joyTest);
+
+                // CRunApp
+                registerHook(&(PVOID&)CRUNAPP_playApplication, &CRunAppHook::playApplication);
             }
             break;
         }

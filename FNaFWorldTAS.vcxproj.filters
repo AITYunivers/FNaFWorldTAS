@@ -41,6 +41,9 @@
     <Filter Include="TAS\Events">
       <UniqueIdentifier>{a7dbe688-8a91-4b4c-9624-c429fcd63bb9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ImGui">
+      <UniqueIdentifier>{2ee34e6f-ad7b-4275-81a9-9e65be761ef2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MMFGlobals.h">
@@ -97,6 +100,33 @@
     </ClCompile>
     <ClCompile Include="TASIncrementStage.h">
       <Filter>TAS\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="D3D9Hook.cpp">
+      <Filter>Hook Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="CRunAppHook.cpp">
+      <Filter>Hook Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_demo.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_draw.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_widgets.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\backends\imgui_impl_dx9.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\backends\imgui_impl_win32.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_tables.cpp">
+      <Filter>ImGui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -156,6 +186,12 @@
     </ClInclude>
     <ClInclude Include="CND_EXTCHOOSEHook.h">
       <Filter>Hook Headers\Conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="D3D9Hook.h">
+      <Filter>Hook Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CRunAppHook.h">
+      <Filter>Hook Headers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
