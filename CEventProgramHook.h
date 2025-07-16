@@ -51,12 +51,24 @@ public:
 		return CEVENTPROGRAM_get_CurrentObject(oiList, repeat);
 	};
 
-	static RunObject* __fastcall count_ObjectsFromOiList(unsigned int oil, int stop, int* count)
+	static RunObject* count_ObjectsFromOiList(unsigned int oil, int stop, int* count)
 	{
-		return CEVENTPROGRAM_count_ObjectsFromOiList(oil, stop, count);
+		RunObject* result;
+		__asm
+		{
+			push esp
+			mov ecx, oil
+			mov edx, stop
+			push count
+			call CEVENTPROGRAM_count_ObjectsFromOiList
+			add esp, 4
+			mov result, eax
+			pop esp
+		}
+		return result;
 	};
 
-	static void __fastcall evt_ForceOneObject(unsigned int oil, RunObject* rHo)
+	static void evt_ForceOneObject(unsigned int oil, RunObject* rHo)
 	{
 		CEVENTPROGRAM_evt_ForceOneObject(oil, rHo);
 	};

@@ -95,6 +95,9 @@
     <ClCompile Include="CND_EXTCHOOSEHook.cpp">
       <Filter>Hook Sources\Conditions</Filter>
     </ClCompile>
+    <ClCompile Include="TASIncrementStage.h">
+      <Filter>TAS\Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HookHelper.h">

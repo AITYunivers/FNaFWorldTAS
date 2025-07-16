@@ -54,6 +54,7 @@ BOOL APIENTRY DllMain(HMODULE hModule,
                 registerHook(&(PVOID&)CRUN_f_GameLoop, &CRunHook::f_GameLoop);
                 registerHook(&(PVOID&)CRUN_calcMouseClientPos, &CRunHook::calcMouseClientPos);
                 registerHook(&(PVOID&)CRUN_prepareFrame, &CRunHook::prepareFrame);
+                registerHook(&(PVOID&)CRUN_joyTest, &CRunHook::joyTest);
             }
             break;
         }

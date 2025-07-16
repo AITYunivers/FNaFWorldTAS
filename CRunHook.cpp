@@ -3,6 +3,7 @@
 #include "TAS.h"
 #include "CEventProgramHook.h"
 #include "YuniUtil.h"
+#include "EXP_RANDOMHook.h"
 
 int CRunHook::f_GameLoop()
 {
@@ -14,6 +15,9 @@ int CRunHook::f_GameLoop()
     }
 
     TAS::TickQueue();
+
+    EXP_RANDOMHook::expIndex = 0;
+    EXP_RANDOMHook::expEvent = -1;
 
     return CRUN_f_GameLoop();
 }
@@ -44,4 +48,13 @@ int CRunHook::prepareFrame()
     }
 
     return CRUN_prepareFrame();
+}
+
+void CRunHook::joyTest()
+{
+    RunHeader* runHeader = GetRunHeader();
+    runHeader->TimerDelta = (unsigned int)(1 / 60.0f * 1000);
+    runHeader->rh4.mvtTimerCoef = ((double)runHeader->TimerDelta) * ((double)runHeader->Frame->MvtTimerBase) / 1000.0;
+
+    return CRUN_joyTest();
 }

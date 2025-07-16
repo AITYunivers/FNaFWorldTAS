@@ -9,8 +9,6 @@ void __fastcall CEventProgramHook::handle_GlobalEvents(int code)
 
 void __fastcall CEventProgramHook::compute_TimerEvents()
 {
-	RunHeader* runHeader = GetRunHeader();
-	runHeader->TimerDelta = (unsigned int)(1 / 60.0f * 1000);
 
 	CEVENTPROGRAM_compute_TimerEvents();
 }

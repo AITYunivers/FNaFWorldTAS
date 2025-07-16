@@ -44,10 +44,14 @@ public:
 	static enum Stage
 	{
 		START,
-		FREDBEAR_SKIP
+		PEARL_CHEST,
+		JJ_UNLOCK
 	} stage;
 
 	static void Wait(int frames);
 	static void WaitForFrame(int frame);
 	static void RestartGame();
+	static void IncrementStage();
+	static void ClickCharacter(int x, int y);
+	static void ClickAttack(int charSlot, int attackSlot);
 };

@@ -171,6 +171,7 @@
     <ClCompile Include="EXP_RANDOMHook.cpp" />
     <ClCompile Include="MMFGlobals.h" />
     <ClCompile Include="TAS.cpp" />
+    <ClCompile Include="TASIncrementStage.h" />
     <ClCompile Include="TASRestartGame.h" />
     <ClCompile Include="TASWait.h" />
     <ClCompile Include="TASWaitForFrame.h" />
