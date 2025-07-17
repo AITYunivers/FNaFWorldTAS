@@ -2300,7 +2300,7 @@ struct AltVals {
 
 	CValueMultiPlat* rvValues;
 	long rvValueCount;
-	unsigned char rvUnknownPadding1[90];
+	unsigned int rvUnknownPadding1[24];
 	long rvFlags;
 	unsigned char rvUnknownPadding2[26];
 	char** rvStrings;
