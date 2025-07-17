@@ -2296,8 +2296,15 @@ DarkEdifInternalAccessProtected:
 // ----------------------------------------
 struct AltVals {
 	NO_DEFAULT_CTORS_OR_DTORS(AltVals);
-DarkEdifInternalAccessProtected:
 	friend RunObject;
+
+	CValueMultiPlat* rvValues;
+	long rvValueCount;
+	unsigned char rvUnknownPadding1[90];
+	long rvFlags;
+	unsigned char rvUnknownPadding2[26];
+	char** rvStrings;
+	long rvStringCount;
 };
 //typedef AltVals *	LPRVAL;
 
@@ -2436,7 +2443,6 @@ DarkEdifInternalAccessProtected:
 // ------------------------------------------------------
 struct rs {
 	NO_DEFAULT_CTORS_OR_DTORS(rs);
-DarkEdifInternalAccessProtected:
 	HeaderObject 	HeaderObject;	// For all the objects
 	rCom			Common;			// Anims / movements / sprites structures
 	rMvt			Movement;		// Mouvement structure
@@ -3323,7 +3329,6 @@ DarkEdifInternalAccessProtected:
 struct ObjInfoHeader
 {
 	NO_DEFAULT_CTORS_OR_DTORS(ObjInfoHeader);
-DarkEdifInternalAccessProtected:
 	unsigned short	Handle,
 					Type,
 					Flags,			// Memory flags
@@ -4503,7 +4508,7 @@ struct CRunFrame {
 	unsigned short		wJoystick,
 						wIPhoneOptions;
 	unsigned char * 	swapBuffers;
-	unsigned int		objectList;
+	unsigned int *		objectList;
 	unsigned char * 	destroyList;
 	int					free3,						// Ignore - reserved
 						NumberOfPlayers,

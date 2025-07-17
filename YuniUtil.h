@@ -78,4 +78,50 @@ namespace YuniUtil
 		}
 		return (event2*)(ptr + 2);
 	}
+
+	static ObjInfo* GetOIFromName(std::tstring name)
+	{
+		CRunApp* app = GetCRunApp();
+		for (int i = 0; i < app->oiMaxIndex; i++)
+		{
+			ObjInfo* oi = (ObjInfo*)app->ois[i];
+			if (name.compare(oi->oiName) == 0)
+				return oi;
+		}
+		return nullptr;
+	}
+
+	static RunObject* GetFirstRunObject(ObjInfo* oi)
+	{
+		RunHeader* runHeader = GetRunHeader();
+		for (int i = 0; i < runHeader->NObjects; i++)
+		{
+			objectsList list = runHeader->ObjectList[i];
+			RunObject* runObj = list.oblOffset;
+			if (runObj != nullptr && runObj->rHo.Oi == oi->oiHdr.Handle)
+				return runObj;
+		}
+		return nullptr;
+	}
+
+	static RunObject* GetFirstRunObjectFromName(std::tstring name)
+	{
+		ObjInfo* oi = GetOIFromName(name);
+		if (oi != nullptr)
+			return GetFirstRunObject(oi);
+		return nullptr;
+	}
+
+	static int GetCounterValue(RunObject* ro)
+	{
+		rs* systemObj = (rs*)ro;
+		return systemObj->Value.m_long * -1 - 1;
+	}
+
+	static int GetAlterableValue(RunObject* ro, int index)
+	{
+		if (ro->rov.rvValueCount < index)
+			return 0;
+		return ro->rov.rvValues[index].m_long;
+	}
 }

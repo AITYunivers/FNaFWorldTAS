@@ -135,6 +135,7 @@
     <ClInclude Include="CRunAppHook.h" />
     <ClInclude Include="CRunHook.h" />
     <ClInclude Include="D3D9Hook.h" />
+    <ClInclude Include="Debug.h" />
     <ClInclude Include="Edif\AllPlatformDefines.hpp" />
     <ClInclude Include="Edif\MMFWindowsMasterHeader.hpp" />
     <ClInclude Include="Edif\ObjectInfo.hpp" />
@@ -158,7 +159,7 @@
       <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">d3dx9.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -172,6 +173,7 @@
     <ClCompile Include="CRunAppHook.cpp" />
     <ClCompile Include="CRunHook.cpp" />
     <ClCompile Include="D3D9Hook.cpp" />
+    <ClCompile Include="TASDebug.cpp" />
     <ClCompile Include="Detours\src\detours.cpp" />
     <ClCompile Include="Detours\src\disasm.cpp" />
     <ClCompile Include="Detours\src\modules.cpp" />

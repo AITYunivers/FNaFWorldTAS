@@ -105,16 +105,12 @@ void TAS::Run()
 	ClickAt(new POINT(750, 50)); // Jump to 1
 	KeyPress(30, { 'A' });
 	KeyPress(94, { 'A', 'W' });
-	Wait(1);
-	KeyPress(1, { 'R' });
-	Wait(196);
+	Wait(80);
 	ClickAttack(2, 3);
 	Wait(1000);
-	KeyPress(1, { 'R' });
-	Wait(196);
+	Wait(197);
 	ClickAttack(2, 3);
-	KeyPress(1, { 'R' });
-	Wait(196);
+	Wait(197);
 	ClickAttack(2, 3);
 	Wait(70);
 	ClickAttack(3, 3);

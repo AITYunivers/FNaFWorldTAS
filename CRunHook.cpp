@@ -4,6 +4,7 @@
 #include "CEventProgramHook.h"
 #include "YuniUtil.h"
 #include "EXP_RANDOMHook.h"
+#include "Debug.h"
 
 int CRunHook::f_GameLoop()
 {
@@ -48,6 +49,13 @@ int CRunHook::prepareFrame()
     }
 
     return CRUN_prepareFrame();
+}
+
+int CRunHook::createFrameObjects(BOOL fade)
+{
+    int ret = CRUN_createFrameObjects(fade);
+    Debug::UpdateObjPointers();
+    return ret;
 }
 
 void CRunHook::joyTest()

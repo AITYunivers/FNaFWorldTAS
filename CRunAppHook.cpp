@@ -4,6 +4,12 @@
 
 bool CRunAppHook::playApplication(CRunApp* app, int param2)
 {
+    // Les do sm temp bs
+    {
+        CRunApp* app = GetCRunApp();
+        //app->hdr.Flags = app->hdr.Flags & ~GA_MAXIMISE;
+    }
+
     static bool init = false;
     if (!init)
     {
@@ -17,7 +23,7 @@ bool CRunAppHook::playApplication(CRunApp* app, int param2)
         D3DPRESENT_PARAMETERS d3dpp = { 0 };
         d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
         d3dpp.hDeviceWindow = GetForegroundWindow();
-        d3dpp.Windowed = ((GetWindowLong(d3dpp.hDeviceWindow, GWL_STYLE) & WS_POPUP) != 0) ? FALSE : TRUE;;
+        d3dpp.Windowed = true;//((GetWindowLong(d3dpp.hDeviceWindow, GWL_STYLE) & WS_POPUP) != 0) ? FALSE : TRUE;;
 
         IDirect3DDevice9* pDummyDevice = nullptr;
         HRESULT create_device_ret = pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL,
@@ -35,6 +41,10 @@ bool CRunAppHook::playApplication(CRunApp* app, int param2)
 
         D3D9_EndScene = reinterpret_cast<int(__stdcall*)(LPDIRECT3DDEVICE9)>((uintptr_t)d3d9Device[42]);
         registerHook(&(PVOID&)D3D9_EndScene, &D3D9Hook::EndScene);
+        
+        D3D9_Reset = reinterpret_cast<int(__stdcall*)(LPDIRECT3DDEVICE9,D3DPRESENT_PARAMETERS*)>((uintptr_t)d3d9Device[16]);
+        registerHook(&(PVOID&)D3D9_Reset, &D3D9Hook::Reset);
+
     }
     return CRUNAPP_playApplication(app, param2);
 }

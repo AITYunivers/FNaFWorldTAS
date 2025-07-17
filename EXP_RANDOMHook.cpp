@@ -14,6 +14,9 @@ void EXP_RANDOMHook::evaluate()
     // Advance the expression token
     YuniUtil::AdvanceExpToken();
 
+    // Read the expression as a uint
+    unsigned int max = CRunHook::getExpression()->getInt();
+
     // Custom handling for specific events
     int eventIndex = YuniUtil::GetEventIndex();
 
@@ -44,9 +47,10 @@ void EXP_RANDOMHook::evaluate()
         switch (TAS::stage)
         {
             case TAS::Stage::JJ_UNLOCK:
-                YuniUtil::SetReturnInt(3); // Gearrat
+                YuniUtil::SetReturnInt(2); // Gearrat
                 return;
         }
+        return;
     }
     // Enemy Count
     else if (runHeader->App->nCurrentFrame == 5 && eventIndex == 944)
@@ -54,9 +58,10 @@ void EXP_RANDOMHook::evaluate()
         switch (TAS::stage)
         {
             case TAS::Stage::JJ_UNLOCK:
-                YuniUtil::SetReturnInt(4); // 4 Gearrats
+                YuniUtil::SetReturnInt(3); // 4 Gearrats
                 return;
         }
+        return;
     }
     // Encounter Chance
     else if (runHeader->App->nCurrentFrame == 5 && eventIndex == 941)
@@ -70,6 +75,7 @@ void EXP_RANDOMHook::evaluate()
                 YuniUtil::SetReturnInt(1); // Do not give encounter
                 return;
         }
+        return;
     }
     // Encounter
     else if (runHeader->App->nCurrentFrame == 5 && eventIndex == 1620)
@@ -90,6 +96,7 @@ void EXP_RANDOMHook::evaluate()
                 }
                 return;
         }
+        return;
     }
     // Wasp Stinger Damage
     else if (runHeader->App->nCurrentFrame == 5 && eventIndex == 485)
@@ -116,29 +123,29 @@ void EXP_RANDOMHook::evaluate()
         return;
     }
     // Party Charge
-    else if (runHeader->App->nCurrentFrame == 5 && eventIndex == 1603)
+    else if (runHeader->App->nCurrentFrame == 5 && eventIndex == 108)
     {
         switch (TAS::stage)
         {
             case TAS::Stage::JJ_UNLOCK:
                 if (expIndex == 2 || expIndex == 3) // Mangle and Toy Chica
-                    YuniUtil::SetReturnInt(0); // No Delay
-                YuniUtil::SetReturnInt(4); // Max Delay
+                    YuniUtil::SetReturnInt(4); // No Delay
+                else
+                    YuniUtil::SetReturnInt(0); // Max Delay
                 return;
         }
+        return;
     }
     // Prize Ball Poppers
     else if (runHeader->App->nCurrentFrame == 5 && eventIndex == 693)
     {
-        // Why tf is it forcing me to add?
-        YuniUtil::SetReturnInt(0 + 1); // Poppers
+        YuniUtil::SetReturnInt(0); // Poppers
         return;
     }
     // Prize Ball Poppers Damage
     else if (runHeader->App->nCurrentFrame == 5 && eventIndex == 699)
     {
-        // Why tf is it forcing me to add?
-        YuniUtil::SetReturnInt(98 + 99); // Max Damage
+        YuniUtil::SetReturnInt(98); // Max Damage
         return;
     }
     // Deedee's Fishing Hole Fish Speed
@@ -152,9 +159,6 @@ void EXP_RANDOMHook::evaluate()
             YuniUtil::SetReturnInt(9);
         return;
     }
-
-    // Read the expression as a uint
-    unsigned int max = CRunHook::getExpression()->getInt();
 
     // Advance the seed
     runHeader->rh3.Graine = runHeader->rh3.Graine * 0x7ab7 + 1;

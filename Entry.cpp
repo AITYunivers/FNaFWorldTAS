@@ -34,6 +34,8 @@ BOOL APIENTRY DllMain(HMODULE hModule,
                 GlobalCRunAppPtr = reinterpret_cast<CRunApp**>(GET_ADDRESS(0xAC9AC));
             }
 
+            
+
             // Register hooks here
             {
                 // Expressions
@@ -55,6 +57,7 @@ BOOL APIENTRY DllMain(HMODULE hModule,
                 registerHook(&(PVOID&)CRUN_f_GameLoop, &CRunHook::f_GameLoop);
                 registerHook(&(PVOID&)CRUN_calcMouseClientPos, &CRunHook::calcMouseClientPos);
                 registerHook(&(PVOID&)CRUN_prepareFrame, &CRunHook::prepareFrame);
+                registerHook(&(PVOID&)CRUN_createFrameObjects, &CRunHook::createFrameObjects);
                 registerHook(&(PVOID&)CRUN_joyTest, &CRunHook::joyTest);
 
                 // CRunApp
