@@ -112,6 +112,28 @@ namespace YuniUtil
 		return nullptr;
 	}
 
+	static std::vector<RunObject*> GetRunObjects(ObjInfo* oi)
+	{
+		std::vector<RunObject*> runObjs;
+		RunHeader* runHeader = GetRunHeader();
+		for (int i = 0; i < runHeader->NObjects; i++)
+		{
+			objectsList list = runHeader->ObjectList[i];
+			RunObject* runObj = list.oblOffset;
+			if (runObj != nullptr && runObj->rHo.Oi == oi->oiHdr.Handle)
+				runObjs.push_back(runObj);
+		}
+		return runObjs;
+	}
+
+	static std::vector<RunObject*> GetRunObjectsFromName(std::tstring name)
+	{
+		ObjInfo* oi = GetOIFromName(name);
+		if (oi != nullptr)
+			return GetRunObjects(oi);
+		return std::vector<RunObject*>();
+	}
+
 	static int GetCounterValue(RunObject* ro)
 	{
 		rs* systemObj = (rs*)ro;

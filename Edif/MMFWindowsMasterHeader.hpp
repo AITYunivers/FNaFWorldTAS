@@ -3222,7 +3222,6 @@ DarkEdifInternalAccessProtected:
 //
 struct FrameHeader {
 	NO_DEFAULT_CTORS_OR_DTORS(FrameHeader);
-DarkEdifInternalAccessProtected:
 	// Frame width/height
 	int				Width,			// Frame width in pixels
 					Height;			// Frame height in pixels

@@ -1,8 +1,7 @@
 #pragma once
 #include "Debug.h"
 
-RunObject* Debug::charge1 = nullptr;
-RunObject* Debug::charge2 = nullptr;
-RunObject* Debug::charge3 = nullptr;
-RunObject* Debug::charge4 = nullptr;
+RunObject* Debug::battle = nullptr;
+RunObject* Debug::water = nullptr;
+RunObject* Debug::enemyMaxLife = nullptr;
 RunObject* Debug::character2 = nullptr;

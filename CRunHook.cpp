@@ -5,9 +5,12 @@
 #include "YuniUtil.h"
 #include "EXP_RANDOMHook.h"
 #include "Debug.h"
+#include "WindowsHook.h"
 
 int CRunHook::f_GameLoop()
 {
+    RunHeader* runHeader = GetRunHeader();
+
     // Create TAS Thread
     if (!TAS::running)
     {
@@ -48,6 +51,12 @@ int CRunHook::prepareFrame()
             runHeader->Frame->fadeOut = nullptr;
     }
 
+    // Disable Timer-Based Movements
+    runHeader->Frame->hdr.Flags &= ~LTIMEDMVTS;
+
+    // Random Calc
+    WindowsHook::totalLoops++;
+
     return CRUN_prepareFrame();
 }
 
@@ -65,4 +74,10 @@ void CRunHook::joyTest()
     runHeader->rh4.mvtTimerCoef = ((double)runHeader->TimerDelta) * ((double)runHeader->Frame->MvtTimerBase) / 1000.0;
 
     return CRUN_joyTest();
+}
+
+int CRunHook::allocRunHeader()
+{
+    WindowsHook::calledFromAlloc = true;
+    return CRUN_allocRunHeader();
 }

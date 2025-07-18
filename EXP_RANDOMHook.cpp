@@ -33,6 +33,11 @@ void EXP_RANDOMHook::evaluate()
         switch (TAS::stage)
         {
             case TAS::Stage::JJ_UNLOCK:
+            case TAS::Stage::BB_UNLOCK:
+            case TAS::Stage::PHANTOM_FREDDY_UNLOCK:
+            case TAS::Stage::PHANTOM_CHICA_UNLOCK:
+            case TAS::Stage::PHANTOM_BB_UNLOCK:
+            case TAS::Stage::PHANTOM_FOXY_UNLOCK:
                 YuniUtil::SetReturnInt(1);
                 break;
             default:
@@ -69,6 +74,11 @@ void EXP_RANDOMHook::evaluate()
         switch (TAS::stage)
         {
             case TAS::Stage::JJ_UNLOCK:
+            case TAS::Stage::BB_UNLOCK:
+            case TAS::Stage::PHANTOM_FREDDY_UNLOCK:
+            case TAS::Stage::PHANTOM_CHICA_UNLOCK:
+            case TAS::Stage::PHANTOM_BB_UNLOCK:
+            case TAS::Stage::PHANTOM_FOXY_UNLOCK:
                 YuniUtil::SetReturnInt(0); // Give encounter
                 return;
             default:
@@ -84,18 +94,66 @@ void EXP_RANDOMHook::evaluate()
         switch (TAS::stage)
         {
             case TAS::Stage::JJ_UNLOCK:
+                if (expIndex == 1)
+                {
+                    YuniUtil::SetReturnInt(1); // JJ
+                    return;
+                }
+                break;
+            case TAS::Stage::BB_UNLOCK:
+                YuniUtil::SetReturnInt(0); // BB
+                return;
+            case TAS::Stage::PHANTOM_FREDDY_UNLOCK:
+                if (expIndex == 1)
+                {
+                    YuniUtil::SetReturnInt(2); // Phantom Freddy
+                    return;
+                }
+                break;
+            case TAS::Stage::PHANTOM_CHICA_UNLOCK:
                 switch (expIndex)
                 {
-                    case 1: // Random(value("area") + 3)
-                        YuniUtil::SetReturnInt(1); // JJ
+                    case 1:
+                        YuniUtil::SetReturnInt(2); // Area Max
                         break;
-                    case 2: // (Random(3) / 2)
-                    case 3: // (Random(3) + 1)
-                        YuniUtil::SetReturnInt(0);
+                    case 2:
+                        YuniUtil::SetReturnInt(2); // +1 (Phantom Chica)
+                        break;
+                    case 3:
+                        YuniUtil::SetReturnInt(0); // +0
+                        break;
+                }
+                return;
+            case TAS::Stage::PHANTOM_BB_UNLOCK:
+                switch (expIndex)
+                {
+                    case 1:
+                        YuniUtil::SetReturnInt(2); // Area Max
+                        break;
+                    case 2:
+                        YuniUtil::SetReturnInt(2); // +1
+                        break;
+                    case 3:
+                        YuniUtil::SetReturnInt(1); // +1 (Phantom BB)
+                        break;
+                }
+                return;
+            case TAS::Stage::PHANTOM_FOXY_UNLOCK:
+                switch (expIndex)
+                {
+                    case 1:
+                        YuniUtil::SetReturnInt(2); // Area Max
+                        break;
+                    case 2:
+                        YuniUtil::SetReturnInt(2); // +1
+                        break;
+                    case 3:
+                        YuniUtil::SetReturnInt(2); // +2 (Phantom Foxy)
                         break;
                 }
                 return;
         }
+        YuniUtil::SetReturnInt(0);
         return;
     }
     // Wasp Stinger Damage
@@ -128,6 +186,25 @@ void EXP_RANDOMHook::evaluate()
         switch (TAS::stage)
         {
             case TAS::Stage::JJ_UNLOCK:
+            case TAS::Stage::BB_UNLOCK:
+            case TAS::Stage::PHANTOM_FREDDY_UNLOCK:
+            case TAS::Stage::PHANTOM_CHICA_UNLOCK:
+            case TAS::Stage::PHANTOM_BB_UNLOCK:
+            case TAS::Stage::PHANTOM_FOXY_UNLOCK:
+                if (expIndex == 2) // Mangle or JJ
+                    YuniUtil::SetReturnInt(4); // No Delay
+                else
+                    YuniUtil::SetReturnInt(0); // Max Delay
+                return;
+        }
+        return;
+    }
+    // Party Charge
+    else if (runHeader->App->nCurrentFrame == 5 && eventIndex == 1603)
+    {
+        switch (TAS::stage)
+        {
+            case TAS::Stage::JJ_UNLOCK:
                 if (expIndex == 2 || expIndex == 3) // Mangle and Toy Chica
                     YuniUtil::SetReturnInt(4); // No Delay
                 else
@@ -146,6 +223,41 @@ void EXP_RANDOMHook::evaluate()
     else if (runHeader->App->nCurrentFrame == 5 && eventIndex == 699)
     {
         YuniUtil::SetReturnInt(98); // Max Damage
+        return;
+    }
+    // Run Chance
+    else if (runHeader->App->nCurrentFrame == 5 && (eventIndex == 1605 || eventIndex == 1606))
+    {
+        switch (TAS::stage)
+        {
+            case TAS::Stage::BB_UNLOCK:
+            case TAS::Stage::PHANTOM_FREDDY_UNLOCK:
+            case TAS::Stage::PHANTOM_CHICA_UNLOCK:
+            case TAS::Stage::PHANTOM_BB_UNLOCK:
+            case TAS::Stage::PHANTOM_FOXY_UNLOCK:
+                YuniUtil::SetReturnInt(1); // Pls run
+                return;
+        }
+        YuniUtil::SetReturnInt(0); // Pls don't run
+        return;
+    }
+    // Unscrew Timer
+    else if (runHeader->App->nCurrentFrame == 5 && (eventIndex == 668 || eventIndex == 669))
+    {
+        YuniUtil::SetReturnInt(0); // Quickest Unscrew
+        return;
+    }
+    // Unscrew Chance
+    else if (runHeader->App->nCurrentFrame == 5 && eventIndex >= 737 && eventIndex <= 740)
+    {
+        YuniUtil::SetReturnInt(0); // Always Unscrew
+        return;
+    }
+    // Token Count
+    else if (runHeader->App->nCurrentFrame == 5 && eventIndex == 1078)
+    {
+        // ((Alterable Value S("make character") * value("area")) + ((Random(11) / 10) * 10) + Random(6))
+        YuniUtil::SetReturnInt(0); // As little tokens as possible
         return;
     }
     // Deedee's Fishing Hole Fish Speed

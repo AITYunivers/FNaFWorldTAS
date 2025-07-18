@@ -17,6 +17,13 @@ BOOL __cdecl CND_EXTCHOOSEHook::evaluate(event2* ace)
         RunObject* obj = CEventProgramHook::count_ObjectsFromOiList(oil, 28 - 3, new int(0));
         CEventProgramHook::evt_ForceOneObject(oil, obj);
     }
+    else if (runHeader->App->nCurrentFrame == 5 && eventIndex >= 1706 && eventIndex <= 1709)
+    {
+        unsigned int oil = (unsigned int)ace->evtOiList;
+        int stop = eventIndex - 1706;
+        RunObject* obj = CEventProgramHook::count_ObjectsFromOiList(oil, 3 - stop, new int(0));
+        CEventProgramHook::evt_ForceOneObject(oil, obj);
+    }
     else if (runHeader->App->nCurrentFrame == 19 && eventIndex >= 12 && eventIndex <= 23)
     {
         unsigned int oil = (unsigned int)ace->evtOiList;

@@ -8,6 +8,7 @@ CREATE_FUNC(CRUN_getExpression, 0x1f6f0, CValueMultiPlat*);
 CREATE_FUNC(CRUN_prepareFrame, 0x459b0, int);
 CREATE_FUNC(CRUN_createFrameObjects, 0x45d90, int, BOOL);
 CREATE_FUNC(CRUN_joyTest, 0x2c850, void);
+CREATE_FUNC(CRUN_allocRunHeader, 0x449e0, int);
 
 class CRunHook
 {
@@ -18,6 +19,7 @@ public:
 	static int __fastcall prepareFrame();
 	static int __fastcall createFrameObjects(BOOL fade);
 	static void __fastcall joyTest();
+	static int __fastcall allocRunHeader();
 
 	// Callbacks
 	static CValueMultiPlat* getExpression()

@@ -9,14 +9,16 @@ class TAS
 public:
 	static bool running;
 	static unsigned int oldLoopCount;
+	static unsigned int oldFrame;
 	static void Run();
 
 	static void TickQueue()
 	{
 		RunHeader* runHeader = GetRunHeader();
-		if (TAS::oldLoopCount == runHeader->LoopCount)
+		if (TAS::oldLoopCount == runHeader->LoopCount && TAS::oldFrame == runHeader->App->nCurrentFrame)
 			return;
 		TAS::oldLoopCount = runHeader->LoopCount;
+		TAS::oldFrame = runHeader->App->nCurrentFrame;
 
 		if (!Queue.empty() && Queue.front()->Tick())
 			Queue.pop_front();
@@ -45,7 +47,12 @@ public:
 	{
 		START,
 		PEARL_CHEST,
-		JJ_UNLOCK
+		JJ_UNLOCK,
+		BB_UNLOCK,
+		PHANTOM_FREDDY_UNLOCK,
+		PHANTOM_CHICA_UNLOCK,
+		PHANTOM_BB_UNLOCK,
+		PHANTOM_FOXY_UNLOCK,
 	} stage;
 
 	static void Wait(int frames);
@@ -54,4 +61,5 @@ public:
 	static void IncrementStage();
 	static void ClickCharacter(int x, int y);
 	static void ClickAttack(int charSlot, int attackSlot);
+	static void LoadTASSave();
 };

@@ -11,6 +11,8 @@
 #include "CNDL_MCLICKHook.h"
 #include "CNDL_MCLICKONOBJECTHook.h"
 #include "TAS.h"
+#include "WindowsHook.h"
+#include "timeapi.h"
 
 std::vector<std::tuple<PVOID*, PVOID>> hooks;
 
@@ -59,9 +61,14 @@ BOOL APIENTRY DllMain(HMODULE hModule,
                 registerHook(&(PVOID&)CRUN_prepareFrame, &CRunHook::prepareFrame);
                 registerHook(&(PVOID&)CRUN_createFrameObjects, &CRunHook::createFrameObjects);
                 registerHook(&(PVOID&)CRUN_joyTest, &CRunHook::joyTest);
+                registerHook(&(PVOID&)CRUN_allocRunHeader, &CRunHook::allocRunHeader);
 
                 // CRunApp
                 registerHook(&(PVOID&)CRUNAPP_playApplication, &CRunAppHook::playApplication);
+
+                // Windows Hooks
+                WNDS_timeGetTime = reinterpret_cast<DWORD(__stdcall*)()>(timeGetTime);
+                registerHook(&(PVOID&)WNDS_timeGetTime, &WindowsHook::timeGetTime);
             }
             break;
         }

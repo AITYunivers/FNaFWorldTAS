@@ -5,10 +5,12 @@
 #include "TASWaitForFrame.h"
 #include "TASRestartGame.h"
 #include "TASIncrementStage.h"
+#include <filesystem>
 
 #pragma region Static Variables
 bool TAS::running = false;
 unsigned int TAS::oldLoopCount = false;
+unsigned int TAS::oldFrame = false;
 TAS::Stage TAS::stage = TAS::Stage::START;
 
 std::deque<TASEvent*> TAS::Queue;
@@ -16,17 +18,22 @@ std::deque<TASEvent*> TAS::Queue;
 POINT* TAS::mousePos = nullptr;
 #pragma endregion
 
+//#define FROMSTATE
+
 void TAS::Run()
 {
 	CRunApp* app = GetCRunApp();
 	running = true;
-
-	WaitForFrame(0);
+#ifdef FROMSTATE
+	LoadTASSave();
+	WaitForFrame(0); // Frame 32
+#else
+	WaitForFrame(0); // Frame 32
 	KeyPress(1, { VK_RETURN });
-	WaitForFrame(2);
+	WaitForFrame(2); // title screen
 	Wait(3);
 	ClickAt(new POINT(800, 450)); // Start
-	WaitForFrame(3);
+	WaitForFrame(3); // file setup
 	Wait(29);
 	ClickAt(new POINT(400, 150)); // Slot 1
 	Wait(19);
@@ -37,7 +44,7 @@ void TAS::Run()
 	ClickAt(new POINT(400, 200)); // Adventure Mode
 	Wait(19);
 	ClickAt(new POINT(400, 250)); // Hard Mode
-	WaitForFrame(4);
+	WaitForFrame(4); // character select
 	ClickAt(new POINT(700, 400)); // Reset
 	Wait(10);
 	ClickCharacter(1, 1); // Freddy
@@ -56,64 +63,193 @@ void TAS::Run()
 	Wait(10);
 	ClickCharacter(4, 1); // Foxy
 	ClickAt(new POINT(700, 450)); // Done
-	WaitForFrame(27);
+	WaitForFrame(27); // cinematic
 	Wait(1); // LiveSplit is slow, might start using a websocket later
 	RestartGame();
-	WaitForFrame(0);
+	WaitForFrame(0); // Frame 32
 	Wait(1); // Why? Ig RestartGame messes with the RunHeader for a frame
+#endif
 	KeyPress(1, { VK_RETURN });
-	WaitForFrame(2);
+	WaitForFrame(2); // title screen
 	Wait(3);
 	ClickAt(new POINT(800, 450)); // Start
-	WaitForFrame(3);
+	WaitForFrame(3); // file setup
 	Wait(29);
 	ClickAt(new POINT(400, 150)); // Slot 1
 	Wait(19);
 	ClickAt(new POINT(400, 250)); // Continue
-	WaitForFrame(4);
+	WaitForFrame(4); // character select
 	ClickAt(new POINT(700, 450)); // Done
-	IncrementStage();
-	WaitForFrame(5);
+	IncrementStage(); // PEARL_CHEST 
+#ifdef FROMSTATE
+	IncrementStage(); // JJ_UNLOCK
+	IncrementStage(); // BB_UNLOCK
+	IncrementStage(); // PHANTOM_FREDDY_UNLOCK
+	IncrementStage(); // PHANTOM_CHICA_UNLOCK
+	IncrementStage(); // PHANTOM_BB_UNLOCK
+	IncrementStage(); // PHANTOM_FOXY_UNLOCK
+	IncrementStage(); // PHANTOM_MANGLE_UNLOCK
+#else
+	WaitForFrame(5); // overworld
 	ClickAt(new POINT(750, 50)); // Jump to 1, tiny bit faster than walking directly
 	KeyPress(68, { 'S', 'D' });
 	ClickAt(new POINT(750, 50)); // Jump to 1
 	KeyPress(65, { 'W' });
 	KeyPress(21, { 'W', 'D' });
-	WaitForFrame(18);
+	WaitForFrame(18); // fishing 1
 	ClickAt(new POINT(600, 100)); // Play Deedee's Fishing Hole
-	WaitForFrame(19);
+	WaitForFrame(19); // fishing 2
 	KeyPress(1, { 'D' });
 	KeyPress(1, { 'S' });
-	IncrementStage();
-	WaitForFrame(5);
+	IncrementStage(); // JJ_UNLOCK
+	WaitForFrame(5); // overworld
 	KeyPress(10, { 'A', 'S' });
 	KeyPress(20, { 'A' });
 	Wait(30);
 	KeyPress(10, { 'A' });
-	WaitForFrame(13);
+	WaitForFrame(13); // shop
 	Wait(1);
 	ClickAt(new POINT(200, 100)); // Buy Gnat
 	ClickAt(new POINT(400, 100)); // Buy Neon Bee
 	ClickAt(new POINT(700, 450)); // Exit Shop
-	WaitForFrame(12);
+	WaitForFrame(12); // Bytes
 	Wait(20);
 	ClickAt(new POINT(100, 100)); // Equip Gnat
 	Wait(9);
 	ClickAt(new POINT(200, 100)); // Equip Neon Bee
 	ClickAt(new POINT(700, 425)); // Exit Bytes Menu
-	WaitForFrame(5);
+	WaitForFrame(5); // overworld
 	ClickAt(new POINT(750, 50)); // Jump to 1
 	KeyPress(30, { 'A' });
 	KeyPress(94, { 'A', 'W' });
-	Wait(80);
-	ClickAttack(2, 3);
-	Wait(1000);
-	Wait(197);
-	ClickAttack(2, 3);
-	Wait(197);
-	ClickAttack(2, 3);
-	Wait(70);
-	ClickAttack(3, 3);
+	Wait(73);
+	ClickAttack(2, 3); // Mangle -> Prize Ball
+	Wait(686);
+	ClickAttack(2, 3); // Mangle -> Prize Ball
+	KeyPress(1, { 'R' });
+	Wait(186);
+	ClickAttack(2, 3); // Mangle -> Prize Ball
+	Wait(61);
+	ClickAttack(3, 3); // Toy Chica -> Waterhose
+	Wait(413 + 18); // Annoying inconsistent, fix later
+	ClickAt(new POINT(100, 450)); // Party
+	WaitForFrame(4); // character select
+	Wait(11);
+	ClickCharacter(8, 1); // Mangle
+	Wait(10);
+	ClickCharacter(2, 2); // JJ
+	ClickAt(new POINT(700, 450)); // Done
+	IncrementStage(); // BB_UNLOCK
+	WaitForFrame(5); // overworld
+	KeyPress(60, { 'A', 'W', 'R' }); // Holding 'R' to initialize the timer for instant running
+	KeyPress(65, { 'A', 'S', 'R' }); // Ditto
+	Wait(1); // Can't get an encounter if we run on the first frame
+	KeyPress(1, { 'R' });
+	Wait(161 + 2); // Annoying inconsistent, fix later
+	ClickAttack(2, 3); // JJ -> Unscrew
+	Wait(466 + 2); // Annoying inconsistent, fix later
+	ClickAt(new POINT(200, 450)); // Chips
+	WaitForFrame(7); // chips
+	ClickAt(new POINT(700, 425)); // Done
+	IncrementStage(); // PHANTOM_FREDDY_UNLOCK
+	WaitForFrame(5); // overworld
+	KeyPress(25, { 'A', 'S', 'R' }); // Holding 'R' to initialize the timer for instant running
+	KeyPress(30, { 'S', 'R' });      // Ditto
+	KeyPress(70, { 'A', 'S', 'R' }); // Ditto
+	Wait(1); // Can't get an encounter if we run on the first frame
+	KeyPress(1, { 'R' });
+	Wait(161 + 2); // Annoying inconsistent, fix later
+	ClickAttack(2, 3); // JJ -> Unscrew
+	Wait(466 + 2); // Annoying inconsistent, fix later
+	ClickAt(new POINT(200, 450)); // Chips
+	WaitForFrame(7); // chips
+	ClickAt(new POINT(700, 425)); // Done
+	IncrementStage(); // PHANTOM_CHICA_UNLOCK
+	WaitForFrame(5); // overworld
+	KeyPress(58, { 'A', 'S' });
+	WaitForFrame(27); // cinematic
+	KeyPress(1926, { VK_RETURN });
+	RestartGame();
+	WaitForFrame(0); // Frame 32
+	Wait(1); // Why? Ig RestartGame messes with the RunHeader for a frame
+	KeyPress(1, { VK_RETURN });
+	WaitForFrame(2); // title screen
+	Wait(3);
+	ClickAt(new POINT(800, 450)); // Start
+	WaitForFrame(3); // file setup
+	Wait(29);
+	ClickAt(new POINT(400, 150)); // Slot 1
+	Wait(19);
+	ClickAt(new POINT(400, 250)); // Continue
+	WaitForFrame(4); // character select
+	ClickAt(new POINT(700, 450)); // Done
+	WaitForFrame(5); // overworld
+	KeyPress(55, { 'A', 'S' });
+	WaitForFrame(8); // underground 1
+	KeyPress(363, { 'D', 'S' });
+	KeyPress(80, { 'D' });
+	KeyPress(120, { 'D', 'S' });
+	KeyPress(100, { 'S' });
+	KeyPress(80, { 'D', 'S' });
+	WaitForFrame(5); // overworld
+	KeyPress(35, { 'A', 'R' });
+	ClickAt(new POINT(750, 50)); // Jump to 1
+	KeyPress(45, { 'D', 'S', 'R' });
+	KeyPress(46, { 'D', 'R' });
+	Wait(1); // Can't get an encounter if we run on the first frame
+	KeyPress(1, { 'R' });
+	Wait(161 + 2); // Annoying inconsistent, fix later
+	ClickAttack(2, 3); // JJ -> Unscrew
+	Wait(466 + 2); // Annoying inconsistent, fix later
+	ClickAt(new POINT(200, 450)); // Chips
+	WaitForFrame(7); // chips
+	ClickAt(new POINT(700, 425)); // Done
+	IncrementStage(); // PHANTOM_BB_UNLOCK
+	WaitForFrame(5); // overworld
+	KeyPress(39, { 'D', 'R' });
+	KeyPress(45, { 'D', 'W', 'R' });
+	KeyPress(41, { 'D', 'S', 'R' });
+	Wait(1); // Can't get an encounter if we run on the first frame
+	KeyPress(1, { 'R' });
+	Wait(161 + 2); // Annoying inconsistent, fix later
+	ClickAttack(2, 3); // JJ -> Unscrew
+	Wait(466 + 2); // Annoying inconsistent, fix later
+	ClickAt(new POINT(200, 450)); // Chips
+	WaitForFrame(7); // chips
+	ClickAt(new POINT(700, 425)); // Done
+	IncrementStage(); // PHANTOM_FOXY_UNLOCK
+	WaitForFrame(5); // overworld
+	KeyPress(114, { 'D', 'S', 'R' });
+	KeyPress(11, { 'A', 'S', 'R' });
+	Wait(1); // Can't get an encounter if we run on the first frame
+	KeyPress(1, { 'R' });
+	Wait(161 + 2); // Annoying inconsistent, fix later
+	ClickAttack(2, 3); // JJ -> Unscrew
+	Wait(466 + 2); // Annoying inconsistent, fix later
+	KeyPress(16, { 'A', 'S' });
+	KeyPress(42, { 'A', 'W' });
+	WaitForFrame(28); // clock
+	KeyPress(75, { 'A', 'W' });
+	KeyPress(50, { 'A' });
+	KeyPress(13, { 'A', 'W'});
+	RestartGame();
+	WaitForFrame(0); // Frame 32
+	Wait(1); // Why? Ig RestartGame messes with the RunHeader for a frame
+	KeyPress(1, { VK_RETURN });
+	WaitForFrame(2); // title screen
+	Wait(3);
+	ClickAt(new POINT(800, 450)); // Start
+	WaitForFrame(3); // file setup
+	Wait(29);
+	ClickAt(new POINT(400, 150)); // Slot 1
+	Wait(19);
+	ClickAt(new POINT(400, 250)); // Continue
+	WaitForFrame(4); // character select
+	ClickAt(new POINT(700, 450)); // Done
+	IncrementStage(); // PHANTOM_MANGLE_UNLOCK
+#endif
+	WaitForFrame(5); // overworld
+	ClickAt(new POINT(750, 100)); // Jump to 2
 }
 
 #pragma region KeyPress
@@ -186,4 +322,10 @@ void TAS::ClickAttack(int charSlot, int attackSlot)
 			TAS::ClickAt(new POINT(361 + attackSlot * 10, 235 + attackSlot * 43));
 			break;
 	}
+}
+
+void TAS::LoadTASSave()
+{
+	static std::string path = "C:\\Users\\Alone\\AppData\\Roaming\\MMFApplications\\fnafw";
+	std::filesystem::copy_file((path + "tas").c_str(), (path + "1").c_str(), std::filesystem::copy_options::overwrite_existing);
 }

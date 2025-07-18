@@ -159,7 +159,7 @@
       <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">d3d9.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -192,5 +192,7 @@
     <ClCompile Include="TASRestartGame.h" />
     <ClCompile Include="TASWait.h" />
     <ClCompile Include="TASWaitForFrame.h" />
+    <ClCompile Include="WindowsHook.cpp" />
+    <ClCompile Include="WindowsHook.h" />
   </ItemGroup>
 </Project>
