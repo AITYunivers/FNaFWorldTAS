@@ -28,9 +28,10 @@ public:
 		for (int n = 0; n < MAX_FRAMERATE; n++)
 			total += runHeader->rh4.FrameRateArray[n];
 
-		ImGui::SetNextWindowSize(ImVec2(400, 300));
+		ImGui::SetNextWindowSize(ImVec2(400, 450));
         if (ImGui::Begin("FNAFWTAS Debug"))
         {
+			ImGui::SetWindowFontScale(2.0f);
 			ImGui::SeparatorText("General");
 			{
 				ImGui::Text(("FPS: " + std::to_string((1000 * MAX_FRAMERATE) / total)).c_str());

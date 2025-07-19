@@ -16,11 +16,14 @@ public:
 
 	bool Tick()
 	{
+		if (timer <= 0)
+			return true;
+
 		if (!timerChanged)
 			std::cout << "Waiting.\n";
 		timerChanged = true;
 
 		timer--;
-		return timer <= 0;
+		return false;
 	}
 };

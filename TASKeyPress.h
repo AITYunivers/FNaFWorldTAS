@@ -17,6 +17,9 @@ public:
 
 	bool Tick()
 	{
+		if (timer <= 0)
+			return true;
+
 		if (!timerChanged)
 			std::cout << "Key Down.\n";
 		timerChanged = true;
@@ -25,6 +28,6 @@ public:
 
 		if (timer <= 0)
 			std::cout << "Key Up.\n";
-		return timer <= 0;
+		return false;
 	}
 };
