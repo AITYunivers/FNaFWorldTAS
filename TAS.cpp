@@ -407,7 +407,7 @@ void TAS::Run()
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
 	WaitForFrame(5); // overworld
-	for (int i = 0; i < 29; i++)
+	for (int i = 0; i < 31; i++)
 	{
 		Wait(72 + 2); // Annoying inconsistent, fix later
 		ClickAttack(2, 3); // JJ -> Unscrew
