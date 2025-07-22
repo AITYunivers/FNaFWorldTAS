@@ -29,6 +29,9 @@ public:
 	static std::deque<TASEvent*> Queue;
 
 	static void KeyPress(int timer, std::vector<char> keyCodes);
+	static void KeyPressUntilFrame(int frame, std::vector<char> keyCodes);
+	static void KeyPressUntilBattle(std::vector<char> keyCodes);
+	static void KeyPressUntilChip(std::vector<char> keyCodes);
 	static bool IsKeyPressed(char keyCode);
 #pragma endregion
 
@@ -47,6 +50,7 @@ public:
 	{
 		START,
 		PEARL_CHEST,
+		FREDDY_LV_4,
 		JJ_UNLOCK,
 		BB_UNLOCK,
 		PHANTOM_FREDDY_UNLOCK,
@@ -97,6 +101,8 @@ public:
 		PAPERPALS_UNLOCK,
 		ENDO_01_UNLOCK,
 		ENDO_02_UNLOCK,
+		TROPHY_RUN,
+		MAGICAL_PAINBOW
 	} stage;
 
 	static void Wait(int frames);
@@ -107,4 +113,11 @@ public:
 	static void ClickAttack(int charSlot, int attackSlot);
 	static void LoadTASSave();
 	static void JumpTo(int area);
+	static void WaitForDeedee();
+	static void WaitForAttacksReady();
+	static void WaitForVictory();
+	static void WaitUntilChipsBtn();
+	static void WaitForBattleEnd();
+	static void WaitForCinematicEnd();
+	static void WaitForTokens();
 };

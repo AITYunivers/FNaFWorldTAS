@@ -10,6 +10,11 @@ public:
 	int timer;
 	bool timerChanged;
 
+	TASKeyPress() : timer(0), timerChanged(false)
+	{
+
+	}
+
 	TASKeyPress(int timer, std::vector<char> keyCodes) : timer(timer), keyCodes(keyCodes), timerChanged(false)
 	{
 

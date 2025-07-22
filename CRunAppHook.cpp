@@ -8,6 +8,7 @@ bool CRunAppHook::playApplication(CRunApp* app, int param2)
     {
         CRunApp* app = GetCRunApp();
         //app->hdr.Flags = app->hdr.Flags & ~GA_MAXIMISE;
+        //app->hdr.FrameRate = 60;
     }
 
     static bool init = false;

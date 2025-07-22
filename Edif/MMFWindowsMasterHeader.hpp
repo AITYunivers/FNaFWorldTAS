@@ -2334,7 +2334,6 @@ typedef AltVals *	LPRVAL;
 typedef void (* RCROUTINE)(HeaderObject *);
 struct rCom {
 	NO_DEFAULT_CTORS_OR_DTORS(rCom);
-DarkEdifInternalAccessProtected:
 	friend RunObject;
 	int			rcOffsetAnimation; 		// Offset to anims structures
 	int			rcOffsetSprite;			// Offset to sprites structures

@@ -1,20 +1,17 @@
 #pragma once
 #include <vector>
-#include "TASEvent.h"
-#include "MMFGlobals.h"
+#include "TASKeyPress.h"
 #include "Edif/MMFWindowsMasterHeader.hpp"
-#include <iostream>
 
-class TASWaitForFrame : public TASEvent
+class TASKeyPressUntilFrame : public TASKeyPress
 {
 public:
 	int frame;
-	bool timerChanged;
 	bool doReturn;
 
-	TASWaitForFrame(int frame) : frame(frame), timerChanged(false), doReturn(false)
+	TASKeyPressUntilFrame(int frame, std::vector<char> keyCodes) : frame(frame), doReturn(false)
 	{
-
+		this->keyCodes = keyCodes;
 	}
 
 	bool Tick()
@@ -23,7 +20,7 @@ public:
 			return true;
 
 		if (!timerChanged)
-			std::cout << "Waiting for frame " << std::to_string(frame) << ".\n";
+			std::cout << "Key Down, waiting for frame " << std::to_string(frame) << ".\n";
 		timerChanged = true;
 
 		RunHeader* runHeader = GetRunHeader();

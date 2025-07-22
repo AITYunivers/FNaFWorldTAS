@@ -32,7 +32,7 @@ void EXP_RANDOMHook::evaluate()
     {
         switch (TAS::stage)
         {
-            case TAS::Stage::JJ_UNLOCK:
+            case TAS::Stage::FREDDY_LV_4:
             case TAS::Stage::BB_UNLOCK:
             case TAS::Stage::PHANTOM_FREDDY_UNLOCK:
             case TAS::Stage::PHANTOM_CHICA_UNLOCK:
@@ -83,8 +83,11 @@ void EXP_RANDOMHook::evaluate()
     {
         switch (TAS::stage)
         {
-            case TAS::Stage::JJ_UNLOCK:
+            case TAS::Stage::FREDDY_LV_4:
                 YuniUtil::SetReturnInt(2); // Gearrat
+                return;
+            default:
+                YuniUtil::SetReturnInt(0); // Fastest EXP
                 return;
         }
     }
@@ -93,7 +96,7 @@ void EXP_RANDOMHook::evaluate()
     {
         switch (TAS::stage)
         {
-            case TAS::Stage::JJ_UNLOCK:
+            case TAS::Stage::FREDDY_LV_4:
                 YuniUtil::SetReturnInt(3); // 4 Gearrats
                 return;
         }
@@ -103,7 +106,7 @@ void EXP_RANDOMHook::evaluate()
     {
         switch (TAS::stage)
         {
-            case TAS::Stage::JJ_UNLOCK:
+            case TAS::Stage::FREDDY_LV_4:
             case TAS::Stage::BB_UNLOCK:
             case TAS::Stage::PHANTOM_FREDDY_UNLOCK:
             case TAS::Stage::PHANTOM_CHICA_UNLOCK:
@@ -154,7 +157,7 @@ void EXP_RANDOMHook::evaluate()
         // 9 + Random(value("area") + 3) + ((Random(3) / 2) * (Random(3) + 1))
         switch (TAS::stage)
         {
-            case TAS::Stage::JJ_UNLOCK:
+            case TAS::Stage::FREDDY_LV_4:
                 if (expIndex == 1)
                 {
                     YuniUtil::SetReturnInt(1); // JJ
@@ -547,6 +550,7 @@ void EXP_RANDOMHook::evaluate()
     {
         switch (TAS::stage)
         {
+            case TAS::Stage::FREDDY_LV_4:
             case TAS::Stage::JJ_UNLOCK:
             case TAS::Stage::BB_UNLOCK:
             case TAS::Stage::PHANTOM_FREDDY_UNLOCK:
@@ -582,6 +586,9 @@ void EXP_RANDOMHook::evaluate()
                     YuniUtil::SetReturnInt(4); // No Delay
                 else
                     YuniUtil::SetReturnInt(0); // Max Delay
+                return;
+            case TAS::Stage::MAGICAL_PAINBOW:
+                YuniUtil::SetReturnInt(4); // No Delay
                 return;
         }
     }
@@ -697,6 +704,30 @@ void EXP_RANDOMHook::evaluate()
     {
         YuniUtil::SetReturnInt(1); // Always kill
         return;
+    }
+    // Slasher Kill Chance
+    else if (runHeader->App->nCurrentFrame == 5 && eventIndex == 2051)
+    {
+        YuniUtil::SetReturnInt(0); // Always kill
+        return;
+    }
+    // Party Charge (idc what for)
+    else if (runHeader->App->nCurrentFrame == 5 && eventIndex == 1378)
+    {
+        if (TAS::stage >= TAS::Stage::MAGICAL_PAINBOW)
+        {
+            YuniUtil::SetReturnInt(4); // No delay
+            return;
+        }
+    }
+    // Party Charge (idc what for)
+    else if (runHeader->App->nCurrentFrame == 5 && eventIndex == 1517)
+    {
+        if (TAS::stage >= TAS::Stage::MAGICAL_PAINBOW)
+        {
+            YuniUtil::SetReturnInt(1); // No delay
+            return;
+        }
     }
     // Deedee's Fishing Hole Fish Speed
     else if (runHeader->App->nCurrentFrame == 19 && eventIndex == 2)

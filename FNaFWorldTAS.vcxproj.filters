@@ -128,6 +128,14 @@
     <ClCompile Include="imgui\imgui_tables.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="TASDebug.cpp" />
+    <ClCompile Include="WindowsHook.cpp" />
+    <ClCompile Include="WindowsHook.h">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="TASWaitForAttacksReady.h">
+      <Filter>TAS\Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HookHelper.h">
@@ -193,5 +201,37 @@
     <ClInclude Include="CRunAppHook.h">
       <Filter>Hook Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Debug.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="TASWaitForDeedee.h">
+      <Filter>TAS\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="TASWaitForVictory.h">
+      <Filter>TAS\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="TASWaitUntilChipsBtn.h">
+      <Filter>TAS\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="TASWaitForBattleEnd.h">
+      <Filter>TAS\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="TASWaitForCinematicEnd.h">
+      <Filter>TAS\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="TASKeyPressUntilFrame.h">
+      <Filter>TAS\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="TASWaitForTokens.h">
+      <Filter>TAS\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="TASKeyPressUntilChip.h">
+      <Filter>TAS\Events</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TASKeyPressUntilBattle.h">
+      <Filter>TAS\Events</Filter>
+    </None>
   </ItemGroup>
 </Project>

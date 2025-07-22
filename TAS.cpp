@@ -5,6 +5,16 @@
 #include "TASWaitForFrame.h"
 #include "TASRestartGame.h"
 #include "TASIncrementStage.h"
+#include "TASWaitForDeedee.h"
+#include "TASWaitForAttacksReady.h"
+#include "TASWaitForVictory.h"
+#include "TASWaitUntilChipsBtn.h"
+#include "TASWaitForBattleEnd.h"
+#include "TASWaitForCinematicEnd.h"
+#include "TASWaitForTokens.h"
+#include "TASKeyPressUntilFrame.h"
+#include "TASKeyPressUntilBattle.h"
+#include "TASKeyPressUntilChip.h"
 #include <filesystem>
 
 #pragma region Static Variables
@@ -18,57 +28,52 @@ std::deque<TASEvent*> TAS::Queue;
 POINT* TAS::mousePos = nullptr;
 #pragma endregion
 
-#define FROMSTATE
-
 void TAS::Run()
 {
 	CRunApp* app = GetCRunApp();
 	running = true;
-#ifdef FROMSTATE
-	LoadTASSave();
+#pragma region Begin Game
 	WaitForFrame(0); // Frame 32
-#else
-	WaitForFrame(0); // Frame 32
-	KeyPress(1, { VK_RETURN });
+	//KeyPress(1, {VK_RETURN}); OBS takes a while to catch up, so we wait a bit
 	WaitForFrame(2); // title screen
 	Wait(3);
 	ClickAt(new POINT(800, 450)); // Start
 	WaitForFrame(3); // file setup
-	Wait(29);
+	Wait(30);
 	ClickAt(new POINT(400, 150)); // Slot 1
-	Wait(19);
+	Wait(20);
 	ClickAt(new POINT(400, 200)); // New Game
-	Wait(19);
+	Wait(20);
 	ClickAt(new POINT(400, 200)); // Erase Data
-	Wait(19);
+	Wait(20);
 	ClickAt(new POINT(400, 200)); // Adventure Mode
-	Wait(19);
+	Wait(20);
 	ClickAt(new POINT(400, 250)); // Hard Mode
 	WaitForFrame(4); // character select
 	ClickAt(new POINT(700, 400)); // Reset
-	Wait(10);
+	Wait(11);
 	ClickCharacter(1, 1); // Freddy
-	Wait(10);
+	Wait(11);
 	ClickCharacter(8, 1); // Mangle
-	Wait(10);
+	Wait(11);
 	ClickCharacter(6, 1); // Toy Chica
-	Wait(10);
+	Wait(11);
 	ClickCharacter(2, 1); // Bonnie
-	Wait(10);
+	Wait(11);
 	ClickCharacter(5, 1); // Toy Bonnie
-	Wait(10);
+	Wait(11);
 	ClickCharacter(7, 1); // Toy Freddy
-	Wait(10);
+	Wait(11);
 	ClickCharacter(3, 1); // Chica
-	Wait(10);
+	Wait(11);
 	ClickCharacter(4, 1); // Foxy
+	Wait(1);
 	ClickAt(new POINT(700, 450)); // Done
 	WaitForFrame(27); // cinematic
 	Wait(1); // LiveSplit is slow, might start using a websocket later
 	RestartGame();
 	WaitForFrame(0); // Frame 32
 	Wait(1); // Why? Ig RestartGame messes with the RunHeader for a frame
-#endif
 	KeyPress(1, { VK_RETURN });
 	WaitForFrame(2); // title screen
 	Wait(3);
@@ -81,138 +86,92 @@ void TAS::Run()
 	WaitForFrame(4); // character select
 	ClickAt(new POINT(700, 450)); // Done
 	IncrementStage(); // PEARL_CHEST
-#ifdef FROMSTATE
-	IncrementStage(); // JJ_UNLOCK
-	IncrementStage(); // BB_UNLOCK
-	IncrementStage(); // PHANTOM_FREDDY_UNLOCK
-	IncrementStage(); // PHANTOM_CHICA_UNLOCK
-	IncrementStage(); // PHANTOM_BB_UNLOCK
-	IncrementStage(); // PHANTOM_FOXY_UNLOCK
-	IncrementStage(); // TWRE_DODGE_TO_AREA_5
-	IncrementStage(); // PHANTOM_MANGLE_UNLOCK
-	IncrementStage(); // WITHERED_BONNIE_UNLOCK
-	IncrementStage(); // TWRE_DODGE_TO_AREA_6
-	IncrementStage(); // TWRE_DODGE_TO_GEIST_1
-	IncrementStage(); // JACK_O_BONNIE_UNLOCK
-	IncrementStage(); // TWRE_DODGE_TO_GEIST_2
-	IncrementStage(); // JACK_O_CHICA_UNLOCK
-	IncrementStage(); // TWRE_DODGE_TO_GEIST_3
-	IncrementStage(); // NIGHTMARE_BB_UNLOCK
-	IncrementStage(); // TWRE_DODGE_TO_GEIST_4
-	IncrementStage(); // NIGHTMARIONNE_UNLOCK
-	IncrementStage(); // TWRE_DODGE_TO_GEIST_5
-	IncrementStage(); // COFFEE_UNLOCK
-	IncrementStage(); // TWRE_DODGE_TO_GEIST_6
-	IncrementStage(); // PURPLE_GUY_UNLOCK
-	IncrementStage(); // GOLD_ENDO_GRIND
-	IncrementStage(); // PLUSHTRAP_UNLOCK
-	IncrementStage(); // ENDOPLUSH_UNLOCK
-	IncrementStage(); // SPRINGTRAP_UNLOCK
-	IncrementStage(); // RXQ_UNLOCK
-	IncrementStage(); // CRYING_CHILD_UNLOCK
-	IncrementStage(); // FUNTIME_FOXY_UNLOCK
-	IncrementStage(); // NIGHTMARE_FREDBEAR_UNLOCK
-	IncrementStage(); // NIGHTMARE_UNLOCK
-	IncrementStage(); // FREDBEAR_UNLOCK
-	IncrementStage(); // SPRING_BONNIE_UNLOCK
-	IncrementStage(); // FOURTH_GLITCH
-	IncrementStage(); // AUTO_CHIPPER
-	IncrementStage(); // WITHERED_CHICA_UNLOCK
-	IncrementStage(); // WITHERED_FREDDY_UNLOCK
-	IncrementStage(); // WITHERED_FOXY_UNLOCK
-	IncrementStage(); // UNLOCK_AREAS_3_4
-	IncrementStage(); // NIGHTMARE_FREDDY_UNLOCK
-	IncrementStage(); // NIGHTMARE_BONNIE_UNLOCK
-	IncrementStage(); // NIGHTMARE_CHICA_UNLOCK
-	IncrementStage(); // NIGHTMARE_FOXY_UNLOCK
-	IncrementStage(); // SHADOW_FREDDY_UNLOCK
-	IncrementStage(); // MARIONETTE_UNLOCK
-	IncrementStage(); // PHANTOM_MARIONETTE_UNLOCK
-	IncrementStage(); // GOLDEN_FREDDY_UNLOCK
-	IncrementStage(); // PAPERPALS_UNLOCK
-	IncrementStage(); // ENDO_01_UNLOCK
-	IncrementStage(); // ENDO_02_UNLOCK
-	IncrementStage(); // TBD
-#else
+#pragma endregion
+#pragma region Pearl 1
 	WaitForFrame(5); // overworld
 	JumpTo(1); // Tiny bit faster than walking directly
 	KeyPress(68, { 'S', 'D' });
 	JumpTo(1);
 	KeyPress(65, { 'W' });
-	KeyPress(21, { 'W', 'D' });
-	WaitForFrame(18); // fishing 1
+	KeyPressUntilFrame(18, { 'W', 'D' }); // fishing 1
 	ClickAt(new POINT(600, 100)); // Play Deedee's Fishing Hole
 	WaitForFrame(19); // fishing 2
 	KeyPress(1, { 'D' });
 	KeyPress(1, { 'S' });
-	IncrementStage(); // JJ_UNLOCK
 	WaitForFrame(5); // overworld
+#pragma endregion
+#pragma region Lolbit - Bees
 	KeyPress(10, { 'A', 'S' });
 	KeyPress(20, { 'A' });
 	Wait(30);
-	KeyPress(10, { 'A' });
-	WaitForFrame(13); // shop
+	KeyPressUntilFrame(13, { 'A' }); // shop
 	Wait(1);
 	ClickAt(new POINT(200, 100)); // Buy Gnat
+	Wait(1);
 	ClickAt(new POINT(400, 100)); // Buy Neon Bee
 	ClickAt(new POINT(700, 450)); // Exit Shop
 	WaitForFrame(12); // Bytes
 	Wait(20);
 	ClickAt(new POINT(100, 100)); // Equip Gnat
-	Wait(9);
+	Wait(10);
 	ClickAt(new POINT(200, 100)); // Equip Neon Bee
 	ClickAt(new POINT(700, 425)); // Exit Bytes Menu
 	WaitForFrame(5); // overworld
+	IncrementStage(); // FREDDY_LV_4
+#pragma endregion
+#pragma region Unlock JJ
 	JumpTo(1);
 	KeyPress(30, { 'A' });
-	KeyPress(94, { 'A', 'W' });
-	Wait(73);
+	KeyPressUntilBattle({ 'A', 'W' });
+	WaitForAttacksReady();
 	ClickAttack(2, 3); // Mangle -> Prize Ball
-	Wait(686);
+	WaitForVictory();
+	IncrementStage(); // JJ_UNLOCK
+	WaitForAttacksReady();
 	ClickAttack(2, 3); // Mangle -> Prize Ball
 	KeyPress(1, { 'R' });
-	Wait(186);
+	WaitForAttacksReady();
 	ClickAttack(2, 3); // Mangle -> Prize Ball
-	Wait(61);
+	WaitForAttacksReady();
 	ClickAttack(3, 3); // Toy Chica -> Waterhose
-	Wait(413 + 18); // Annoying inconsistent, fix later
+	WaitUntilChipsBtn();
 	ClickAt(new POINT(100, 450)); // Party
 	WaitForFrame(4); // character select
-	Wait(11);
+	Wait(12);
 	ClickCharacter(8, 1); // Mangle
-	Wait(10);
+	Wait(11);
 	ClickCharacter(2, 2); // JJ
 	ClickAt(new POINT(700, 450)); // Done
+#pragma endregion
+#pragma region Unlock Balloon Boy
 	IncrementStage(); // BB_UNLOCK
 	WaitForFrame(5); // overworld
 	KeyPress(60, { 'A', 'W', 'R' }); // Holding 'R' to initialize the timer for instant running
-	KeyPress(65, { 'A', 'S', 'R' }); // Ditto
-	Wait(1); // Can't get an encounter if we run on the first frame
+	KeyPressUntilBattle({ 'A', 'S', 'R' }); // Ditto
 	KeyPress(1, { 'R' });
-	Wait(161 + 2); // Annoying inconsistent, fix later
+	WaitForAttacksReady();
 	ClickAttack(2, 3); // JJ -> Unscrew
-	Wait(466 + 2); // Annoying inconsistent, fix later
+	WaitUntilChipsBtn();
 	ClickAt(new POINT(200, 450)); // Chips
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
+#pragma endregion
+#pragma region Unlock Phantom Freddy
 	IncrementStage(); // PHANTOM_FREDDY_UNLOCK
 	WaitForFrame(5); // overworld
 	KeyPress(25, { 'A', 'S', 'R' }); // Holding 'R' to initialize the timer for instant running
 	KeyPress(30, { 'S', 'R' });      // Ditto
-	KeyPress(70, { 'A', 'S', 'R' }); // Ditto
-	Wait(1); // Can't get an encounter if we run on the first frame
+	KeyPressUntilBattle({ 'A', 'S', 'R' }); // Ditto
 	KeyPress(1, { 'R' });
-	Wait(161 + 2); // Annoying inconsistent, fix later
+	WaitForAttacksReady();
 	ClickAttack(2, 3); // JJ -> Unscrew
-	Wait(466 + 2); // Annoying inconsistent, fix later
-	ClickAt(new POINT(200, 450)); // Chips
-	WaitForFrame(7); // chips
-	ClickAt(new POINT(700, 425)); // Done
+	WaitForBattleEnd();
+#pragma endregion
+#pragma region Cinematic - 1st Clock
 	IncrementStage(); // PHANTOM_CHICA_UNLOCK
-	WaitForFrame(5); // overworld
-	KeyPress(58, { 'A', 'S' });
-	WaitForFrame(27); // cinematic
-	KeyPress(1926, { VK_RETURN });
+	KeyPressUntilFrame(27, { 'A', 'S' }); // cinematic
+	KeyPress(1500, { VK_RETURN });
+	WaitForCinematicEnd();
 	RestartGame();
 	WaitForFrame(0); // Frame 32
 	Wait(1); // Why? Ig RestartGame messes with the RunHeader for a frame
@@ -221,58 +180,63 @@ void TAS::Run()
 	Wait(3);
 	ClickAt(new POINT(800, 450)); // Start
 	WaitForFrame(3); // file setup
-	Wait(29);
+	Wait(30);
 	ClickAt(new POINT(400, 150)); // Slot 1
-	Wait(19);
+	Wait(20);
 	ClickAt(new POINT(400, 250)); // Continue
 	WaitForFrame(4); // character select
 	ClickAt(new POINT(700, 450)); // Done
+#pragma endregion
+#pragma region Unlock Warp 2
 	WaitForFrame(5); // overworld
-	KeyPress(55, { 'A', 'S' });
-	WaitForFrame(8); // underground 1
+	KeyPressUntilFrame(8, { 'A', 'S' }); // underground 1
 	KeyPress(363, { 'D', 'S' });
 	KeyPress(80, { 'D' });
 	KeyPress(120, { 'D', 'S' });
 	KeyPress(100, { 'S' });
 	KeyPress(80, { 'D', 'S' });
+#pragma endregion
+#pragma region Unlock Phantom Chica
 	WaitForFrame(5); // overworld
 	KeyPress(35, { 'A', 'R' });
 	JumpTo(1);
 	KeyPress(45, { 'D', 'S', 'R' });
-	KeyPress(46, { 'D', 'R' });
-	Wait(1); // Can't get an encounter if we run on the first frame
+	KeyPressUntilBattle({ 'D', 'R' });
 	KeyPress(1, { 'R' });
-	Wait(161 + 2); // Annoying inconsistent, fix later
+	WaitForAttacksReady();
 	ClickAttack(2, 3); // JJ -> Unscrew
-	Wait(466 + 2); // Annoying inconsistent, fix later
+	WaitUntilChipsBtn();
 	ClickAt(new POINT(200, 450)); // Chips
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
+#pragma endregion
+#pragma region Unlock Phantom Balloon Boy
 	IncrementStage(); // PHANTOM_BB_UNLOCK
 	WaitForFrame(5); // overworld
 	KeyPress(39, { 'D', 'R' });
 	KeyPress(45, { 'D', 'W', 'R' });
-	KeyPress(41, { 'D', 'S', 'R' });
-	Wait(1); // Can't get an encounter if we run on the first frame
+	KeyPressUntilBattle({ 'D', 'S', 'R' });
 	KeyPress(1, { 'R' });
-	Wait(161 + 2); // Annoying inconsistent, fix later
+	WaitForAttacksReady();
 	ClickAttack(2, 3); // JJ -> Unscrew
-	Wait(466 + 2); // Annoying inconsistent, fix later
+	WaitUntilChipsBtn();
 	ClickAt(new POINT(200, 450)); // Chips
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
+#pragma endregion
+#pragma region Unlock Phantom Foxy
 	IncrementStage(); // PHANTOM_FOXY_UNLOCK
 	WaitForFrame(5); // overworld
 	KeyPress(114, { 'D', 'S', 'R' });
-	KeyPress(11, { 'A', 'S', 'R' });
-	Wait(1); // Can't get an encounter if we run on the first frame
+	KeyPressUntilBattle({ 'A', 'S', 'R' });
 	KeyPress(1, { 'R' });
-	Wait(161 + 2); // Annoying inconsistent, fix later
+	WaitForAttacksReady();
 	ClickAttack(2, 3); // JJ -> Unscrew
-	Wait(466 + 2); // Annoying inconsistent, fix later
+	WaitForBattleEnd();
+#pragma endregion
+#pragma region 1st Clock
 	KeyPress(16, { 'A', 'S' });
-	KeyPress(42, { 'A', 'W' });
-	WaitForFrame(28); // clock
+	KeyPressUntilFrame(28, { 'A', 'W' }); // clock
 	KeyPress(75, { 'A', 'W' });
 	KeyPress(50, { 'A' });
 	KeyPress(13, { 'A', 'W'});
@@ -284,18 +248,20 @@ void TAS::Run()
 	Wait(3);
 	ClickAt(new POINT(800, 450)); // Start
 	WaitForFrame(3); // file setup
-	Wait(29);
+	Wait(30);
 	ClickAt(new POINT(400, 150)); // Slot 1
-	Wait(19);
+	Wait(20);
 	ClickAt(new POINT(400, 250)); // Continue
 	WaitForFrame(4); // character select
 	ClickAt(new POINT(700, 450)); // Done
 	IncrementStage(); // TWRE_DODGE_TO_AREA_5
+#pragma endregion
+#pragma region Cinematic - Clock 2
 	WaitForFrame(5); // overworld
 	JumpTo(2);
-	KeyPress(58, { 'S' });
-	WaitForFrame(27); // cinematic
-	KeyPress(2026, { VK_RETURN });
+	KeyPressUntilFrame(27, { 'S' }); // cinematic
+	KeyPress(1900, { VK_RETURN });
+	WaitForCinematicEnd();
 	RestartGame();
 	WaitForFrame(0); // Frame 32
 	Wait(1); // Why? Ig RestartGame messes with the RunHeader for a frame
@@ -304,53 +270,69 @@ void TAS::Run()
 	Wait(3);
 	ClickAt(new POINT(800, 450)); // Start
 	WaitForFrame(3); // file setup
-	Wait(29);
+	Wait(30);
 	ClickAt(new POINT(400, 150)); // Slot 1
-	Wait(19);
+	Wait(20);
 	ClickAt(new POINT(400, 250)); // Continue
 	WaitForFrame(4); // character select
 	ClickAt(new POINT(700, 450)); // Done
+#pragma endregion
+#pragma region TWRE Dodge toward Area 5
 	WaitForFrame(5); // overworld
-	KeyPress(15, { 'D', 'S', 'R' });
-	KeyPress(75, { 'D', 'R' });
-	KeyPress(79, { 'D', 'W', 'R' });
+	KeyPress(16, { 'D', 'S', 'R' });
+	KeyPress(78, { 'D', 'R' });
+	KeyPress(76, { 'D', 'W', 'R' });
 	JumpTo(1);
+#pragma endregion
+#pragma region Unlock Phantom Mangle
 	IncrementStage(); // PHANTOM_MANGLE_UNLOCK
-	KeyPress(82, { 'D', 'R' });
-	Wait(161 + 2); // Annoying inconsistent, fix later
+	KeyPressUntilBattle({ 'D', 'R' });
+	KeyPress(1, { 'R' });
+	WaitForAttacksReady();
 	ClickAttack(2, 3); // JJ -> Unscrew
-	Wait(480 + 2); // Annoying inconsistent, fix later
+	WaitForBattleEnd();
+#pragma endregion
+#pragma region Unlock Withered Bonnie
 	IncrementStage(); // WITHERED_BONNIE_UNLOCK
 	KeyPress(350, { 'D', 'R' });
-	KeyPress(119, { 'D', 'W', 'R' });
-	KeyPress(194, { 'W', 'R' });
-	Wait(161 + 2); // Annoying inconsistent, fix later
+	KeyPress(120, { 'D', 'W', 'R' });
+	KeyPressUntilBattle({ 'W', 'R' });
+	KeyPress(70, { 'R' });
+	WaitForAttacksReady();
 	ClickAttack(2, 3); // JJ -> Unscrew
-	Wait(478 + 2); // Annoying inconsistent, fix later
-	KeyPress(130, { 'W' });
+	WaitForBattleEnd();
+	KeyPress(222, { 'W' });
+	WaitForDeedee();
 	ClickAt(new POINT(200, 450)); // Chips
-	KeyPress(1, { 'W' });
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
+#pragma endregion
+#pragma region Pearl 2
 	IncrementStage(); // TWRE_DODGE_TO_AREA_6
 	WaitForFrame(5); // overworld
-	KeyPress(200, { 'A', 'S' });
-	WaitForFrame(8); // underground 1
+	KeyPressUntilFrame(8, { 'A', 'S' }); // underground 1
 	KeyPress(230, { 'D', 'S' });
 	KeyPress(100, { 'S' });
 	KeyPress(540, { 'D', 'S' });
 	KeyPress(150, { 'D', 'W' });
 	KeyPress(32, { 'D' });
 	KeyPress(90, { 'A', 'W' });
-	KeyPress(35, { 'A' });
-	WaitForFrame(10); // underground 2
-	KeyPress(545, { 'A', 'S' });
-	WaitForFrame(8); // underground 1
+	KeyPressUntilFrame(10, { 'A' }); // underground 2
+	KeyPressUntilFrame(8, { 'A', 'S' }); // underground 1
 	KeyPress(200, { 'A', 'S' });
 	KeyPress(100, { 'A', 'W' });
-	KeyPress(14, { 'A' });
-	WaitForFrame(5); // overworld
+	KeyPressUntilFrame(5, { 'A' }); // overworld
 	KeyPress(60, { 'A' });
+	JumpTo(1);
+	KeyPress(65, { 'W' });
+	KeyPressUntilFrame(18, { 'W', 'D' }); // fishing 1
+	ClickAt(new POINT(600, 100)); // Play Deedee's Fishing Hole
+	WaitForFrame(19); // fishing 2
+	KeyPress(1, { 'D' });
+	KeyPress(1, { 'S' });
+	WaitForFrame(5); // overworld
+#pragma endregion
+#pragma region TWRE Dodge to Area 6
 	JumpTo(2);
 	KeyPress(58, { 'S' });
 	KeyPress(15, { 'D', 'S' });
@@ -364,10 +346,12 @@ void TAS::Run()
 	KeyPress(1, { 'S' });
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
-	IncrementStage(); // TWRE_DODGE_TO_GEIST_1
 	WaitForFrame(5); // overworld
 	KeyPress(36, { 'S' });
 	JumpTo(2);
+#pragma endregion
+#pragma region Unlock Halloween Characters
+	IncrementStage(); // TWRE_DODGE_TO_GEIST_1
 	for (int i = 0; i < 6; i++)
 	{
 		KeyPress(58, { 'S' });
@@ -377,21 +361,42 @@ void TAS::Run()
 		JumpTo(6);
 		KeyPress(70, { 'D', 'S' });
 		KeyPress(1204, { 'D' });
-		ClickAt(new POINT(200, 450)); // Chips
-		KeyPress(1, { 'D' });
+		if (i > 0 && i < 4)
+		{
+			WaitForDeedee();
+			ClickAt(new POINT(200, 450)); // Chips
+		}
+		else
+		{
+			ClickAt(new POINT(200, 450)); // Chips
+			KeyPress(1, { 'D' });
+		}
 		WaitForFrame(7); // chips
 		ClickAt(new POINT(700, 425)); // Done
 		IncrementStage(); // CHARACTER_UNLOCK
 		WaitForFrame(5); // overworld
-		KeyPress(126, { 'D', 'R' });
-		Wait(1); // Can't get an encounter if we run on the first frame
+		KeyPressUntilBattle({ 'D', 'R' });
 		KeyPress(1, { 'R' });
 		JumpTo(2);
-		Wait(165 + 2); // Annoying inconsistent, fix later
+		WaitForAttacksReady();
 		ClickAttack(2, 3); // JJ -> Unscrew
-		Wait(480 + 2); // Annoying inconsistent, fix later
+		WaitForBattleEnd();
 		IncrementStage(); // TWRE_DODGE_TO_GEIST
+		if (i > 0 && i < 4)
+		{
+			JumpTo(1);
+			KeyPress(65, { 'W' });
+			KeyPressUntilFrame(18, { 'W', 'D' }); // fishing 1
+			ClickAt(new POINT(600, 100)); // Play Deedee's Fishing Hole
+			WaitForFrame(19); // fishing 2
+			KeyPress(i == 3 ? 2 : 1, { 'D' });
+			KeyPress(1, { 'S' });
+			WaitForFrame(5); // overworld
+			JumpTo(2);
+		}
 	}
+#pragma endregion
+#pragma region Gold Endo Grind
 	KeyPress(58, { 'S' });
 	KeyPress(15, { 'D', 'S' });
 	KeyPress(75, { 'D' });
@@ -407,11 +412,12 @@ void TAS::Run()
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
 	WaitForFrame(5); // overworld
-	for (int i = 0; i < 31; i++)
+	for (int i = 0; i < 28; i++)
 	{
-		Wait(72 + 2); // Annoying inconsistent, fix later
+		WaitForAttacksReady();
 		ClickAttack(2, 3); // JJ -> Unscrew
-		Wait(1103);
+		WaitForVictory();
+		WaitForTokens();
 		RestartGame();
 		WaitForFrame(0); // Frame 32
 		Wait(1); // Why? Ig RestartGame messes with the RunHeader for a frame
@@ -433,23 +439,24 @@ void TAS::Run()
 		ClickAt(new POINT(700, 425)); // Done
 		WaitForFrame(5); // overworld
 	}
-	Wait(72 + 2); // Annoying inconsistent, fix later
+	WaitForAttacksReady();
 	ClickAttack(2, 3); // JJ -> Unscrew
-	Wait(1204);
+	WaitUntilChipsBtn();
 	ClickAt(new POINT(200, 450)); // Chips
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
-	IncrementStage(); // ENDO_01_UNLOCK
+#pragma endregion
+#pragma region Unlock Plushtrap -> Springbonnie
+	IncrementStage(); // PLUSHTRAP_UNLOCK
 	for (int i = 0; i < 10; i++)
 	{
 		WaitForFrame(5); // overworld
 		KeyPress(63, { 'A', 'R' });
-		KeyPress(63, { 'D', 'R' });
-		Wait(1); // Can't get an encounter if we run on the first frame
+		KeyPressUntilBattle({ 'D', 'R' });
 		KeyPress(1, { 'R' });
-		Wait(165 + 2); // Annoying inconsistent, fix later
+		WaitForAttacksReady();
 		ClickAttack(2, 3); // JJ -> Unscrew
-		Wait(578 + 2); // Annoying inconsistent, fix later
+		WaitUntilChipsBtn();
 		if (i == 9)
 			break;
 		ClickAt(new POINT(200, 450)); // Chips
@@ -457,21 +464,19 @@ void TAS::Run()
 		ClickAt(new POINT(700, 425)); // Done
 		IncrementStage(); // CHARACTER_UNLOCK
 	}
+#pragma endregion
+#pragma region Fourth Glitch Ending
 	IncrementStage(); // FOURTH_GLITCH
-	KeyPress(242, { 'D', 'S' });
-	WaitForFrame(8); // underground 1
+	KeyPressUntilFrame(8, { 'D', 'S' }); // underground 1
 	KeyPress(165, { 'D', 'S' });
 	KeyPress(130, { 'D' });
 	KeyPress(175, { 'D', 'W' });
-	KeyPress(68, { 'A', 'W' });
-	WaitForFrame(10); // underground 2
+	KeyPressUntilFrame(10, { 'A', 'W' }); // underground 2
 	KeyPress(100, { 'W' });
-	KeyPress(109, { 'D', 'W' });
-	WaitForFrame(11); // underground 3
+	KeyPressUntilFrame(11, { 'D', 'W' }); // underground 3
 	KeyPress(730, { 'D', 'W' });
 	KeyPress(125, { 'D', 'S' });
-	KeyPress(597, { 'A', 'S' });
-	WaitForFrame(15); // underground 3
+	KeyPressUntilFrame(15, { 'A', 'S' }); // lost world
 	RestartGame();
 	WaitForFrame(0); // Frame 32
 	Wait(1); // Why? Ig RestartGame messes with the RunHeader for a frame
@@ -486,112 +491,131 @@ void TAS::Run()
 	ClickAt(new POINT(400, 250)); // Continue
 	WaitForFrame(4); // character select
 	ClickAt(new POINT(700, 450)); // Done
+#pragma endregion
+#pragma region Buy Armor and Neon Wasp
 	WaitForFrame(5); // overworld
 	JumpTo(1);
-	KeyPress(71, { 'D' });
-	WaitForFrame(14); // armor shop
+	KeyPressUntilFrame(14, { 'D' }); // armor shop
 	ClickAt(new POINT(600, 100)); // Buy Titanium
 	ClickAt(new POINT(700, 450)); // Exit Shop
 	WaitForFrame(5); // overworld
 	JumpTo(1);
-	KeyPress(59, { 'A', 'W' });
-	WaitForFrame(13); // shop
+	KeyPressUntilFrame(13, { 'A', 'W' }); // shop
 	ClickAt(new POINT(600, 100)); // Buy Neon Wasp
 	ClickAt(new POINT(700, 450)); // Exit Shop
+#pragma endregion
+#pragma region Fight Area 1 Auto Chipper
 	IncrementStage(); // AUTO_CHIPPER
 	WaitForFrame(5); // overworld
 	JumpTo(1);
 	KeyPress(30, { 'A' });
 	KeyPress(140, { 'A', 'W' });
-	KeyPress(269, { 'D', 'W' });
-	Wait(69 + 2); // Annoying inconsistent, fix later
+	KeyPressUntilBattle({ 'D', 'W' });
+	WaitForAttacksReady();
 	ClickAttack(2, 3); // JJ -> Unscrew
-	Wait(543 + 2); // Annoying inconsistent, fix later
-	KeyPress(60, { 'A', 'W' });
+	WaitForBattleEnd();
+#pragma endregion
+#pragma region Chip - Headstart: Strength
+	KeyPressUntilChip({ 'A', 'W' });
 	ClickAt(new POINT(200, 450)); // Chips
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
 	WaitForFrame(5); // overworld
-	KeyPress(225, { 'D', 'S' });
+#pragma endregion
+#pragma region Chip - Headstart: Defense
+	KeyPressUntilChip({ 'D', 'S' });
 	ClickAt(new POINT(200, 450)); // Chips
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
 	WaitForFrame(5); // overworld
+#pragma endregion
+#pragma region Fight Area 2 Auto Chipper
 	JumpTo(2);
 	KeyPress(135, { 'A', 'S' });
 	KeyPress(50, { 'A', 'W' });
 	KeyPress(50, { 'W' });
-	KeyPress(108, { 'A', 'W' });
-	Wait(69 + 2); // Annoying inconsistent, fix later
+	KeyPressUntilBattle({ 'A', 'W' });
+	WaitForAttacksReady();
 	ClickAttack(2, 3); // JJ -> Unscrew
-	Wait(568 + 2); // Annoying inconsistent, fix later
-	KeyPress(27, { 'W' });
+	WaitForBattleEnd();
+#pragma endregion
+#pragma region Chip - Evercomet: Weak
+	KeyPressUntilChip({ 'W' });
 	ClickAt(new POINT(200, 450)); // Chips
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
+#pragma endregion
+#pragma region Unlock Area 3
 	WaitForFrame(5); // overworld
 	KeyPress(105, { 'D', 'S', 'R' });
 	KeyPress(80, { 'A', 'S', 'R' });
 	KeyPress(197, { 'A', 'R' });
+#pragma endregion
+#pragma region Unlock Withered Chica
 	IncrementStage(); // WITHERED_CHICA_UNLOCK
 	JumpTo(3);
 	KeyPress(55, { 'A', 'W', 'R' });
 	KeyPress(33, { 'A', 'R' });
-	KeyPress(31, { 'A', 'W', 'R' });
-	Wait(1); // Can't get an encounter if we run on the first frame
+	KeyPressUntilBattle({ 'A', 'W', 'R' });
 	KeyPress(1, { 'R' });
-	Wait(165 + 2); // Annoying inconsistent, fix later
+	WaitForAttacksReady();
 	ClickAttack(2, 3); // JJ -> Unscrew
-	Wait(471 + 2); // Annoying inconsistent, fix later
+	WaitUntilChipsBtn();
 	ClickAt(new POINT(200, 450)); // Chips
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
+#pragma endregion
+#pragma region Unlock Withered Freddy
 	IncrementStage(); // WITHERED_FREDDY_UNLOCK
 	WaitForFrame(5); // overworld
 	KeyPress(20, { 'A', 'W', 'R' });
 	KeyPress(50, { 'W', 'R' });
-	KeyPress(55, { 'D', 'W', 'R' });
-	Wait(1); // Can't get an encounter if we run on the first frame
+	KeyPressUntilBattle({ 'D', 'W', 'R' });
 	KeyPress(1, { 'R' });
-	Wait(165 + 2); // Annoying inconsistent, fix later
+	WaitForAttacksReady();
 	ClickAttack(2, 3); // JJ -> Unscrew
-	Wait(471 + 2); // Annoying inconsistent, fix later
-	KeyPress(12, { 'D', 'W', 'R' });
+	WaitForBattleEnd();
+#pragma endregion
+#pragma region Chip - Block: Jumpscare
+	KeyPressUntilChip({ 'D', 'W', 'R' });
 	ClickAt(new POINT(200, 450)); // Chips
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
+#pragma endregion
+#pragma region Unlock Withered Foxy
 	IncrementStage(); // WITHERED_FOXY_UNLOCK
 	WaitForFrame(5); // overworld
 	JumpTo(3);
 	KeyPress(112, { 'A', 'S', 'R' });
-	KeyPress(14, { 'A', 'R' });
-	Wait(1); // Can't get an encounter if we run on the first frame
+	KeyPressUntilBattle({ 'A', 'R' });
 	KeyPress(1, { 'R' });
-	Wait(165 + 2); // Annoying inconsistent, fix later
+	WaitForAttacksReady();
 	ClickAttack(2, 3); // JJ -> Unscrew
-	Wait(471 + 2); // Annoying inconsistent, fix later
+	WaitForBattleEnd();
+#pragma endregion
+#pragma region Buy Reapers
 	IncrementStage(); // UNLOCK_AREAS_3_4
 	KeyPress(165, { 'A', 'W' });
 	KeyPress(20, { 'A' });
 	KeyPress(50, { 'A', 'W' });
-	KeyPress(129, { 'W' });
-	WaitForFrame(13); // shop
-	ClickAt(new POINT(200, 100)); // Buy Mini-Reaper
+	KeyPressUntilFrame(13, { 'W' }); // shop
+	ClickAt(new POINT(600, 100)); // Buy X-Reaper
 	Wait(1);
 	ClickAt(new POINT(400, 100)); // Buy Reaper
 	Wait(1);
-	ClickAt(new POINT(600, 100)); // Buy X-Reaper
+	ClickAt(new POINT(200, 100)); // Buy Mini-Reaper
 	ClickAt(new POINT(700, 450)); // Exit Shop
 	WaitForFrame(12); // Bytes
 	Wait(20);
 	ClickAt(new POINT(200, 200)); // Equip X-Reaper
 	ClickAt(new POINT(700, 425)); // Exit Bytes Menu
+#pragma endregion
+#pragma region Clock 2
 	WaitForFrame(5); // overworld
 	KeyPress(10, { 'D', 'S' });
 	KeyPress(20, { 'D' });
 	KeyPress(45, { 'D', 'S' });
-	KeyPress(41, { 'A', 'S' });
-	WaitForFrame(28); // clock
+	KeyPressUntilFrame(28, { 'A', 'S' }); // clock
 	KeyPress(20, { 'D', 'S' });
 	KeyPress(149, { 'D' });
 	RestartGame();
@@ -608,11 +632,13 @@ void TAS::Run()
 	ClickAt(new POINT(400, 250)); // Continue
 	WaitForFrame(4); // character select
 	ClickAt(new POINT(700, 450)); // Done
+#pragma endregion
+#pragma region Cinematic - Clock 3
 	WaitForFrame(5); // overworld
 	KeyPress(113, { 'D', 'W' });
-	KeyPress(63, { 'W' });
-	WaitForFrame(27); // cinematic
-	KeyPress(1627, { VK_RETURN });
+	KeyPressUntilFrame(27, { 'W' }); // cinematic
+	KeyPress(1500, { VK_RETURN });
+	WaitForCinematicEnd();
 	RestartGame();
 	WaitForFrame(0); // Frame 32
 	Wait(1); // Why? Ig RestartGame messes with the RunHeader for a frame
@@ -627,6 +653,8 @@ void TAS::Run()
 	ClickAt(new POINT(400, 250)); // Continue
 	WaitForFrame(4); // character select
 	ClickAt(new POINT(700, 450)); // Done
+#pragma endregion
+#pragma region Unlock Area 4
 	WaitForFrame(5); // overworld
 	JumpTo(2);
 	KeyPress(58, { 'S' });
@@ -642,10 +670,14 @@ void TAS::Run()
 	ClickAt(new POINT(700, 425)); // Done
 	WaitForFrame(5); // overworld
 	KeyPress(14, { 'D' });
-	KeyPress(87, { 'A', 'S' });
+#pragma endregion
+#pragma region Chip - Run: Luck
+	KeyPressUntilChip({ 'A', 'S' });
 	ClickAt(new POINT(200, 450)); // Chips
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
+#pragma endregion
+#pragma region Chip - Headstart: Speed
 	WaitForFrame(5); // overworld
 	JumpTo(4);
 	KeyPress(20, { 'A' });
@@ -653,22 +685,26 @@ void TAS::Run()
 	KeyPress(60, { 'S' });
 	KeyPress(52, { 'A', 'S' });
 	KeyPress(40, { 'A' });
-	KeyPress(31, { 'A', 'S' });
+	KeyPressUntilChip({ 'A', 'S' });
 	ClickAt(new POINT(200, 450)); // Chips
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
 	WaitForFrame(5); // overworld
+#pragma endregion
+#pragma region Buy Medpods
 	KeyPress(10, { 'D', 'W' });
-	KeyPress(118, { 'D', 'S' });
+	KeyPressUntilFrame(13, { 'D', 'S' });
 	WaitForFrame(13); // shop
-	ClickAt(new POINT(200, 100)); // Buy Medpod 1
+	ClickAt(new POINT(600, 100)); // Buy Mega-Med
 	Wait(1);
 	ClickAt(new POINT(400, 100)); // Buy Medpod 2
 	Wait(1);
-	ClickAt(new POINT(600, 100)); // Buy Mega-Med
+	ClickAt(new POINT(200, 100)); // Buy Medpod 1
 	ClickAt(new POINT(700, 450)); // Exit Shop
 	WaitForFrame(12); // Bytes
 	ClickAt(new POINT(700, 425)); // Exit Bytes Menu
+#pragma endregion
+#pragma region Chip - Block: Unscrew
 	WaitForFrame(5); // overworld
 	JumpTo(2);
 	KeyPress(58, { 'S' });
@@ -676,12 +712,16 @@ void TAS::Run()
 	KeyPress(75, { 'D' });
 	KeyPress(77, { 'D', 'W' });
 	JumpTo(3);
-	KeyPress(188, { 'D', 'W' });
+	KeyPressUntilChip({ 'D', 'W' });
+#pragma endregion
+#pragma region Chip - Auto: Shield
 	JumpTo(4);
 	Wait(150);
 	KeyPress(18, { 'D', 'S' });
 	KeyPress(235, { 'D', 'W' });
-	KeyPress(15, { 'D' });
+	KeyPressUntilChip({ 'D' });
+#pragma endregion
+#pragma region Key
 	JumpTo(4);
 	Wait(150);
 	KeyPress(135, { 'D', 'S' });
@@ -690,6 +730,8 @@ void TAS::Run()
 	KeyPress(1, { 'S' });
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
+#pragma endregion
+#pragma region Chip - Find: Characters
 	WaitForFrame(5); // overworld
 	JumpTo(2);
 	KeyPress(58, { 'S' });
@@ -703,22 +745,27 @@ void TAS::Run()
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
 	WaitForFrame(5); // overworld
-	KeyPress(840, { 'A', 'W' });
+	KeyPressUntilBattle({ 'A', 'W' });
+	WaitForBattleEnd();
+	KeyPressUntilChip({ 'W' });
 	ClickAt(new POINT(200, 450)); // Chips
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
+#pragma endregion
+#pragma region Buy UFOs
 	WaitForFrame(5); // overworld
 	JumpTo(6);
-	KeyPress(65, { 'A', 'W' });
-	WaitForFrame(13); // shop
-	ClickAt(new POINT(200, 100)); // Buy Mini-FO
+	KeyPressUntilFrame(13, { 'A', 'W' }); // shop
+	ClickAt(new POINT(600, 100)); // Buy X-FO
 	Wait(1);
 	ClickAt(new POINT(400, 100)); // Buy UFO
 	Wait(1);
-	ClickAt(new POINT(600, 100)); // Buy X-FO
+	ClickAt(new POINT(200, 100)); // Buy Mini-FO
 	ClickAt(new POINT(700, 450)); // Exit Shop
 	WaitForFrame(12); // Bytes
 	ClickAt(new POINT(700, 425)); // Exit Bytes Menu
+#pragma endregion
+#pragma region Chip - Freddle: Fury
 	WaitForFrame(5); // overworld
 	JumpTo(2);
 	KeyPress(58, { 'S' });
@@ -732,146 +779,176 @@ void TAS::Run()
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
 	WaitForFrame(5); // overworld
-	KeyPress(712, { 'A', 'W' });
+	KeyPressUntilBattle({ 'A', 'W' });
+	WaitForBattleEnd();
+	KeyPressUntilChip({ 'W' });
 	ClickAt(new POINT(200, 450)); // Chips
 	KeyPress(1, { 'W' });
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
+#pragma endregion
+#pragma region Unlock Nightmare Freddy
 	IncrementStage(); // NIGHTMARE_FREDDY_UNLOCK
 	WaitForFrame(5); // overworld
 	JumpTo(5);
 	KeyPress(20, { 'S', 'R' });
-	KeyPress(106, { 'D', 'S', 'R' });
-	Wait(1); // Can't get an encounter if we run on the first frame
+	KeyPressUntilBattle({ 'D', 'S', 'R' });
 	KeyPress(1, { 'R' });
-	Wait(644);
+	WaitForVictory();
+	WaitUntilChipsBtn();
 	ClickAt(new POINT(200, 450)); // Chips
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
+#pragma endregion
+#pragma region Unlock Nightmare Bonnie
 	IncrementStage(); // NIGHTMARE_BONNIE_UNLOCK
 	WaitForFrame(5); // overworld
 	KeyPress(50, { 'S', 'R' });
-	KeyPress(76, { 'A', 'S', 'R' });
-	Wait(1); // Can't get an encounter if we run on the first frame
+	KeyPressUntilBattle({ 'A', 'S', 'R' });
 	KeyPress(1, { 'R' });
-	Wait(651);
+	WaitForVictory();
+	WaitUntilChipsBtn();
 	ClickAt(new POINT(200, 450)); // Chips
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
+#pragma endregion
+#pragma region Chip - Block: Jumpscare
 	IncrementStage(); // NIGHTMARE_CHICA_UNLOCK
 	WaitForFrame(5); // overworld
-	KeyPress(104, { 'A', 'S', 'R' });
+	KeyPressUntilChip({ 'A', 'S' });
 	ClickAt(new POINT(200, 450)); // Chips
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
+#pragma endregion
+#pragma region Unlock Nightmare Chica
 	WaitForFrame(5); // overworld
-	KeyPress(125, { 'D', 'W', 'R' });
-	Wait(1); // Can't get an encounter if we run on the first frame
+	KeyPressUntilBattle({ 'D', 'W', 'R' });
 	KeyPress(1, { 'R' });
-	Wait(651);
+	WaitForVictory();
+	WaitUntilChipsBtn();
 	ClickAt(new POINT(200, 450)); // Chips
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
+#pragma endregion
+#pragma region Unlock Nightmare Foxy
 	IncrementStage(); // NIGHTMARE_FOXY_UNLOCK
 	WaitForFrame(5); // overworld
-	KeyPress(126, { 'D', 'R' });
-	Wait(1); // Can't get an encounter if we run on the first frame
+	KeyPressUntilBattle({ 'D', 'R' });
 	KeyPress(1, { 'R' });
-	Wait(640);
+	WaitForVictory();
+	WaitUntilChipsBtn();
 	ClickAt(new POINT(200, 450)); // Chips
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
+#pragma endregion
+#pragma region Buy Bomb Bytes
 	IncrementStage(); // SHADOW_FREDDY_UNLOCK
 	WaitForFrame(5); // overworld
-	KeyPress(86, { 'D', 'W' });
-	WaitForFrame(13); // shop
-	ClickAt(new POINT(200, 100)); // Buy Pop-Pop
+	KeyPressUntilFrame(13, { 'D', 'W' }); // shop
+	ClickAt(new POINT(600, 100)); // Buy KABOOM
 	Wait(1);
 	ClickAt(new POINT(400, 100)); // Buy BOOM
 	Wait(1);
-	ClickAt(new POINT(600, 100)); // Buy KABOOM
+	ClickAt(new POINT(200, 100)); // Buy Pop-Pop
 	ClickAt(new POINT(700, 450)); // Exit Shop
 	WaitForFrame(12); // Bytes
 	ClickAt(new POINT(700, 425)); // Exit Bytes Menu
+#pragma endregion
+#pragma region Unlock Shadow Freddy
 	WaitForFrame(5); // overworld
 	KeyPress(60, { 'S', 'R' });
-	KeyPress(66, { 'A', 'S', 'R' });
-	Wait(1); // Can't get an encounter if we run on the first frame
+	KeyPressUntilBattle({ 'A', 'S', 'R' });
 	KeyPress(1, { 'R' });
-	Wait(648);
+	WaitForVictory();
+	WaitUntilChipsBtn();
 	ClickAt(new POINT(200, 450)); // Chips
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
+#pragma endregion
+#pragma region Unlock Marionette
 	IncrementStage(); // MARIONETTE_UNLOCK
 	WaitForFrame(5); // overworld
 	KeyPress(14, { 'A', 'S', 'R' });
 	KeyPress(55, { 'A', 'W', 'R' });
-	KeyPress(57, { 'A', 'S', 'R' });
-	Wait(1); // Can't get an encounter if we run on the first frame
+	KeyPressUntilBattle({ 'A', 'S', 'R' });
 	KeyPress(1, { 'R' });
-	Wait(648);
+	WaitForVictory();
+	WaitUntilChipsBtn();
 	ClickAt(new POINT(200, 450)); // Chips
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
+#pragma endregion
+#pragma region Unlock Phantom Marionette
 	IncrementStage(); // PHANTOM_MARIONETTE_UNLOCK
 	WaitForFrame(5); // overworld
 	KeyPress(50, { 'D', 'S', 'R' });
-	KeyPress(76, { 'D', 'W', 'R' });
-	Wait(1); // Can't get an encounter if we run on the first frame
+	KeyPressUntilBattle({ 'D', 'W', 'R' });
 	KeyPress(1, { 'R' });
-	Wait(662);
+	WaitForVictory();
+	WaitUntilChipsBtn();
 	ClickAt(new POINT(200, 450)); // Chips
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
+#pragma endregion
+#pragma region Unlock Golden Freddy
 	IncrementStage(); // GOLDEN_FREDDY_UNLOCK
 	WaitForFrame(5); // overworld
 	KeyPress(60, { 'D', 'S', 'R' });
-	KeyPress(66, { 'A', 'S', 'R' });
-	Wait(1); // Can't get an encounter if we run on the first frame
+	KeyPressUntilBattle({ 'A', 'S', 'R' });
 	KeyPress(1, { 'R' });
-	Wait(662);
+	WaitForVictory();
+	WaitUntilChipsBtn();
 	ClickAt(new POINT(200, 450)); // Chips
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
+#pragma endregion
+#pragma region Unlock Paperpals
 	IncrementStage(); // PAPERPALS_UNLOCK
 	WaitForFrame(5); // overworld
-	KeyPress(126, { 'A', 'W', 'R' });
-	Wait(1); // Can't get an encounter if we run on the first frame
+	KeyPressUntilBattle({ 'A', 'W', 'R' });
 	KeyPress(1, { 'R' });
-	Wait(662);
+	WaitForVictory();
+	WaitUntilChipsBtn();
 	ClickAt(new POINT(200, 450)); // Chips
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
+#pragma endregion
+#pragma region Unlock Endo 01
 	IncrementStage(); // ENDO_01_UNLOCK
 	WaitForFrame(5); // overworld
-	KeyPress(126, { 'A', 'W', 'R' });
-	Wait(1); // Can't get an encounter if we run on the first frame
+	KeyPressUntilBattle({ 'A', 'W', 'R' });
 	KeyPress(1, { 'R' });
-	Wait(662);
+	WaitForVictory();
+	WaitUntilChipsBtn();
 	ClickAt(new POINT(200, 450)); // Chips
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
+#pragma endregion
+#pragma region Unlock Endo 02
 	IncrementStage(); // ENDO_02_UNLOCK
 	WaitForFrame(5); // overworld
-	KeyPress(126, { 'A', 'W', 'R' });
-	Wait(1); // Can't get an encounter if we run on the first frame
+	KeyPressUntilBattle({ 'A', 'W', 'R' });
 	KeyPress(1, { 'R' });
-	Wait(662);
+	WaitForVictory();
+	WaitUntilChipsBtn();
 	ClickAt(new POINT(200, 450)); // Chips
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
-	IncrementStage(); // TBD
+#pragma endregion
+#pragma region Buy Boss Drains
+	IncrementStage(); // TROPHY_RUN
 	WaitForFrame(5); // overworld
-	KeyPress(73, { 'D', 'W' });
-	WaitForFrame(13); // shop
-	ClickAt(new POINT(200, 100)); // Buy BossDrain01
+	KeyPressUntilFrame(13, { 'D', 'W' }); // shop
+	ClickAt(new POINT(600, 100)); // Buy BossDrain-X
 	Wait(1);
 	ClickAt(new POINT(400, 100)); // Buy BossDrain02
 	Wait(1);
-	ClickAt(new POINT(600, 100)); // Buy BossDrain-X
+	ClickAt(new POINT(200, 100)); // Buy BossDrain01
 	ClickAt(new POINT(700, 450)); // Exit Shop
 	WaitForFrame(12); // Bytes
 	ClickAt(new POINT(700, 425)); // Exit Bytes Menu
+#pragma endregion
+#pragma region Chip - Pizza: Fury
 	WaitForFrame(5); // overworld
 	JumpTo(2);
 	KeyPress(58, { 'S' });
@@ -891,6 +968,8 @@ void TAS::Run()
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
 	WaitForFrame(5); // overworld
+#pragma endregion
+#pragma region Chip - Counter: Bite
 	JumpTo(2);
 	KeyPress(58, { 'S' });
 	KeyPress(15, { 'D', 'S' });
@@ -910,6 +989,8 @@ void TAS::Run()
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
 	WaitForFrame(5); // overworld
+#pragma endregion
+#pragma region Chip - Auto: Regen
 	JumpTo(2);
 	KeyPress(58, { 'S' });
 	KeyPress(15, { 'D', 'S' });
@@ -929,14 +1010,461 @@ void TAS::Run()
 	ClickAt(new POINT(200, 450)); // Chips
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
-#endif
 	WaitForFrame(5); // overworld
+#pragma endregion
+#pragma region Chip - Endless: Speed
+	JumpTo(2);
+	KeyPress(58, { 'S' });
+	KeyPress(15, { 'D', 'S' });
+	KeyPress(75, { 'D' });
+	KeyPress(77, { 'D', 'W' });
+	JumpTo(6);
+	KeyPress(50, { 'A', 'S' });
+	KeyPress(853, { 'A' });
+	ClickAt(new POINT(200, 450)); // Chips
+	KeyPress(1, { 'A' });
+	WaitForFrame(7); // chips
+	ClickAt(new POINT(700, 425)); // Done
+	WaitForFrame(5); // overworld
+	Wait(1);
+	ClickAt(new POINT(200, 450)); // Chips
+	WaitForFrame(7); // chips
+	ClickAt(new POINT(700, 425)); // Done
+	WaitForFrame(5); // overworld
+#pragma endregion
+#pragma region Chip - Auto: Mimic
+	JumpTo(2);
+	KeyPress(58, { 'S' });
+	KeyPress(15, { 'D', 'S' });
+	KeyPress(75, { 'D' });
+	KeyPress(77, { 'D', 'W' });
+	JumpTo(5);
+	KeyPress(10, { 'A' });
+	KeyPress(280, { 'A', 'S' });
+	KeyPressUntilChip({ 'A' });
+	ClickAt(new POINT(200, 450)); // Chips
+	WaitForFrame(7); // chips
+	ClickAt(new POINT(700, 425)); // Done
+	WaitForFrame(5); // overworld
+#pragma endregion
+#pragma region Chip - Auto: Giftboxes
+	KeyPress(68, { 'A', 'W' });
+	KeyPressUntilBattle({ 'A', 'S' });
+	WaitForBattleEnd();
+	KeyPressUntilChip({ 'A', 'S' });
+	ClickAt(new POINT(200, 450)); // Chips
+	WaitForFrame(7); // chips
+	ClickAt(new POINT(700, 425)); // Done
+	WaitForFrame(5); // overworld
+#pragma endregion
+#pragma region Clock 3
+	KeyPress(48, { 'D', 'W' });
+	KeyPress(100, { 'D', 'S' });
+	KeyPress(150, { 'A', 'S' });
+	KeyPress(110, { 'D', 'S' });
+	KeyPressUntilFrame(28, { 'A', 'S' }); // clock
+	KeyPress(75, { 'A', 'W' });
+	KeyPress(188, { 'A' });
+	RestartGame();
+	WaitForFrame(0); // Frame 32
+	Wait(1); // Why? Ig RestartGame messes with the RunHeader for a frame
+	KeyPress(1, { VK_RETURN });
+	WaitForFrame(2); // title screen
+	Wait(3);
+	ClickAt(new POINT(800, 450)); // Start
+	WaitForFrame(3); // file setup
+	Wait(30);
+	ClickAt(new POINT(400, 150)); // Slot 1
+	Wait(20);
+	ClickAt(new POINT(400, 250)); // Continue
+	WaitForFrame(4); // character select
+	ClickAt(new POINT(700, 450)); // Done
+	WaitForFrame(5); // overworld
+#pragma endregion
+#pragma region Chip - Endless: Defense
+	JumpTo(2);
+	KeyPress(58, { 'S' });
+	KeyPress(15, { 'D', 'S' });
+	KeyPress(75, { 'D' });
+	KeyPress(77, { 'D', 'W' });
+	JumpTo(5);
+	KeyPress(10, { 'A' });
+	KeyPress(230, { 'A', 'S' });
+	KeyPress(880, { 'A' });
+	ClickAt(new POINT(200, 450)); // Chips
+	KeyPress(1, { 'A' });
+	WaitForFrame(7); // chips
+	ClickAt(new POINT(700, 425)); // Done
+	WaitForFrame(5); // overworld
+	Wait(1);
+	ClickAt(new POINT(200, 450)); // Chips
+	WaitForFrame(7); // chips
+	ClickAt(new POINT(700, 425)); // Done
+	WaitForFrame(5); // overworld
+#pragma endregion
+#pragma region Chip - Endless: Strength
+	KeyPressUntilBattle({ 'A', 'S' });
+	WaitForBattleEnd();
+	KeyPress(258, { 'A', 'S' });
+	KeyPress(210, { 'A', 'W' });
+	KeyPressUntilChip({ 'A', 'S' });
+	ClickAt(new POINT(200, 450)); // Chips
+	WaitForFrame(7); // chips
+	ClickAt(new POINT(700, 425)); // Done
+	WaitForFrame(5); // overworld
+#pragma endregion
+#pragma region Fight/Unlock Chipper
+	KeyPress(60, { 'D', 'W' });
+	KeyPress(40, { 'D', 'S' });
+	KeyPressUntilBattle({ 'A', 'S' });
+	WaitForVictory();
+	RestartGame();
+	WaitForFrame(0); // Frame 32
+	Wait(1); // Why? Ig RestartGame messes with the RunHeader for a frame
+	KeyPress(1, { VK_RETURN });
+	WaitForFrame(2); // title screen
+	Wait(3);
+	ClickAt(new POINT(800, 450)); // Start
+	WaitForFrame(3); // file setup
+	Wait(30);
+	ClickAt(new POINT(400, 150)); // Slot 1
+	Wait(20);
+	ClickAt(new POINT(400, 250)); // Continue
+	WaitForFrame(4); // character select
+	ClickAt(new POINT(700, 450)); // Done
+	WaitForFrame(5); // overworld
+#pragma endregion
+#pragma region Cinematic - Clock 4
+	Wait(1);
+	JumpTo(4);
+	KeyPress(15, { 'D' });
+	WaitForFrame(27); // cinematic
+	KeyPress(2000, { VK_RETURN });
+	WaitForCinematicEnd();
+	RestartGame();
+	WaitForFrame(0); // Frame 32
+	Wait(1); // Why? Ig RestartGame messes with the RunHeader for a frame
+	KeyPress(1, { VK_RETURN });
+	WaitForFrame(2); // title screen
+	Wait(3);
+	ClickAt(new POINT(800, 450)); // Start
+	WaitForFrame(3); // file setup
+	Wait(30);
+	ClickAt(new POINT(400, 150)); // Slot 1
+	Wait(20);
+	ClickAt(new POINT(400, 250)); // Continue
+	WaitForFrame(4); // character select
+	Wait(27);
+	ClickCharacter(1, 1); // Freddy
+	Wait(11);
+	ClickCharacter(7, 5); // Fredbear
+	ClickAt(new POINT(700, 450)); // Done
+	WaitForFrame(5); // overworld
+#pragma endregion
+#pragma region Universe Ending
+	JumpTo(5);
+	KeyPress(20, { 'S' });
+	KeyPressUntilFrame(30, { 'D', 'S' }); // Frame 31
+	RestartGame();
+	WaitForFrame(0); // Frame 32
+	Wait(1); // Why? Ig RestartGame messes with the RunHeader for a frame
+	KeyPress(1, { VK_RETURN });
+	WaitForFrame(2); // title screen
+	Wait(3);
+	ClickAt(new POINT(800, 450)); // Start
+	WaitForFrame(3); // file setup
+	Wait(30);
+	ClickAt(new POINT(400, 150)); // Slot 1
+	Wait(20);
+	ClickAt(new POINT(400, 250)); // Continue
+	WaitForFrame(4); // character select
+	ClickAt(new POINT(700, 450)); // Done
+	WaitForFrame(5); // overworld
+#pragma endregion
+#pragma region Chip - Evercomet: Strong
+	JumpTo(2);
+	KeyPress(58, { 'S' });
+	KeyPress(15, { 'D', 'S' });
+	KeyPress(75, { 'D' });
+	KeyPress(77, { 'D', 'W' });
+	JumpTo(5);
+	KeyPress(10, { 'A' });
+	KeyPress(430, { 'A', 'S' });
+	KeyPress(444, { 'A' });
+	ClickAt(new POINT(200, 450)); // Chips
+	KeyPress(1, { 'A' });
+	WaitForFrame(7); // chips
+	ClickAt(new POINT(700, 425)); // Done
+	WaitForFrame(5); // overworld
+	Wait(1);
+	ClickAt(new POINT(200, 450)); // Chips
+	WaitForFrame(7); // chips
+	ClickAt(new POINT(700, 425)); // Done
+	WaitForFrame(5); // overworld
+#pragma endregion
+#pragma region Chip - Curse: Status
+	JumpTo(2);
+	KeyPress(58, { 'S' });
+	KeyPress(15, { 'D', 'S' });
+	KeyPress(75, { 'D' });
+	KeyPress(77, { 'D', 'W' });
+	JumpTo(5);
+	KeyPress(10, { 'A' });
+	KeyPress(180, { 'A', 'S' });
+	KeyPress(819, { 'A' });
+	ClickAt(new POINT(200, 450)); // Chips
+	KeyPress(1, { 'A' });
+	WaitForFrame(7); // chips
+	ClickAt(new POINT(700, 425)); // Done
+	WaitForFrame(5); // overworld
+	Wait(1);
+	ClickAt(new POINT(200, 450)); // Chips
+	WaitForFrame(7); // chips
+	ClickAt(new POINT(700, 425)); // Done
+	WaitForFrame(5); // overworld
+#pragma endregion
+#pragma region Fight Security Owl
+	JumpTo(2);
+	KeyPress(58, { 'S' });
+	KeyPress(15, { 'D', 'S' });
+	KeyPress(75, { 'D' });
+	KeyPress(77, { 'D', 'W' });
+	JumpTo(5);
+	KeyPress(10, { 'A' });
+	KeyPress(440, { 'A', 'S' });
+	KeyPress(220, { 'S' });
+	ClickAt(new POINT(200, 450)); // Chips
+	KeyPress(1, { 'S' });
+	WaitForFrame(7); // chips
+	ClickAt(new POINT(700, 425)); // Done
+	WaitForFrame(5); // overworld
+	WaitForBattleEnd();
+#pragma endregion
+#pragma region Fight/Unlock Animdude
+	KeyPressUntilFrame(26, { 'W' }); // boss cutscene
+	WaitForFrame(5); // overworld
+	WaitForVictory();
+	RestartGame();
+	WaitForFrame(0); // Frame 32
+	Wait(1); // Why? Ig RestartGame messes with the RunHeader for a frame
+	KeyPress(1, { VK_RETURN });
+	WaitForFrame(2); // title screen
+	Wait(3);
+	ClickAt(new POINT(800, 450)); // Start
+	WaitForFrame(3); // file setup
+	Wait(30);
+	ClickAt(new POINT(400, 150)); // Slot 1
+	Wait(20);
+	ClickAt(new POINT(400, 250)); // Continue
+	WaitForFrame(4); // character select
+	Wait(38);
+	ClickCharacter(7, 5); // Fredbear
+	Wait(11);
+	ClickCharacter(1, 1); // Freddy
+	ClickAt(new POINT(700, 450)); // Done
+	WaitForFrame(5); // overworld
+#pragma endregion
+#pragma region Clock 4
+	Wait(1);
+	JumpTo(2);
+	KeyPress(58, { 'S' });
+	KeyPress(15, { 'D', 'S' });
+	KeyPress(75, { 'D' });
+	KeyPress(77, { 'D', 'W' });
+	JumpTo(6);
+	KeyPress(250, { 'A', 'W' });
+	KeyPress(300, { 'A' });
+	KeyPress(5, { 'A', 'W' });
+	KeyPress(191, { 'A' });
+	ClickAt(new POINT(200, 450)); // Chips
+	KeyPress(1, { 'A' });
+	WaitForFrame(7); // chips
+	ClickAt(new POINT(700, 425)); // Done
+	WaitForFrame(28); // clock
+	KeyPress(189, { 'A' });
+	WaitForFrame(5); // overworld
+#pragma endregion
+#pragma region Buy Blocks
+	KeyPress(100, { 'A', 'W' });
+	KeyPress(80, { 'A', 'S' });
+	KeyPress(80, { 'A', 'W' });
+	KeyPress(200, { 'D', 'W' });
+	KeyPress(80, { 'W' });
+	KeyPress(220, { 'A', 'W' });
+	KeyPress(70, { 'A', 'S' });
+	KeyPressUntilFrame(13, { 'A', 'W' }); // shop
+	ClickAt(new POINT(600, 100)); // Buy Block50
+	Wait(1);
+	ClickAt(new POINT(400, 100)); // Buy Block20
+	Wait(1);
+	ClickAt(new POINT(200, 100)); // Buy Block5
+	ClickAt(new POINT(700, 450)); // Exit Shop
+	WaitForFrame(12); // Bytes
+	ClickAt(new POINT(700, 425)); // Exit Bytes Menu
+#pragma endregion
+#pragma region Cinematic - Clock 5
+	WaitForFrame(5); // overworld
+	JumpTo(2);
+	KeyPress(58, { 'S' });
+	KeyPress(15, { 'D', 'S' });
+	KeyPress(75, { 'D' });
+	KeyPress(77, { 'D', 'W' });
+	JumpTo(6);
+	KeyPress(100, { 'A', 'S' });
+	ClickAt(new POINT(200, 450)); // Chips
+	KeyPress(1, { 'S' });
+	WaitForFrame(7); // chips
+	ClickAt(new POINT(700, 425)); // Done
+	WaitForFrame(5); // overworld
+	KeyPressUntilFrame(27, { 'S' });
+	KeyPress(1000, { VK_RETURN });
+	WaitForCinematicEnd();
+	RestartGame();
+	WaitForFrame(0); // Frame 32
+	Wait(1); // Why? Ig RestartGame messes with the RunHeader for a frame
+	KeyPress(1, { VK_RETURN });
+	WaitForFrame(2); // title screen
+	Wait(3);
+	ClickAt(new POINT(800, 450)); // Start
+	WaitForFrame(3); // file setup
+	Wait(30);
+	ClickAt(new POINT(400, 150)); // Slot 1
+	Wait(20);
+	ClickAt(new POINT(400, 250)); // Continue
+	WaitForFrame(4); // character select
+	ClickAt(new POINT(700, 450)); // Done
+	WaitForFrame(5); // overworld
+#pragma endregion
+#pragma region Clock 5
+	JumpTo(2);
+	KeyPress(58, { 'S' });
+	KeyPress(15, { 'D', 'S' });
+	KeyPress(75, { 'D' });
+	KeyPress(77, { 'D', 'W' });
+	JumpTo(2);
+	KeyPress(50, { 'D', 'S' });
+	KeyPress(9, { 'S' });
+	KeyPress(270, { 'D', 'S' });
+	KeyPress(80, { 'D', 'W' });
+	KeyPress(35, { 'D' });
+	ClickAt(new POINT(200, 450)); // Chips
+	KeyPress(1, { 'D' });
+	WaitForFrame(7); // chips
+	ClickAt(new POINT(700, 425)); // Done
+	WaitForFrame(28); // clock
+	KeyPress(75, { 'A', 'W' });
+	KeyPress(100, { 'A' });
+	KeyPress(1, { 'A', 'W' });
+	RestartGame();
+	WaitForFrame(0); // Frame 32
+	Wait(1); // Why? Ig RestartGame messes with the RunHeader for a frame
+	KeyPress(1, { VK_RETURN });
+	WaitForFrame(2); // title screen
+	Wait(3);
+	ClickAt(new POINT(800, 450)); // Start
+	WaitForFrame(3); // file setup
+	Wait(30);
+	ClickAt(new POINT(400, 150)); // Slot 1
+	Wait(20);
+	ClickAt(new POINT(400, 250)); // Continue
+	WaitForFrame(4); // character select
+	ClickAt(new POINT(700, 450)); // Done
+	WaitForFrame(5); // overworld
+#pragma endregion
+#pragma region Clock Ending
+	JumpTo(4);
+	KeyPress(250, { 'D', 'W' });
+	KeyPress(150, { 'A', 'W' });
+	KeyPress(100, { 'A' });
+	KeyPress(80, { 'A', 'S' });
+	KeyPress(50, { 'A' });
+	KeyPressUntilFrame(29, { 'A', 'S' }); // ending 4
+	RestartGame();
+#pragma endregion
+#pragma region Fight Chica's Magical Rainbow
+	WaitForFrame(0); // Frame 32
+	Wait(1); // Why? Ig RestartGame messes with the RunHeader for a frame
+	KeyPress(1, { VK_RETURN });
+	WaitForFrame(2); // title screen
+	Wait(3);
+	ClickAt(new POINT(800, 450)); // Start
+	WaitForFrame(3); // file setup
+	Wait(30);
+	ClickAt(new POINT(400, 150)); // Slot 1
+	Wait(20);
+	ClickAt(new POINT(400, 250)); // Continue
+	WaitForFrame(4); // character select
+	Wait(11);
+	ClickCharacter(1, 1); // Freddy (From)
+	Wait(12);
+	ClickCharacter(8, 3); // Paperpals (To)
+	Wait(11);
+	ClickCharacter(2, 2); // JJ (From)
+	Wait(11);
+	ClickCharacter(1, 6); // Jack-O-Bonnie (To)
+	Wait(11);
+	ClickCharacter(6, 1); // Toy Chica (From)
+	Wait(11);
+	ClickCharacter(7, 5); // Fredbear (To)
+	Wait(11);
+	ClickCharacter(2, 1); // Bonnie (From)
+	Wait(11);
+	ClickCharacter(8, 6); // Purple Guy (To)
+	ClickAt(new POINT(700, 450)); // Done
+	IncrementStage(); // MAGICAL_PAINBOW
+	WaitForFrame(5); // overworld
+	Wait(1);
+	JumpTo(2);
+	KeyPress(58, { 'S' });
+	KeyPress(15, { 'D', 'S' });
+	KeyPress(75, { 'D' });
+	KeyPress(77, { 'D', 'W' });
+	JumpTo(6);
+	KeyPress(1340, { 'D', 'W' });
+	KeyPress(506, { 'W' });
+	ClickAt(new POINT(200, 450)); // Chips
+	KeyPress(1, { 'W' });
+	WaitForFrame(7); // chips
+	Wait(20);
+	ClickAt(new POINT(300, 200)); // Equip Endless: Speed
+	Wait(10);
+	ClickAt(new POINT(500, 200)); // Equip Auto: Giftboxes
+	ClickAt(new POINT(700, 425)); // Done
+	WaitForFrame(5); // overworld
+	WaitForAttacksReady();
+	ClickAttack(1, 3); // Mimic Ball
+	WaitForAttacksReady();
+	ClickAttack(2, 3); // Slasher
+	WaitForAttacksReady();
+	ClickAttack(3, 3); // Mimic Ball
+	WaitForAttacksReady();
+	ClickAttack(4, 2); // Slasher
+	WaitForAttacksReady();
+	ClickAttack(1, 3); // Mimic Ball
+	WaitForAttacksReady();
+	ClickAttack(2, 3); // Slasher
+#pragma endregion
 }
 
 #pragma region KeyPress
 void TAS::KeyPress(int timer, std::vector<char> keyCodes)
 {
 	Queue.push_back(new TASKeyPress(timer, keyCodes));
+}
+
+void TAS::KeyPressUntilFrame(int frame, std::vector<char> keyCodes)
+{
+	Queue.push_back(new TASKeyPressUntilFrame(frame, keyCodes));
+}
+
+void TAS::KeyPressUntilBattle(std::vector<char> keyCodes)
+{
+	Queue.push_back(new TASKeyPressUntilBattle(keyCodes));
+}
+
+void TAS::KeyPressUntilChip(std::vector<char> keyCodes)
+{
+	Queue.push_back(new TASKeyPressUntilChip(keyCodes));
 }
 
 bool TAS::IsKeyPressed(char keyCode)
@@ -1014,4 +1542,39 @@ void TAS::LoadTASSave()
 void TAS::JumpTo(int area)
 {
 	ClickAt(new POINT(750, 50 * area));
+}
+
+void TAS::WaitForDeedee()
+{
+	Queue.push_back(new TASWaitForDeedee());
+}
+
+void TAS::WaitForAttacksReady()
+{
+	Queue.push_back(new TASWaitForAttacksReady());
+}
+
+void TAS::WaitForVictory()
+{
+	Queue.push_back(new TASWaitForVictory());
+}
+
+void TAS::WaitUntilChipsBtn()
+{
+	Queue.push_back(new TASWaitUntilChipsBtn());
+}
+
+void TAS::WaitForBattleEnd()
+{
+	Queue.push_back(new TASWaitForBattleEnd());
+}
+
+void TAS::WaitForCinematicEnd()
+{
+	Queue.push_back(new TASWaitForCinematicEnd());
+}
+
+void TAS::WaitForTokens()
+{
+	Queue.push_back(new TASWaitForTokens());
 }
