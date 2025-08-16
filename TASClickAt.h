@@ -23,6 +23,7 @@ public:
 
 		TAS::mousePos = mousePos;
 		CEventProgramHook::onMouseButton(mouseBtn);
+		SetCursorPos((int)(mousePos->x * 2.4), (int)(mousePos->y * 2.25));
 		TAS::mousePos = nullptr;
 		return true;
 	}

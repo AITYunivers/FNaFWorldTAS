@@ -12,6 +12,7 @@ CREATE_FUNC(CEVENTPROGRAM_handle_Event, 0x58b40, void, RunObject* rHo, int code)
 CREATE_FUNC(CEVENTPROGRAM_get_CurrentObject, 0x5a4c0, RunObject*, short oiList, BOOL* repeat);
 CREATE_FUNC(CEVENTPROGRAM_count_ObjectsFromOiList, 0x5aeb0, RunObject*, unsigned int oil, int stop, int* count);
 CREATE_FUNC(CEVENTPROGRAM_evt_ForceOneObject, 0x59fd0, void, unsigned int oil, RunObject* rHo);
+CREATE_FUNC(CEVENTPROGRAM_evt_FirstObject, 0x59940, RunObject*, unsigned int oiHandle, int* selectedNum);
 
 class CEventProgramHook
 {
@@ -71,5 +72,10 @@ public:
 	static void evt_ForceOneObject(unsigned int oil, RunObject* rHo)
 	{
 		CEVENTPROGRAM_evt_ForceOneObject(oil, rHo);
+	};
+
+	static RunObject* evt_FirstObject(unsigned int oiHandle, int* selectedNum)
+	{
+		return CEVENTPROGRAM_evt_FirstObject(oiHandle, selectedNum);
 	};
 };

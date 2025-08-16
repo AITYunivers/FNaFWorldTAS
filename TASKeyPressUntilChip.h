@@ -20,7 +20,9 @@ public:
 
 		RunHeader* runHeader = GetRunHeader();
 		RunObject* foundChip = YuniUtil::GetFirstRunObjectFromName(_T("foundchip"));
-		if (YuniUtil::GetAlterableValue(foundChip, 0) > 0)
+		if (foundChip != nullptr && YuniUtil::GetAlterableValue(foundChip, 0) > 0)
+			return true;
+		else if (TAS::foundchip != nullptr && YuniUtil::GetAlterableValue(TAS::foundchip, 0) > 0)
 			return true;
 		return false;
 	}

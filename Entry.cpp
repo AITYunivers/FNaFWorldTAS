@@ -4,14 +4,15 @@
 #include "CRunHook.h"
 #include "CRunAppHook.h"
 #include "CEventProgramHook.h"
+#include "CImageBankHook.h"
 #include "EXP_RANDOMHook.h"
 #include "CND_KEYDEPRESSEDHook.h"
 #include "CND_KBPRESSKEYHook.h"
 #include "CND_EXTCHOOSEHook.h"
 #include "CNDL_MCLICKHook.h"
 #include "CNDL_MCLICKONOBJECTHook.h"
+#include "CND_TIMERSUPHook.h"
 #include "TAS.h"
-#include "WindowsHook.h"
 #include "timeapi.h"
 
 std::vector<std::tuple<PVOID*, PVOID>> hooks;
@@ -34,9 +35,8 @@ BOOL APIENTRY DllMain(HMODULE hModule,
             {
                 GlobalRunHeaderPtr = reinterpret_cast<RunHeader**>(GET_ADDRESS(0xAC9B4));
                 GlobalCRunAppPtr = reinterpret_cast<CRunApp**>(GET_ADDRESS(0xAC9AC));
+                GlobalBankLockPtr = reinterpret_cast<void**>(GET_ADDRESS(0xAC97C));
             }
-
-            
 
             // Register hooks here
             {
@@ -47,6 +47,7 @@ BOOL APIENTRY DllMain(HMODULE hModule,
                 registerHook(&(PVOID&)CND_KEYDEPRESSED_evaluate, &CND_KEYDEPRESSEDHook::evaluate);
                 registerHook(&(PVOID&)CND_KBPRESSKEY_evaluate, &CND_KBPRESSKEYHook::evaluate);
                 registerHook(&(PVOID&)CND_EXTCHOOSE_evaluate, &CND_EXTCHOOSEHook::evaluate);
+                registerHook(&(PVOID&)CND_TIMERSUP_evaluate, &CND_TIMERSUPHook::evaluate);
 
                 // Immediate Conditions
                 registerHook(&(PVOID&)CNDL_MCLICK_evaluate, &CNDL_MCLICKHook::evaluate);
@@ -62,13 +63,11 @@ BOOL APIENTRY DllMain(HMODULE hModule,
                 registerHook(&(PVOID&)CRUN_createFrameObjects, &CRunHook::createFrameObjects);
                 registerHook(&(PVOID&)CRUN_joyTest, &CRunHook::joyTest);
                 registerHook(&(PVOID&)CRUN_allocRunHeader, &CRunHook::allocRunHeader);
+                //registerHook(&(PVOID&)CRUN_loadBanks, &CRunHook::loadBanks);
+                registerHook(&(PVOID&)CRUN_objectHide, &CRunHook::objectHide);
 
                 // CRunApp
                 registerHook(&(PVOID&)CRUNAPP_playApplication, &CRunAppHook::playApplication);
-
-                // Windows Hooks
-                WNDS_timeGetTime = reinterpret_cast<DWORD(__stdcall*)()>(timeGetTime);
-                registerHook(&(PVOID&)WNDS_timeGetTime, &WindowsHook::timeGetTime);
             }
             break;
         }
@@ -82,3 +81,5 @@ RunHeader** GlobalRunHeaderPtr = nullptr;
 RunHeader* GetRunHeader();
 CRunApp** GlobalCRunAppPtr = nullptr;
 CRunApp* GetCRunApp();
+void** GlobalBankLockPtr = nullptr;
+void* GetBankLock();

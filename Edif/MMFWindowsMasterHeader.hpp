@@ -1096,8 +1096,19 @@ struct ParamZone {
 };
 struct ParamExpression {
 	NO_DEFAULT_CTORS_OR_DTORS(ParamExpression);
-	short	ID,
-			Unknown[6];
+	short		Comparison;
+	union
+	{
+		struct {
+			int	Code;
+		};
+		struct {
+			short	Type,
+					Num;
+		};
+	};
+	short		Size;
+	expression*	Token;
 };
 struct ParamColour {
 	NO_DEFAULT_CTORS_OR_DTORS(ParamColour);

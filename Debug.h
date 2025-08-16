@@ -30,6 +30,7 @@ public:
 	// Functions
 	static void Render()
 	{
+		return;
         RunHeader* runHeader = GetRunHeader();
 
 		if (runHeader == nullptr || runHeader->App == nullptr || runHeader->Frame == nullptr)
@@ -45,7 +46,8 @@ public:
 			ImGui::SeparatorText("General");
 			{
 				ImGui::Text(("FPS: " + std::to_string((1000 * MAX_FRAMERATE) / total)).c_str());
-				ImGui::Text(("Timer: " + std::to_string(runHeader->LoopCount)).c_str());
+				ImGui::Text(("Frame Timer: " + std::to_string(runHeader->LoopCount)).c_str());
+				ImGui::Text(("Stable Timer: " + std::to_string((unsigned int)((1.0 / 60.0) / 0.001 * runHeader->LoopCount))).c_str());
 			}
 
 			if (!TAS::Queue.empty())
@@ -53,7 +55,7 @@ public:
 				ImGui::SeparatorText("TAS");
 				{
 					TASEvent* event = TAS::Queue.front();
-					ImGui::Text(("Stage: " + std::to_string(TAS::stage)).c_str());
+					ImGui::Text(("Stage: " + TAS::StageToString(TAS::stage) + " (" + std::to_string(TAS::stage) + ")").c_str());
 					if (TASWait* waitEvt = dynamic_cast<TASWait*>(event))
 						ImGui::Text(("Waiting for " + std::to_string(waitEvt->timer)).c_str());
 					else if (TASWaitForFrame* waitFrameEvt = dynamic_cast<TASWaitForFrame*>(event))
@@ -77,7 +79,7 @@ public:
 					else if (TASKeyPressUntilBattle* keyPressBattleEvt = dynamic_cast<TASKeyPressUntilBattle*>(event))
 						ImGui::Text(("Pressing " + std::to_string(keyPressBattleEvt->keyCodes.size()) + " key(s) until battle").c_str());
 					else if (TASKeyPressUntilChip* keyPressChipEvt = dynamic_cast<TASKeyPressUntilChip*>(event))
-						ImGui::Text(("Pressing " + std::to_string(keyPressBattleEvt->keyCodes.size()) + " key(s) until chip").c_str());
+						ImGui::Text(("Pressing " + std::to_string(keyPressChipEvt->keyCodes.size()) + " key(s) until chip").c_str());
 					else if (TASKeyPress* keyPressEvt = dynamic_cast<TASKeyPress*>(event))
 						ImGui::Text(("Pressing " + std::to_string(keyPressEvt->keyCodes.size()) + " key(s) for " + std::to_string(keyPressEvt->timer)).c_str());
 					else if (TASClickAt* clickEvt = dynamic_cast<TASClickAt*>(event))

@@ -23,9 +23,9 @@ public:
 			std::cout << "Key Down, waiting for frame " << std::to_string(frame) << ".\n";
 		timerChanged = true;
 
-		RunHeader* runHeader = GetRunHeader();
-		if (!IsBadReadPtr(runHeader, sizeof(RunHeader)) && !IsBadReadPtr(runHeader->App, sizeof(CRunApp)))
-			doReturn = runHeader->App->nCurrentFrame == frame;
+		CRunApp* app = GetCRunApp();
+		if (!IsBadReadPtr(app, sizeof(CRunApp)))
+			doReturn = app->nCurrentFrame == frame;
 		return false;
 	}
 };

@@ -129,12 +129,17 @@
       <Filter>ImGui</Filter>
     </ClCompile>
     <ClCompile Include="TASDebug.cpp" />
-    <ClCompile Include="WindowsHook.cpp" />
-    <ClCompile Include="WindowsHook.h">
-      <Filter>Utilities</Filter>
-    </ClCompile>
     <ClCompile Include="TASWaitForAttacksReady.h">
       <Filter>TAS\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="CND_TIMERSUPHook.cpp">
+      <Filter>Hook Sources\Conditions</Filter>
+    </ClCompile>
+    <ClCompile Include="MMFS2Hook.cpp">
+      <Filter>Hook Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="CImageBankHook.cpp">
+      <Filter>Hook Sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -227,6 +232,12 @@
     </ClInclude>
     <ClInclude Include="TASKeyPressUntilChip.h">
       <Filter>TAS\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="CND_TIMERSUPHook.h">
+      <Filter>Hook Headers\Conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="CImageBankHook.h">
+      <Filter>Hook Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

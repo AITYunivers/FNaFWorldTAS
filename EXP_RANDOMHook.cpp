@@ -705,6 +705,15 @@ void EXP_RANDOMHook::evaluate()
         YuniUtil::SetReturnInt(1); // Always kill
         return;
     }
+    // KABOOM Chances
+    else if (runHeader->App->nCurrentFrame == 5 && eventIndex >= 1758 && eventIndex <= 1760)
+    {
+        if (expIndex == 1)
+            YuniUtil::SetReturnInt(1); // Always kill
+        else
+            YuniUtil::SetReturnInt(3999); // Max damage
+        return;
+    }
     // Slasher Kill Chance
     else if (runHeader->App->nCurrentFrame == 5 && eventIndex == 2051)
     {

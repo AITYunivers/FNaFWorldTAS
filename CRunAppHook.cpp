@@ -8,8 +8,15 @@ bool CRunAppHook::playApplication(CRunApp* app, int param2)
     {
         CRunApp* app = GetCRunApp();
         //app->hdr.Flags = app->hdr.Flags & ~GA_MAXIMISE;
-        //app->hdr.FrameRate = 60;
+        //app->hdr.FrameRate = 180;
     }
+
+	static bool hooksRegistered = false;
+    if (!hooksRegistered)
+    {
+        hooksRegistered = true;
+        MMFS2Hook::LoadHooks();
+	}
 
     static bool init = false;
     if (!init)

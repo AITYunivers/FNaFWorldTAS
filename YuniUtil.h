@@ -65,6 +65,14 @@ namespace YuniUtil
 		return ptr + 4;
 	}
 
+	static EventParam* GetEventParam(event2* ace, int index)
+	{
+		EventParam* ptr = (EventParam*)((uintptr_t)ace + sizeof(event2));
+		for (int i = 0; i < index; i++)
+			ptr += ptr->size;
+		return ptr;
+	}
+
 	static event2* GetACE(eventGroup* evg, int index)
 	{
 		if (index >= (size_t)(evg->evgNCond + evg->evgNAct))

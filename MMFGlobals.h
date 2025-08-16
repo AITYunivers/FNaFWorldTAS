@@ -12,3 +12,9 @@ inline CRunApp* GetCRunApp()
 {
     return *GlobalCRunAppPtr;
 }
+
+extern void** GlobalBankLockPtr;
+inline void* GetBankLock()
+{
+    return *GlobalBankLockPtr;
+}

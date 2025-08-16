@@ -128,10 +128,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CEventProgramHook.h" />
+    <ClInclude Include="CImageBankHook.h" />
     <ClInclude Include="CNDL_MCLICKHook.h" />
     <ClInclude Include="CND_EXTCHOOSEHook.h" />
     <ClInclude Include="CND_KBPRESSKEYHook.h" />
     <ClInclude Include="CND_KEYDEPRESSEDHook.h" />
+    <ClInclude Include="CND_TIMERSUPHook.h" />
     <ClInclude Include="CRunAppHook.h" />
     <ClInclude Include="CRunHook.h" />
     <ClInclude Include="D3D9Hook.h" />
@@ -167,20 +169,23 @@
       <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">d3d9.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">d3d9.lib;winmm.lib;F:\Fusion25SDK\Lib\mmfs2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CEventProgramHook.cpp" />
+    <ClCompile Include="CImageBankHook.cpp" />
     <ClCompile Include="CNDL_MCLICKHook.cpp" />
     <ClCompile Include="CNDL_MCLICKONOBJECTHook.cpp" />
     <ClCompile Include="CNDL_MCLICKONOBJECTHook.h" />
     <ClCompile Include="CND_EXTCHOOSEHook.cpp" />
     <ClCompile Include="CND_KBPRESSKEYHook.cpp" />
     <ClCompile Include="CND_KEYDEPRESSEDHook.cpp" />
+    <ClCompile Include="CND_TIMERSUPHook.cpp" />
     <ClCompile Include="CRunAppHook.cpp" />
     <ClCompile Include="CRunHook.cpp" />
     <ClCompile Include="D3D9Hook.cpp" />
+    <ClCompile Include="MMFS2Hook.cpp" />
     <ClCompile Include="TASWaitForAttacksReady.h" />
     <ClCompile Include="TASDebug.cpp" />
     <ClCompile Include="Detours\src\detours.cpp" />
@@ -201,8 +206,6 @@
     <ClCompile Include="TASRestartGame.h" />
     <ClCompile Include="TASWait.h" />
     <ClCompile Include="TASWaitForFrame.h" />
-    <ClCompile Include="WindowsHook.cpp" />
-    <ClCompile Include="WindowsHook.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TASKeyPressUntilBattle.h" />

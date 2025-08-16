@@ -21,6 +21,7 @@
 bool TAS::running = false;
 unsigned int TAS::oldLoopCount = false;
 unsigned int TAS::oldFrame = false;
+RunObject* TAS::foundchip = NULL;
 TAS::Stage TAS::stage = TAS::Stage::START;
 
 std::deque<TASEvent*> TAS::Queue;
@@ -28,13 +29,29 @@ std::deque<TASEvent*> TAS::Queue;
 POINT* TAS::mousePos = nullptr;
 #pragma endregion
 
+//#define DEBUGTAS
+
 void TAS::Run()
 {
 	CRunApp* app = GetCRunApp();
 	running = true;
+#ifdef DEBUGTAS
+	LoadTASSave();
+	WaitForFrame(2); // title screen
+	Wait(3);
+	ClickAt(new POINT(800, 450)); // Start
+	WaitForFrame(3); // file setup
+	Wait(30);
+	ClickAt(new POINT(400, 150)); // Slot 1
+	Wait(20);
+	ClickAt(new POINT(400, 250)); // Continue
+	WaitForFrame(4); // character select
+	ClickAt(new POINT(700, 450)); // Done
+	stage = Stage::SHADOW_FREDDY_UNLOCK;
+	goto TAS_JUMP;
+#endif
 #pragma region Begin Game
 	WaitForFrame(0); // Frame 32
-	//KeyPress(1, {VK_RETURN}); OBS takes a while to catch up, so we wait a bit
 	WaitForFrame(2); // title screen
 	Wait(3);
 	ClickAt(new POINT(800, 450)); // Start
@@ -191,13 +208,12 @@ void TAS::Run()
 	WaitForFrame(5); // overworld
 	KeyPressUntilFrame(8, { 'A', 'S' }); // underground 1
 	KeyPress(363, { 'D', 'S' });
-	KeyPress(80, { 'D' });
-	KeyPress(120, { 'D', 'S' });
-	KeyPress(100, { 'S' });
-	KeyPress(80, { 'D', 'S' });
+	KeyPress(51, { 'D' });
+	KeyPress(149, { 'D', 'S' });
+	KeyPress(40, { 'S' });
+	KeyPressUntilFrame(5, { 'D', 'S' }); // overworld
 #pragma endregion
 #pragma region Unlock Phantom Chica
-	WaitForFrame(5); // overworld
 	KeyPress(35, { 'A', 'R' });
 	JumpTo(1);
 	KeyPress(45, { 'D', 'S', 'R' });
@@ -279,8 +295,8 @@ void TAS::Run()
 #pragma endregion
 #pragma region TWRE Dodge toward Area 5
 	WaitForFrame(5); // overworld
-	KeyPress(16, { 'D', 'S', 'R' });
-	KeyPress(78, { 'D', 'R' });
+	KeyPress(10, { 'D', 'S', 'R' });
+	KeyPress(81, { 'D', 'R' });
 	KeyPress(76, { 'D', 'W', 'R' });
 	JumpTo(1);
 #pragma endregion
@@ -295,20 +311,23 @@ void TAS::Run()
 #pragma region Unlock Withered Bonnie
 	IncrementStage(); // WITHERED_BONNIE_UNLOCK
 	KeyPress(350, { 'D', 'R' });
-	KeyPress(120, { 'D', 'W', 'R' });
-	KeyPressUntilBattle({ 'W', 'R' });
+	KeyPressUntilBattle({ 'D', 'W', 'R' });
 	KeyPress(70, { 'R' });
 	WaitForAttacksReady();
 	ClickAttack(2, 3); // JJ -> Unscrew
 	WaitForBattleEnd();
-	KeyPress(222, { 'W' });
+#pragma endregion
+#pragma region Chip - Auto: Shield
+	IncrementStage(); // TWRE_DODGE_TO_AREA_6
+	KeyPressUntilChip({ 'D', 'W' });
+	KeyPress(240, { 'W', 'A' });
+	KeyPress(90, { 'A' });
 	WaitForDeedee();
 	ClickAt(new POINT(200, 450)); // Chips
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
 #pragma endregion
 #pragma region Pearl 2
-	IncrementStage(); // TWRE_DODGE_TO_AREA_6
 	WaitForFrame(5); // overworld
 	KeyPressUntilFrame(8, { 'A', 'S' }); // underground 1
 	KeyPress(230, { 'D', 'S' });
@@ -340,18 +359,69 @@ void TAS::Run()
 	KeyPress(77, { 'D', 'W' });
 	JumpTo(5);
 	KeyPress(10, { 'A' });
-	KeyPress(340, { 'A', 'S' });
-	KeyPress(360, { 'S' });
+	KeyPress(339, { 'A', 'S' });
+	ClickAt(new POINT(200, 450)); // Chips
+	KeyPress(1, { 'A', 'S' });
+	WaitForFrame(7); // chips
+	ClickAt(new POINT(700, 425)); // Done
+#pragma endregion
+#pragma region Unlock Plushtrap
+	IncrementStage(); // PLUSHTRAP_UNLOCK
+	WaitForFrame(5); // overworld
+	KeyPressUntilBattle({ 'D', 'S', 'R' });
+	KeyPress(1, { 'R' });
+	WaitForAttacksReady();
+	ClickAttack(2, 3); // JJ -> Unscrew
+	WaitUntilChipsBtn();
 	ClickAt(new POINT(200, 450)); // Chips
 	KeyPress(1, { 'S' });
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
+#pragma endregion
+#pragma region Unlock Endoplush
+	IncrementStage(); // ENDOPLUSH_UNLOCK
 	WaitForFrame(5); // overworld
-	KeyPress(36, { 'S' });
-	JumpTo(2);
+	KeyPressUntilBattle({ 'A', 'S', 'R' });
+	KeyPress(1, { 'R' });
+	WaitForAttacksReady();
+	ClickAttack(2, 3); // JJ -> Unscrew
+	WaitUntilChipsBtn();
+	ClickAt(new POINT(200, 450)); // Chips
+	KeyPress(1, { 'S' });
+	WaitForFrame(7); // chips
+	ClickAt(new POINT(700, 425)); // Done
+#pragma endregion
+#pragma region Unlock Springtrap
+	IncrementStage(); // SPRINGTRAP_UNLOCK
+	WaitForFrame(5); // overworld
+	KeyPress(30, { 'A', 'S', 'R' });
+	KeyPressUntilBattle({ 'D', 'S', 'R' });
+	KeyPress(1, { 'R' });
+	WaitForAttacksReady();
+	ClickAttack(2, 3); // JJ -> Unscrew
+	WaitUntilChipsBtn();
+	ClickAt(new POINT(200, 450)); // Chips
+	KeyPress(1, { 'S' });
+	WaitForFrame(7); // chips
+	ClickAt(new POINT(700, 425)); // Done
+#pragma endregion
+#pragma region Unlock RXQ
+	IncrementStage(); // RXQ_UNLOCK
+	WaitForFrame(5); // overworld
+	KeyPressUntilBattle({ 'D', 'S', 'R' });
+	KeyPress(1, { 'R' });
+	WaitForAttacksReady();
+	ClickAttack(2, 3); // JJ -> Unscrew
+	WaitUntilChipsBtn();
+	ClickAt(new POINT(200, 450)); // Chips
+	KeyPress(1, { 'S' });
+	WaitForFrame(7); // chips
+	ClickAt(new POINT(700, 425)); // Done
 #pragma endregion
 #pragma region Unlock Halloween Characters
 	IncrementStage(); // TWRE_DODGE_TO_GEIST_1
+	WaitForFrame(5); // overworld
+	JumpTo(2);
 	for (int i = 0; i < 6; i++)
 	{
 		KeyPress(58, { 'S' });
@@ -446,9 +516,9 @@ void TAS::Run()
 	WaitForFrame(7); // chips
 	ClickAt(new POINT(700, 425)); // Done
 #pragma endregion
-#pragma region Unlock Plushtrap -> Springbonnie
-	IncrementStage(); // PLUSHTRAP_UNLOCK
-	for (int i = 0; i < 10; i++)
+#pragma region Unlock Crying Child -> Springbonnie
+	IncrementStage(); // CRYING_CHILD_UNLOCK
+	for (int i = 0; i < 6; i++)
 	{
 		WaitForFrame(5); // overworld
 		KeyPress(63, { 'A', 'R' });
@@ -457,7 +527,7 @@ void TAS::Run()
 		WaitForAttacksReady();
 		ClickAttack(2, 3); // JJ -> Unscrew
 		WaitUntilChipsBtn();
-		if (i == 9)
+		if (i == 5)
 			break;
 		ClickAt(new POINT(200, 450)); // Chips
 		WaitForFrame(7); // chips
@@ -469,10 +539,10 @@ void TAS::Run()
 	IncrementStage(); // FOURTH_GLITCH
 	KeyPressUntilFrame(8, { 'D', 'S' }); // underground 1
 	KeyPress(165, { 'D', 'S' });
-	KeyPress(130, { 'D' });
+	KeyPress(121, { 'D' });
 	KeyPress(175, { 'D', 'W' });
 	KeyPressUntilFrame(10, { 'A', 'W' }); // underground 2
-	KeyPress(100, { 'W' });
+	KeyPress(19, { 'W' });
 	KeyPressUntilFrame(11, { 'D', 'W' }); // underground 3
 	KeyPress(730, { 'D', 'W' });
 	KeyPress(125, { 'D', 'S' });
@@ -714,13 +784,6 @@ void TAS::Run()
 	JumpTo(3);
 	KeyPressUntilChip({ 'D', 'W' });
 #pragma endregion
-#pragma region Chip - Auto: Shield
-	JumpTo(4);
-	Wait(150);
-	KeyPress(18, { 'D', 'S' });
-	KeyPress(235, { 'D', 'W' });
-	KeyPressUntilChip({ 'D' });
-#pragma endregion
 #pragma region Key
 	JumpTo(4);
 	Wait(150);
@@ -852,8 +915,11 @@ void TAS::Run()
 	ClickAt(new POINT(200, 100)); // Buy Pop-Pop
 	ClickAt(new POINT(700, 450)); // Exit Shop
 	WaitForFrame(12); // Bytes
+	//Wait(20);
+	//ClickAt(new POINT(400, 300)); // Equip KABOOM
 	ClickAt(new POINT(700, 425)); // Exit Bytes Menu
 #pragma endregion
+	TAS_JUMP:
 #pragma region Unlock Shadow Freddy
 	WaitForFrame(5); // overworld
 	KeyPress(60, { 'S', 'R' });
@@ -1381,7 +1447,7 @@ void TAS::Run()
 	KeyPressUntilFrame(29, { 'A', 'S' }); // ending 4
 	RestartGame();
 #pragma endregion
-#pragma region Fight Chica's Magical Rainbow
+#pragma region Fight Chicas Magical Rainbow
 	WaitForFrame(0); // Frame 32
 	Wait(1); // Why? Ig RestartGame messes with the RunHeader for a frame
 	KeyPress(1, { VK_RETURN });
