@@ -150,14 +150,7 @@
     <ClInclude Include="TASClickAt.h" />
     <ClInclude Include="TASEvent.h" />
     <ClInclude Include="TASKeyPress.h" />
-    <ClInclude Include="TASKeyPressUntilChip.h" />
     <ClInclude Include="TASKeyPressUntilFrame.h" />
-    <ClInclude Include="TASWaitForBattleEnd.h" />
-    <ClInclude Include="TASWaitForCinematicEnd.h" />
-    <ClInclude Include="TASWaitForDeedee.h" />
-    <ClInclude Include="TASWaitForTokens.h" />
-    <ClInclude Include="TASWaitForVictory.h" />
-    <ClInclude Include="TASWaitUntilChipsBtn.h" />
     <ClInclude Include="YuniUtil.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
@@ -186,7 +179,6 @@
     <ClCompile Include="CRunHook.cpp" />
     <ClCompile Include="D3D9Hook.cpp" />
     <ClCompile Include="MMFS2Hook.cpp" />
-    <ClCompile Include="TASWaitForAttacksReady.h" />
     <ClCompile Include="TASDebug.cpp" />
     <ClCompile Include="Detours\src\detours.cpp" />
     <ClCompile Include="Detours\src\disasm.cpp" />
@@ -206,8 +198,5 @@
     <ClCompile Include="TASRestartGame.h" />
     <ClCompile Include="TASWait.h" />
     <ClCompile Include="TASWaitForFrame.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="TASKeyPressUntilBattle.h" />
   </ItemGroup>
 </Project>

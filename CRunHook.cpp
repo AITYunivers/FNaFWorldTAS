@@ -54,9 +54,6 @@ int CRunHook::prepareFrame()
     // Disable Timer-Based Movements
     runHeader->Frame->hdr.Flags &= ~LTIMEDMVTS;
 
-    // Reset foundchip
-    TAS::foundchip = nullptr;
-
     return CRUN_prepareFrame();
 }
 
@@ -210,13 +207,5 @@ int __fastcall CRunHook::loadBanks(unsigned int** tabAdCpt)
 
 void __fastcall CRunHook::objectHide(RunObject* rHo)
 {
-    CRunApp* app = GetCRunApp();
-
-    // Custom handling for specific events
-    int eventIndex = YuniUtil::GetEventIndex();
-
-    if (app->nCurrentFrame == 5 && eventIndex == 1444 && TAS::foundchip == nullptr)
-		TAS::foundchip = rHo; // Store the chip object for later use in TAS, bc of stupid issues
-
 	CRUN_objectHide(rHo);
 }

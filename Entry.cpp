@@ -25,11 +25,11 @@ BOOL APIENTRY DllMain(HMODULE hModule,
     {
         case DLL_PROCESS_ATTACH:
         {
-            //AllocConsole();
-            //FILE* dummy;
-            //freopen_s(&dummy, "CONOUT$", "w", stdout); // Redirects std::cout
-            //freopen_s(&dummy, "CONOUT$", "w", stderr); // Redirects std::cerr
-            //freopen_s(&dummy, "CONIN$", "r", stdin);   // Redirects std::cin
+            AllocConsole();
+            FILE* dummy;
+            freopen_s(&dummy, "CONOUT$", "w", stdout); // Redirects std::cout
+            freopen_s(&dummy, "CONOUT$", "w", stderr); // Redirects std::cerr
+            freopen_s(&dummy, "CONIN$", "r", stdin);   // Redirects std::cin
 
             // Register globals here
             {

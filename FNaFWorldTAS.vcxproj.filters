@@ -129,9 +129,6 @@
       <Filter>ImGui</Filter>
     </ClCompile>
     <ClCompile Include="TASDebug.cpp" />
-    <ClCompile Include="TASWaitForAttacksReady.h">
-      <Filter>TAS\Events</Filter>
-    </ClCompile>
     <ClCompile Include="CND_TIMERSUPHook.cpp">
       <Filter>Hook Sources\Conditions</Filter>
     </ClCompile>
@@ -209,28 +206,7 @@
     <ClInclude Include="Debug.h">
       <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="TASWaitForDeedee.h">
-      <Filter>TAS\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="TASWaitForVictory.h">
-      <Filter>TAS\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="TASWaitUntilChipsBtn.h">
-      <Filter>TAS\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="TASWaitForBattleEnd.h">
-      <Filter>TAS\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="TASWaitForCinematicEnd.h">
-      <Filter>TAS\Events</Filter>
-    </ClInclude>
     <ClInclude Include="TASKeyPressUntilFrame.h">
-      <Filter>TAS\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="TASWaitForTokens.h">
-      <Filter>TAS\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="TASKeyPressUntilChip.h">
       <Filter>TAS\Events</Filter>
     </ClInclude>
     <ClInclude Include="CND_TIMERSUPHook.h">
@@ -239,10 +215,5 @@
     <ClInclude Include="CImageBankHook.h">
       <Filter>Hook Headers</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="TASKeyPressUntilBattle.h">
-      <Filter>TAS\Events</Filter>
-    </None>
   </ItemGroup>
 </Project>
