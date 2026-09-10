@@ -7,16 +7,9 @@ bool CRunAppHook::playApplication(CRunApp* app, int param2)
     // Les do sm temp bs
     {
         CRunApp* app = GetCRunApp();
-        //app->hdr.Flags = app->hdr.Flags & ~GA_MAXIMISE;
+        app->hdr.Flags = app->hdr.Flags & ~GA_MAXIMISE;
         //app->hdr.FrameRate = 180;
     }
-
-	static bool hooksRegistered = false;
-    if (!hooksRegistered)
-    {
-        hooksRegistered = true;
-        MMFS2Hook::LoadHooks();
-	}
 
     static bool init = false;
     if (!init)

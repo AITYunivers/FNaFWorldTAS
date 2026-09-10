@@ -17,23 +17,11 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Hook Headers\Expressions">
-      <UniqueIdentifier>{655408f1-f173-415c-bea6-01882937e668}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Hook Sources\Expressions">
-      <UniqueIdentifier>{23c12df2-6dfb-46d4-97b5-6dbd3ff2d8f8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Hook Headers\Conditions">
       <UniqueIdentifier>{98b0b9cb-65c6-4967-95c2-226adb69e9a9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Hook Sources\Conditions">
       <UniqueIdentifier>{0de02fdc-0eb5-4673-b443-7c7bd82dc8d3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Hook Sources\Conditions\Immediate">
-      <UniqueIdentifier>{b8bf3761-770b-4fa6-9a49-e561f19b70f6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Hook Headers\Conditions\Immediate">
-      <UniqueIdentifier>{a80962c3-ded3-434b-a867-7809266c9306}</UniqueIdentifier>
     </Filter>
     <Filter Include="TAS">
       <UniqueIdentifier>{5a8b0770-f563-4b73-85bf-8e9f32c231f5}</UniqueIdentifier>
@@ -59,23 +47,8 @@
       <Filter>Detours</Filter>
     </ClCompile>
     <ClCompile Include="Entry.cpp" />
-    <ClCompile Include="CEventProgramHook.cpp">
-      <Filter>Hook Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="EXP_RANDOMHook.cpp">
-      <Filter>Hook Sources\Expressions</Filter>
-    </ClCompile>
     <ClCompile Include="CND_KEYDEPRESSEDHook.cpp">
       <Filter>Hook Sources\Conditions</Filter>
-    </ClCompile>
-    <ClCompile Include="CNDL_MCLICKHook.cpp">
-      <Filter>Hook Sources\Conditions\Immediate</Filter>
-    </ClCompile>
-    <ClCompile Include="CNDL_MCLICKONOBJECTHook.h">
-      <Filter>Hook Headers\Conditions\Immediate</Filter>
-    </ClCompile>
-    <ClCompile Include="CNDL_MCLICKONOBJECTHook.cpp">
-      <Filter>Hook Sources\Conditions\Immediate</Filter>
     </ClCompile>
     <ClCompile Include="TAS.cpp">
       <Filter>TAS</Filter>
@@ -90,15 +63,6 @@
       <Filter>TAS\Events</Filter>
     </ClCompile>
     <ClCompile Include="TASWaitForFrame.h">
-      <Filter>TAS\Events</Filter>
-    </ClCompile>
-    <ClCompile Include="TASRestartGame.h">
-      <Filter>TAS\Events</Filter>
-    </ClCompile>
-    <ClCompile Include="CND_EXTCHOOSEHook.cpp">
-      <Filter>Hook Sources\Conditions</Filter>
-    </ClCompile>
-    <ClCompile Include="TASIncrementStage.h">
       <Filter>TAS\Events</Filter>
     </ClCompile>
     <ClCompile Include="D3D9Hook.cpp">
@@ -128,16 +92,6 @@
     <ClCompile Include="imgui\imgui_tables.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="TASDebug.cpp" />
-    <ClCompile Include="CND_TIMERSUPHook.cpp">
-      <Filter>Hook Sources\Conditions</Filter>
-    </ClCompile>
-    <ClCompile Include="MMFS2Hook.cpp">
-      <Filter>Hook Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="CImageBankHook.cpp">
-      <Filter>Hook Sources</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HookHelper.h">
@@ -164,23 +118,11 @@
     <ClInclude Include="Edif\WindowsDefines.hpp">
       <Filter>Edif</Filter>
     </ClInclude>
-    <ClInclude Include="CEventProgramHook.h">
-      <Filter>Hook Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="EXP_RANDOMHook.h">
-      <Filter>Hook Headers\Expressions</Filter>
-    </ClInclude>
     <ClInclude Include="CND_KEYDEPRESSEDHook.h">
       <Filter>Hook Headers\Conditions</Filter>
     </ClInclude>
-    <ClInclude Include="CNDL_MCLICKHook.h">
-      <Filter>Hook Headers\Conditions\Immediate</Filter>
-    </ClInclude>
     <ClInclude Include="TAS.h">
       <Filter>TAS</Filter>
-    </ClInclude>
-    <ClInclude Include="MMFS2Hook.h">
-      <Filter>Hook Headers</Filter>
     </ClInclude>
     <ClInclude Include="TASKeyPress.h">
       <Filter>TAS\Events</Filter>
@@ -191,12 +133,6 @@
     <ClInclude Include="TASEvent.h">
       <Filter>TAS\Events</Filter>
     </ClInclude>
-    <ClInclude Include="TASClickAt.h">
-      <Filter>TAS\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="CND_EXTCHOOSEHook.h">
-      <Filter>Hook Headers\Conditions</Filter>
-    </ClInclude>
     <ClInclude Include="D3D9Hook.h">
       <Filter>Hook Headers</Filter>
     </ClInclude>
@@ -206,14 +142,8 @@
     <ClInclude Include="Debug.h">
       <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="TASKeyPressUntilFrame.h">
+    <ClInclude Include="TASGotoFrame.h">
       <Filter>TAS\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="CND_TIMERSUPHook.h">
-      <Filter>Hook Headers\Conditions</Filter>
-    </ClInclude>
-    <ClInclude Include="CImageBankHook.h">
-      <Filter>Hook Headers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,6 +1,5 @@
 #pragma once
 #include "CND_KBPRESSKEYHook.h"
-#include "CRunHook.h"
 #include "YuniUtil.h"
 
 bool CND_KBPRESSKEYHook::evaluate(event2* ace)
