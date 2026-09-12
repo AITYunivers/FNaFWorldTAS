@@ -26,21 +26,20 @@ void TAS::Run()
 	KeyPress(50, { VK_RIGHT });			// Walk to next 2 flower shooters
 	KeyPress(30, { VK_RIGHT, 'Z' });	// Jump through 2 flower shooters
 
-	KeyPress(72, { VK_RIGHT });			// Walk to next trigger
+	KeyPress(69, { VK_RIGHT });			// Walk to next trigger
 	KeyPress(8, { VK_RIGHT, 'Z' });		// Jump into little pocket on first trigger
-	KeyPress(2, { 'Z' });				// Stop moving to avoid death, but keep jumping to gain height
-	Wait(4);							// Wait a total of 6 frames before continuing right
+	KeyPress(4, { 'Z' });				// Stop moving to avoid death, but keep jumping to gain height
+	Wait(1);							// Wait a total of 6 frames before continuing right
 
-	KeyPress(49, { VK_RIGHT });			// Walk toward second trigger
-	KeyPress(29, { VK_RIGHT, 'Z' });	// Jump towards platform
-	KeyPress(5, { VK_RIGHT });			// Stop jump for edge-clip
-	KeyPress(9, { VK_RIGHT, 'Z' });		// Start moving right while doing a max jump
-	KeyPress(8, { 'Z' });				// Stop moving right for 8 frames to avoid death
-	KeyPress(21, { VK_RIGHT, 'Z' });	// Resume moving right, and follow through with max jump
+	KeyPress(91, { VK_RIGHT });			// Walk toward second trigger
+	KeyPress(11, { VK_RIGHT, 'Z' });	// Jump towards platform
+	KeyPress(12, { VK_RIGHT });			// Stop jump for edge-clip
+	KeyPress(2, { VK_LEFT });
+	KeyPress(2, { VK_RIGHT });		// Start moving right while doing a max jump
 
 	KeyPress(70, { VK_RIGHT });			// Fall and walk to next trigger
 	KeyPress(1, { VK_RIGHT, 'Z' });		// Jump for 6 frames, go to right for 1 frame
-	KeyPress(1, { VK_LEFT, 'Z'});		// Go to left for 1 frame immediately after going right
+	KeyPress(1, { VK_LEFT, 'Z' });		// Go to left for 1 frame immediately after going right
 	KeyPress(2, { 'Z' });				// Let go of left and right for 2 frames
 	KeyPress(2, { VK_RIGHT, 'Z' });		// Resume holding right, let go of jump in 2 frames
 
@@ -49,57 +48,53 @@ void TAS::Run()
 	KeyPress(83, { VK_RIGHT });			// Fall off of the platform
 
 	// Follow Rainbow
-	Wait(6);
+	Wait(7);
 	KeyPress(1, { VK_RIGHT });
 	Wait(2);
+	KeyPress(46, { VK_RIGHT });
+	Wait(1);
+	KeyPress(2, { VK_RIGHT });
+	Wait(1);
+	KeyPress(5, { VK_RIGHT });
+	Wait(1);
+	KeyPress(2, { VK_RIGHT });
+	Wait(1);
+	KeyPress(2, { VK_RIGHT });
+	Wait(1);
+	KeyPress(3, { VK_RIGHT });
+	Wait(1);
+	KeyPress(5, { VK_RIGHT });
+	Wait(1);
+	KeyPress(2, { VK_RIGHT });
+	Wait(1);
+	KeyPress(5, { VK_RIGHT });			// Avoid flower shooter
+	Wait(1);
+	KeyPress(13, { VK_RIGHT });
+	Wait(9);
 	KeyPress(49, { VK_RIGHT });
 	Wait(1);
 	KeyPress(2, { VK_RIGHT });
 	Wait(1);
-	KeyPress(5, { VK_RIGHT });
-	Wait(1);
 	KeyPress(2, { VK_RIGHT });
-	Wait(1);
-	KeyPress(2, { VK_RIGHT });
-	Wait(1);
-	KeyPress(3, { VK_RIGHT });
 	Wait(1);
 	KeyPress(5, { VK_RIGHT });
-	Wait(1);
-	KeyPress(2, { VK_RIGHT });
-	Wait(1);
-	KeyPress(18, { VK_RIGHT });			// Avoid flower shooter
-	Wait(9);
-	KeyPress(53, { VK_RIGHT });
 
-	Wait(31);							// Wait for rainbow to disolve
+	Wait(27);							// Wait for rainbow to disolve
 	KeyPress(80, { VK_RIGHT, 'Z' });	// Jump over the remaining rainbow and the first 2 butterflys
 	KeyPress(23, { VK_RIGHT });			// Continue walking right
-	KeyPress(2, { VK_RIGHT, 'Z' });		// Jump over the last bit of the butterfly's laser, shouldn't be too precise
-
-	// Follow Rainbow
-	KeyPress(15, { VK_RIGHT });
-	Wait(1);
+	Wait(6);
 	KeyPress(2, { VK_RIGHT });
-	Wait(1);
-	KeyPress(2, { VK_RIGHT });
-	Wait(1);
+	Wait(15);
 	KeyPress(5, { VK_RIGHT });
-	Wait(1);
-	KeyPress(2, { VK_RIGHT });
-	Wait(1);
-	KeyPress(2, { VK_RIGHT });
-	Wait(1);
-	KeyPress(3, { VK_RIGHT });
-	Wait(1);
-	KeyPress(5, { VK_RIGHT });
-	Wait(1);
-	KeyPress(9, { VK_RIGHT });
+	Wait(15);
+	KeyPress(6, { VK_RIGHT, 'Z' });
+	KeyPress(36, { VK_RIGHT });
 
-	Wait(43);							// Wait for the fourth butterfly's to stop shooting
-	KeyPress(7, { VK_RIGHT, 'Z' });		// Jump over the last bit of the butterfly's laser, precise..?
 
-	KeyPress(80, { VK_RIGHT });			// Walk toward the first spike trigger
+	Wait(14);							// Wait for the fourth butterfly's to stop shooting
+	KeyPress(6, { VK_RIGHT, 'Z' });		// Jump over the last bit of the butterfly's laser, precise..?
+
+	KeyPress(78, { VK_RIGHT });			// Walk toward the first spike trigger
 	KeyPress(50, { VK_RIGHT, 'Z' });	// Jump over spikes
 	KeyPress(40, { VK_RIGHT });			// Walk toward next triggers
 	KeyPress(52, { VK_RIGHT, 'Z' });	// Jump over spike
@@ -137,9 +132,10 @@ void TAS::Run()
 	KeyPress(85, { VK_RIGHT });			// Walk to before the next trigger
 	KeyPress(60, { VK_RIGHT, 'Z' });	// Jump through the next trigger, dodging the 2 obstacles
 	Wait(25);							// Wait until you touch down
-	KeyPress(29, { VK_RIGHT, 'Z' });	// Immediately jump to the right
-	KeyPress(1, { VK_RIGHT });			// Land on the platform as soon as possible for only 1 frame
-	KeyPress(50, { VK_RIGHT, 'Z' });	// Max jump to the right
+	KeyPress(8, { 'Z' });	// Immediately jump to the right
+	KeyPress(20, { VK_RIGHT, 'Z' });	// Max jump to the right
+	KeyPress(1, { VK_RIGHT });
+	KeyPress(50, { VK_RIGHT, 'Z' });
 
 	KeyPress(338, { VK_RIGHT });		// Run right, avoiding the eyeballs, toward the next trigger
 	KeyPress(30, { VK_RIGHT, 'Z' });	// Jump over the first spikes
@@ -149,7 +145,8 @@ void TAS::Run()
 	KeyPress(30, { VK_RIGHT, 'Z' });	// Jump over the third spikes
 	KeyPress(62, { VK_RIGHT });			// Walk toward the flower shooter's trigger
 	KeyPress(15, { VK_RIGHT, 'Z' });	// Jump between the flower shooter's pedals
-	KeyPress(500, { VK_RIGHT, 'Z' });	// Continue to the finish, avoiding the remaining eyeballs
+	KeyPress(70, { VK_RIGHT, 'Z' });	// Continue to the finish, avoiding the remaining eyeballs
+	KeyPress(400, { VK_RIGHT });
 }
 
 void TAS::KeyPress(int timer, std::vector<char> keyCodes)
